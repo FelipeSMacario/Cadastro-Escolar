@@ -1,0 +1,6 @@
+INSERT INTO sistemaescolar.materia values (1, 'Matemática');
+INSERT INTO sistemaescolar.materia values (2, 'Português');
+INSERT INTO sistemaescolar.materia values (3, 'Inglês');
+INSERT INTO sistemaescolar.materia values (4, 'História');
+INSERT INTO sistemaescolar.materia values (5, 'Biologia');
+INSERT INTO sistemaescolar.materia values (6, 'Geografia');

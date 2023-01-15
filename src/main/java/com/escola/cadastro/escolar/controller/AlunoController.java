@@ -1,9 +1,9 @@
 package com.escola.cadastro.escolar.controller;
 
 import com.escola.cadastro.escolar.controller.api.AlunoApi;
-import com.escola.cadastro.escolar.dto.AlunoDTO;
+import com.escola.cadastro.escolar.dto.EntradaDTO;
 import com.escola.cadastro.escolar.model.Pessoa;
-import com.escola.cadastro.escolar.service.AlunoService;
+import com.escola.cadastro.escolar.service.PessoaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,31 +13,33 @@ import org.springframework.web.bind.annotation.*;
 public class AlunoController implements AlunoApi {
 
     @Autowired
-    AlunoService alunoService;
+    PessoaService alunoService;
+
+    private final String cargo = "Aluno";
 
     @GetMapping(value = "/listar")
     public ResponseEntity listarAlunos(){
-        return alunoService.listarAlunos();
+        return alunoService.listar(cargo);
     }
 
-    @GetMapping(value = "/buscarAluno/{matricula}")
+    @GetMapping(value = "/buscar/{matricula}")
     public ResponseEntity buscarAluno(@PathVariable Long matricula) {
-        return alunoService.buscarAluno(matricula);
+        return alunoService.buscar(matricula, cargo);
     }
 
     @PostMapping(value = "/cadastrar")
     public ResponseEntity cadastrarAlunos(@RequestBody Pessoa pessoa) {
-        return alunoService.cadastrarAluno(pessoa);
+        return alunoService.cadastrar(pessoa, cargo);
     }
 
     @PutMapping(value = "/atualizar")
-    public ResponseEntity atualizarAluno(@RequestBody AlunoDTO alunoDTO) {
-        return alunoService.atualizarAluno(alunoDTO);
+    public ResponseEntity atualizarAluno(@RequestBody EntradaDTO entradaDTO) {
+        return alunoService.atualizar(entradaDTO, cargo);
     }
 
-    @DeleteMapping(value = "/deletar/{id}")
-    public ResponseEntity deletarAluno(@PathVariable Long id) {
-        return alunoService.deletarAluno(id);
+    @DeleteMapping(value = "/deletar/{matricula")
+    public ResponseEntity deletarAluno(@PathVariable Long matricula) {
+        return alunoService.deletar(matricula, cargo);
     }
 
 }

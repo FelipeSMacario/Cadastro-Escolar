@@ -1,5 +1,6 @@
 package com.escola.cadastro.escolar.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,6 +18,7 @@ import java.time.LocalDate;
 public class Pessoa {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonIgnore
     private Long matricula;
 
     @Column(name = "cpf")
@@ -35,8 +37,10 @@ public class Pessoa {
     private LocalDate dataCadastro;
 
     @Column(name = "cargo")
+    @JsonIgnore
     private String cargo;
 
     @Column(name = "status")
+    @JsonIgnore
     private String status;
 }

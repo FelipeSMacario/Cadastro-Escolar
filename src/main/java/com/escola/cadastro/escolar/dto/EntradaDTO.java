@@ -9,7 +9,7 @@ import java.time.LocalDate;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AlunoDTO {
+public class EntradaDTO {
     private Long matricula;
     private String cpf;
     private String nome;
