@@ -1,0 +1,18 @@
+.nav{
+    background-color: #27376a;
+    color: white;
+}
+
+img{
+    height:100%;
+    width: 100%;
+}
+.imagem{
+    height:30%;
+    width: 30%;
+}
+.padrao{
+    margin-left: 30px;
+    text-align: center;
+    padding-top: 40px;
+}
