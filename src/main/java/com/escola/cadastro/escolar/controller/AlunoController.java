@@ -28,6 +28,11 @@ public class AlunoController implements AlunoApi {
         return alunoService.buscar(matricula, cargo);
     }
 
+    @GetMapping(value = "/buscar/porNome/{nome}")
+    public ResponseEntity buscarAluno(@PathVariable String nome) {
+        return alunoService.buscarPorNome(nome, cargo);
+    }
+
     @PostMapping(value = "/cadastrar")
     public ResponseEntity cadastrarAlunos(@RequestBody Pessoa pessoa) {
         return alunoService.cadastrar(pessoa, cargo);

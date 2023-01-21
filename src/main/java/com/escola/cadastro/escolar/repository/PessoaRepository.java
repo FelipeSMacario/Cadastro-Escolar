@@ -11,6 +11,8 @@ import java.util.Optional;
 public interface PessoaRepository extends JpaRepository<Pessoa, String> {
     Optional<Pessoa> findByMatriculaAndCargo(Long matricula,String cargo);
 
+    List<Pessoa> findByNomeAndCargo(String nome,String cargo);
+
     Optional<Pessoa> findByMatriculaAndStatus(Long matricula, String status);
 
     List<Pessoa> findByCargoAndStatus(String cargo, String status);

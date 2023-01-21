@@ -65,4 +65,8 @@ public class PessoaService {
                     return ResponseEntity.status(HttpStatus.CREATED).body(cargo + " excluído com sucesso");
                 }).orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
+
+    public ResponseEntity buscarPorNome(String nome, String cargo) {
+        return  ResponseEntity.status(HttpStatus.OK).body(pessoaRepository.findByNomeAndCargo(nome, cargo));
+    }
 }

@@ -18,9 +18,9 @@ import java.time.LocalDate;
 public class Pessoa {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonIgnore
     private Long matricula;
 
+    @JsonIgnore
     @Column(name = "cpf")
     private String cpf;
 

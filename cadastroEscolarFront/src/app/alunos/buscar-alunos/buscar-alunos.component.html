@@ -1,0 +1,43 @@
+<div class="container">
+  <form class="row g-3 formulario" [formGroup]="formulario">
+    <div class="col-auto">
+      <input
+        type="text"
+        class="form-control"
+        id="inputPassword2"
+        placeholder="filtro"
+        formControlName = "filtro"
+      />
+    </div>
+    <div class="col-auto">
+      <select class="form-select" aria-label="Default select example" formControlName = "valor">
+        <option selected>Pelo que deseja filtrar</option>
+        <option value="1">Nome</option>
+        <option value="2">Matricula</option>
+        <option value="3">Todos</option>
+      </select>
+    </div>
+    <div class="col-auto">
+        <button class="button" type="button" (click)="buscar()">Buscar</button>
+      </div>
+  </form>
+
+  <table class="table tabela flex">
+    <tr>
+        <th>Matricula</th>
+        <th>Nome</th>
+        <th>Sobrenome</th>
+        <th>Data Nascimento</th>
+        <th>Data Cadastro</th>
+        <th>Gerenciamento</th>
+    </tr>
+    <tr *ngFor="let pessoa of pessoas">
+        <td>{{pessoa.matricula}}</td>
+        <td>{{pessoa.nome}}</td>
+        <td>{{pessoa.sobreNome}}</td>
+        <td>{{pessoa.dataNascimento | date: 'dd/MM/yyyy'}}</td>
+        <td>{{pessoa.dataCadastro | date: 'dd/MM/yyyy'}}</td>
+        <td><img src="../../../assets/images/editar.jpg" height="40" class="btn"></td>
+    </tr>
+  </table>
+</div>
