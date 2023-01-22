@@ -37,7 +37,7 @@
         <td>{{pessoa.sobreNome}}</td>
         <td>{{pessoa.dataNascimento | date: 'dd/MM/yyyy'}}</td>
         <td>{{pessoa.dataCadastro | date: 'dd/MM/yyyy'}}</td>
-        <td><img src="../../../assets/images/editar.jpg" height="40" class="btn"></td>
+        <td><img src="../../../assets/images/editar.jpg" height="40" class="btn" (click)="atualizar(pessoa.matricula)"></td>
     </tr>
   </table>
 </div>

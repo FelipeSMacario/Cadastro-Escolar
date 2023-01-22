@@ -20,7 +20,6 @@ public class Pessoa {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long matricula;
 
-    @JsonIgnore
     @Column(name = "cpf")
     private String cpf;
 
@@ -37,10 +36,8 @@ public class Pessoa {
     private LocalDate dataCadastro;
 
     @Column(name = "cargo")
-    @JsonIgnore
     private String cargo;
 
     @Column(name = "status")
-    @JsonIgnore
     private String status;
 }

@@ -1,0 +1,58 @@
+<div class="container">
+    <div class="formulario">
+      <div class="titulo">
+        <h1>Cadastro de alunos</h1>
+      </div>
+      <form [formGroup]="formulario" class="form form-group" (ngSubmit)="salvarAluno()">
+        <div class="row">
+          <div class="col">
+            <label class="label labelNome">Matricula</label>
+            <input type="text" class="form-control"  [(ngModel)]= 'pessoa.matricula' placeholder="Matricula" formControlName = "matricula" />
+          </div>
+          <div class="col">
+            <label class="label labelNome">CPF</label>
+              <input type="text" class="form-control"  [(ngModel)]= 'pessoa.cpf' placeholder="CPF" formControlName = "cpf"/>
+            </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <label class="label labelNome">Nome</label>
+            <input type="text" class="form-control" [(ngModel)]= 'pessoa.nome' placeholder="Nome" formControlName = "nome" />
+          </div>
+  
+          <div class="col">
+            <label class="label labelNome">Sobrenome</label>
+            <input type="text" class="form-control"  [(ngModel)]= 'pessoa.sobreNome' placeholder="Sobrenome" formControlName = "sobreNome" />
+          </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <label class="label labelNome">Data Nascimento</label>
+              <input type="date"  class="form-control"  [(ngModel)]= 'pessoa.dataNascimento' placeholder="Data Nascimento" formControlName = "dataNascimento" />
+            </div>
+            <div class="col">
+                <label class="label labelNome">Data Cadastro</label>
+                <input type="date" class="form-control"  [(ngModel)]= 'pessoa.dataCadastro' readonly placeholder="Data Cadastro" formControlName = "dataCadastro"/>
+              </div>
+          </div>
+
+          <div class="row">
+            <div class="col">
+                <label class="label labelNome">Cargo</label>
+              <input type="text" [(ngModel)]= 'pessoa.cargo' readonly class="form-control" placeholder="Cargo" formControlName = "cargo" />
+            </div>
+            <div class="col">
+                <label class="label labelNome">Status</label>
+                <input type="text" class="form-control"  [(ngModel)]= 'pessoa.status' placeholder="Status" formControlName = "status"/>
+              </div>
+          </div>
+        
+  
+        <div class="divBotao">
+          <button class="btn botao" type="button" (click)="teste()">Cadastrar</button>
+        </div>
+        
+      </form>
+    </div>
+  </div>
+  

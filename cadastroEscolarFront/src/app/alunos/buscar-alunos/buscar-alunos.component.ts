@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Pessoa } from 'src/app/models/pessoa';
 import { AlunosService } from 'src/app/services/alunos.service';
 
@@ -11,11 +12,15 @@ import { AlunosService } from 'src/app/services/alunos.service';
 export class BuscarAlunosComponent implements OnInit{
 
   pessoas : Pessoa[] = [];
+  
   formulario : FormGroup;
 
   constructor(
     private alunoService : AlunosService,
-    private fb : FormBuilder){ }
+    private fb : FormBuilder,
+    private router: Router,
+    private activatedRoute: ActivatedRoute){ }
+
   ngOnInit(): void {  
     this.formulario = this.fb.group({
       valor : [null],
@@ -58,6 +63,10 @@ export class BuscarAlunosComponent implements OnInit{
   removeTodos() : Pessoa[]{
     this.pessoas = [];
       return this.pessoas;
+  }
+
+  atualizar(matricula : number){
+    this.router.navigate(['alunos/atualizar', matricula])
   }
 
 }

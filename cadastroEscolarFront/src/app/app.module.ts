@@ -12,6 +12,7 @@ import { HomeAlunosComponent } from './alunos/home-alunos/home-alunos.component'
 import { CadastroAlunosComponent } from './alunos/cadastro-alunos/cadastro-alunos.component';
 import { BuscarAlunosComponent } from './alunos/buscar-alunos/buscar-alunos.component';
 import { AlunosService } from './services/alunos.service';
+import { AtualizarAlunosComponent } from './alunos/atualizar-alunos/atualizar-alunos.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { AlunosService } from './services/alunos.service';
     FooterComponent,
     HomeAlunosComponent,
     CadastroAlunosComponent,
-    BuscarAlunosComponent
+    BuscarAlunosComponent,
+    AtualizarAlunosComponent
   ],
   imports: [
     BrowserModule,

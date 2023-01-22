@@ -22,7 +22,7 @@ export class AlunosService {
     return this.httpClient.get<Pessoa[]>(`${this.url}/buscar/porNome/${nome}`);
   }
 
-  findAlunosByMatricula(matricula : number){
+  findAlunosByMatricula(matricula : number) : Observable<Pessoa>{
     return this.httpClient.get<Pessoa>(`${this.url}/buscar//${matricula}`);
   }
 
