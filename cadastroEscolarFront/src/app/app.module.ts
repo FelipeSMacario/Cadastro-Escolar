@@ -11,8 +11,13 @@ import { FooterComponent } from './footer/footer.component';
 import { HomeAlunosComponent } from './alunos/home-alunos/home-alunos.component';
 import { CadastroAlunosComponent } from './alunos/cadastro-alunos/cadastro-alunos.component';
 import { BuscarAlunosComponent } from './alunos/buscar-alunos/buscar-alunos.component';
-import { AlunosService } from './services/alunos.service';
+import { PessoaService } from './services/pessoa.service';
 import { AtualizarAlunosComponent } from './alunos/atualizar-alunos/atualizar-alunos.component';
+import { HomeProfessoresComponent } from './professores/home-professores/home-professores.component';
+import { CadastroProfessoresComponent } from './professores/cadastro-professores/cadastro-professores.component';
+import { BuscarProfessoresComponent } from './professores/buscar-professores/buscar-professores.component';
+import { AtualizarProfessoresComponent } from './professores/atualizar-professores/atualizar-professores.component';
+import { HomeEscolaComponent } from './escola/home-escola/home-escola.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +28,12 @@ import { AtualizarAlunosComponent } from './alunos/atualizar-alunos/atualizar-al
     HomeAlunosComponent,
     CadastroAlunosComponent,
     BuscarAlunosComponent,
-    AtualizarAlunosComponent
+    AtualizarAlunosComponent,
+    HomeProfessoresComponent,
+    CadastroProfessoresComponent,
+    BuscarProfessoresComponent,
+    AtualizarProfessoresComponent,
+    HomeEscolaComponent
   ],
   imports: [
     BrowserModule,
@@ -32,7 +42,7 @@ import { AtualizarAlunosComponent } from './alunos/atualizar-alunos/atualizar-al
     BrowserAnimationsModule,
     HttpClientModule
   ],
-  providers: [AlunosService],
+  providers: [PessoaService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

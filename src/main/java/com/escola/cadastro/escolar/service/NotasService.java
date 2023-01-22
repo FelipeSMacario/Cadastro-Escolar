@@ -125,7 +125,7 @@ public class NotasService {
     }
 
     private Optional<Pessoa> buscaPessoa(Long matricula, String cargo) {
-        return Optional.ofNullable(pessoaRepository.findByMatriculaAndCargo(matricula, cargo)
+        return Optional.ofNullable(pessoaRepository.findByMatriculaAndCargoAndStatus(matricula, cargo, "Ativo")
                 .orElseThrow(() -> new ServiceException("Nenhum " + cargo + " identificado com essas carecterísticas")));
     }
 

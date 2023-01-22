@@ -21,7 +21,4 @@ public interface AlunoApi {
 
     @ApiOperation("Atualizado dados do aluno")
     public ResponseEntity atualizarAluno(@RequestBody EntradaDTO entradaDTO);
-
-    @ApiOperation("Deletar aluno")
-    public ResponseEntity deletarAluno(@PathVariable Long matricula);
 }

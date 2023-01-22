@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { take } from 'rxjs';
 import { Pessoa } from 'src/app/models/pessoa';
-import { AlunosService } from 'src/app/services/alunos.service';
+import { PessoaService } from 'src/app/services/pessoa.service';
 
 @Component({
   selector: 'app-atualizar-alunos',
@@ -14,10 +15,11 @@ export class AtualizarAlunosComponent implements OnInit{
   pessoa : Pessoa = new Pessoa();
   formulario : FormGroup;
   matricula : number;
+  private readonly cargo : string = "alunos";
 
   constructor(
     private fb : FormBuilder,
-    private alunoService : AlunosService,
+    private alunoService : PessoaService,
     private activatedRoute : ActivatedRoute
     ){}
   
@@ -27,7 +29,7 @@ export class AtualizarAlunosComponent implements OnInit{
 
     this.matricula = this.activatedRoute.snapshot.params['matricula'];
 
-    this.alunoService.findAlunosByMatricula(this.matricula).subscribe({
+    this.alunoService.findAlunosByMatricula(this.cargo, this.matricula).subscribe({
       next: pessoa => {
        this.pessoa = pessoa;    
       },
@@ -47,10 +49,12 @@ export class AtualizarAlunosComponent implements OnInit{
 
   }
 
-  teste(){
-    console.log(this.formulario)
-  }
 
-  salvarAluno(){}
+  salvarAluno(){
+    this.alunoService.updateAlunos(this.cargo, this.formulario.value).pipe(take(1)).subscribe({
+      next : user => console.log("Cadastrado com sucesso", user),
+      error : err => console.log(err)
+    })
+  }
 
 }

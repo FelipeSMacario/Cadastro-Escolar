@@ -1,25 +1,26 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormGroup, FormBuilder } from '@angular/forms';
 import { take } from 'rxjs';
 import { Pessoa } from 'src/app/models/pessoa';
 import { PessoaService } from 'src/app/services/pessoa.service';
 
 @Component({
-  selector: 'app-cadastro-alunos',
-  templateUrl: './cadastro-alunos.component.html',
-  styleUrls: ['./cadastro-alunos.component.css']
+  selector: 'app-cadastro-professores',
+  templateUrl: './cadastro-professores.component.html',
+  styleUrls: ['./cadastro-professores.component.css']
 })
-export class CadastroAlunosComponent implements OnInit{
+export class CadastroProfessoresComponent  implements OnInit{
 
   formulario : FormGroup;
   pessoa : Pessoa = new Pessoa();
-  private readonly cargo : string = "alunos";
+  private readonly cargo : string = "professor";
 
   constructor(
     private fb : FormBuilder,
     private alunoService : PessoaService){
     
   }
+
   ngOnInit(): void {
     this.formulario = this.fb.group({
       cpf : [null],
@@ -34,5 +35,6 @@ export class CadastroAlunosComponent implements OnInit{
       error : err => console.log(err)
     })
   }
+
 
 }

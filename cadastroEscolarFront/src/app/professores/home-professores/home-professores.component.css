@@ -11,16 +11,12 @@
     background-color: #27376a;
     color: white;
 }
-.colHover{
-    background-color: red;
-    padding: 20px;
-}
 .colHover:hover{
     background-color: #ADD8E6;
     transition: 1s;
 }
-
-img, svg {
-    vertical-align: middle;
-    height: 80%;
+.altura{
+    height: 25%;
+    width: 20%;
+    margin-right: 200px;
 }

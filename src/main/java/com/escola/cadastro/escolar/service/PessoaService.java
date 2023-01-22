@@ -20,7 +20,7 @@ public class PessoaService {
     }
 
     public ResponseEntity buscar(Long matricula, String cargo) {
-        return pessoaRepository.findByMatriculaAndCargo(matricula, cargo)
+        return pessoaRepository.findByMatriculaAndCargoAndStatus(matricula, cargo, "Ativo")
                 .map(record -> ResponseEntity.ok().body(record))
                 .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
@@ -39,7 +39,7 @@ public class PessoaService {
     }
 
     public ResponseEntity atualizar(EntradaDTO entradaDTO, String cargo) {
-        Optional<Pessoa> pessoa = pessoaRepository.findByMatriculaAndCargo(entradaDTO.getMatricula(), cargo);
+        Optional<Pessoa> pessoa = pessoaRepository.findByMatriculaAndCargoAndStatus(entradaDTO.getMatricula(), cargo, "Ativo");
 
         return pessoa
                 .map(record -> {
@@ -49,24 +49,14 @@ public class PessoaService {
                             .nome(entradaDTO.getNome())
                             .sobreNome(entradaDTO.getSobreNome())
                             .dataNascimento(entradaDTO.getDataNascimento())
-                            .dataCadastro(LocalDate.now())
-                            .status(pessoa.get().getStatus())
+                            .dataCadastro(pessoa.get().getDataCadastro())
+                            .status(entradaDTO.getStatus())
                             .cargo(pessoa.get().getCargo()).build());
                     return ResponseEntity.ok().body(professorAtualizado);
                 }).orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
-    public ResponseEntity deletar(Long matricula, String cargo) {
-        Optional<Pessoa> pessoa = pessoaRepository.findByMatriculaAndCargo(matricula, cargo);
-        return pessoa
-                .map(record -> {
-                    pessoa.get().setStatus("Inativo");
-                    pessoaRepository.save(pessoa.get());
-                    return ResponseEntity.status(HttpStatus.CREATED).body(cargo + " excluído com sucesso");
-                }).orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
-    }
-
     public ResponseEntity buscarPorNome(String nome, String cargo) {
-        return  ResponseEntity.status(HttpStatus.OK).body(pessoaRepository.findByNomeAndCargo(nome, cargo));
+        return  ResponseEntity.status(HttpStatus.OK).body(pessoaRepository.findByNomeAndCargoAndStatus(nome, cargo, "Ativo"));
     }
 }

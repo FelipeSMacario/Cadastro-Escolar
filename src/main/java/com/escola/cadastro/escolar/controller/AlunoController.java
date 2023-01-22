@@ -42,10 +42,4 @@ public class AlunoController implements AlunoApi {
     public ResponseEntity atualizarAluno(@RequestBody EntradaDTO entradaDTO) {
         return alunoService.atualizar(entradaDTO, cargo);
     }
-
-    @DeleteMapping(value = "/deletar/{matricula")
-    public ResponseEntity deletarAluno(@PathVariable Long matricula) {
-        return alunoService.deletar(matricula, cargo);
-    }
-
 }

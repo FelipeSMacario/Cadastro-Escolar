@@ -22,6 +22,4 @@ public interface ProfessorApi {
     @ApiOperation("Atualizado dados do professor")
     public ResponseEntity atualizarProfessor(@RequestBody EntradaDTO entradaDTO);
 
-    @ApiOperation("Deletar professor")
-    public ResponseEntity deletarProfessor(@PathVariable Long matricula);
 }

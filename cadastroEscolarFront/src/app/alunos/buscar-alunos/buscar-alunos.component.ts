@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { Pessoa } from 'src/app/models/pessoa';
-import { AlunosService } from 'src/app/services/alunos.service';
+import { PessoaService } from 'src/app/services/pessoa.service';
 
 @Component({
   selector: 'app-buscar-alunos',
@@ -15,11 +15,12 @@ export class BuscarAlunosComponent implements OnInit{
   
   formulario : FormGroup;
 
+  private readonly cargo : string = "alunos";
+
   constructor(
-    private alunoService : AlunosService,
+    private alunoService : PessoaService,
     private fb : FormBuilder,
-    private router: Router,
-    private activatedRoute: ActivatedRoute){ }
+    private router: Router){ }
 
   ngOnInit(): void {  
     this.formulario = this.fb.group({
@@ -31,8 +32,9 @@ export class BuscarAlunosComponent implements OnInit{
   buscar(){
     
     if (this.formulario.controls["valor"].value == 1) {
-      this.alunoService.findAlunosByNome(this.formulario.controls["filtro"].value).subscribe({
+      this.alunoService.findAlunosByNome(this.cargo, this.formulario.controls["filtro"].value).subscribe({
         next: pessoa => {
+          this.pessoas = this.removeTodos();
           this.pessoas = pessoa;
         },
         error : err => console.log("Error", err)
@@ -40,7 +42,7 @@ export class BuscarAlunosComponent implements OnInit{
     }
 
     if (this.formulario.controls["valor"].value == 2) {
-      this.alunoService.findAlunosByMatricula(this.formulario.controls["filtro"].value).subscribe({
+      this.alunoService.findAlunosByMatricula(this.cargo, this.formulario.controls["filtro"].value).subscribe({
         next: pessoa => {
           this.pessoas = this.removeTodos();
           this.pessoas.push(pessoa);
@@ -50,8 +52,9 @@ export class BuscarAlunosComponent implements OnInit{
     }
 
     if (this.formulario.controls["valor"].value == 3) {
-      this.alunoService.findAllAlunos().subscribe({
+      this.alunoService.findAllAlunos(this.cargo).subscribe({
         next: pessoa => {
+          this.pessoas = this.removeTodos();
           this.pessoas = pessoa;
         },
         error : err => console.log("Error", err)

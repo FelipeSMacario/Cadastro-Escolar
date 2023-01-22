@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping(value = "professor")
 public class ProfessorController implements ProfessorApi {
     @Autowired
@@ -16,7 +17,7 @@ public class ProfessorController implements ProfessorApi {
 
     private final String cargo = "Professor";
 
-    @GetMapping()
+    @GetMapping(value = "/listar")
     public ResponseEntity listarProfessores() {
         return professorService.listar(cargo);
     }
@@ -24,6 +25,11 @@ public class ProfessorController implements ProfessorApi {
     @GetMapping(value = "/buscar/{matricula}")
     public ResponseEntity buscarProfessor(@PathVariable Long matricula) {
         return professorService.buscar(matricula, cargo);
+    }
+
+    @GetMapping(value = "/buscar/porNome/{nome}")
+    public ResponseEntity buscarAluno(@PathVariable String nome) {
+        return professorService.buscarPorNome(nome, cargo);
     }
 
     @PostMapping(value = "/cadastrar")
@@ -36,8 +42,4 @@ public class ProfessorController implements ProfessorApi {
         return professorService.atualizar(entradaDTO, cargo);
     }
 
-    @DeleteMapping(value = "/deletar/{matricula")
-    public ResponseEntity deletarProfessor(@PathVariable Long matricula) {
-        return professorService.deletar(matricula, cargo);
-    }
 }

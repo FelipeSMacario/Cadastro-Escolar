@@ -1,0 +1,22 @@
+.divContainer{
+    padding: 1%;
+}
+
+img, svg {
+    vertical-align: middle;
+    height: 40%;
+}
+.cards{
+    background-color: #27376a;
+    color: white;
+}
+
+.colHover:hover{
+    background-color: #ADD8E6;
+    transition: 1s;
+}
+.altura{
+    height: 25%;
+    width: 20%;
+    margin-right: 200px;
+}
