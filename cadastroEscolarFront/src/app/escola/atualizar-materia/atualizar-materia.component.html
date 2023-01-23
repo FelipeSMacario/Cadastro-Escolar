@@ -1,0 +1,26 @@
+<div class="container">
+    <div class="formulario">
+      <div class="titulo">
+        <h1>Alteraração de matéria</h1>
+      </div>
+      <form [formGroup]="formulario" class="form form-group" (ngSubmit)="salvarMateria()">
+        <div class="row">
+          <div class="col">
+            <label class="label labelNome">Matéria antiga</label>
+            <input type="text" class="form-control"  [(ngModel)]= 'materia.nome' placeholder="Nome matéria antiga" formControlName = "nomeAntigo" />
+          </div>
+          <div class="col">
+            <label class="label labelNome">Matéria nova</label>
+              <input type="text" class="form-control" placeholder="Nome matéria nova" formControlName = "nomeNovo"/>
+            </div>
+        </div>      
+        
+  
+        <div class="divBotao">
+            <button class="btn botao" type="submit">Cadastrar</button>
+        </div>
+        
+      </form>
+    </div>
+  </div>
+  

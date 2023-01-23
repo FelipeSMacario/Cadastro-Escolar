@@ -18,6 +18,8 @@ import { CadastroProfessoresComponent } from './professores/cadastro-professores
 import { BuscarProfessoresComponent } from './professores/buscar-professores/buscar-professores.component';
 import { AtualizarProfessoresComponent } from './professores/atualizar-professores/atualizar-professores.component';
 import { HomeEscolaComponent } from './escola/home-escola/home-escola.component';
+import { BuscarMateriaComponent } from './escola/buscar-materia/buscar-materia.component';
+import { AtualizarMateriaComponent } from './escola/atualizar-materia/atualizar-materia.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +35,9 @@ import { HomeEscolaComponent } from './escola/home-escola/home-escola.component'
     CadastroProfessoresComponent,
     BuscarProfessoresComponent,
     AtualizarProfessoresComponent,
-    HomeEscolaComponent
+    HomeEscolaComponent,
+    BuscarMateriaComponent,
+    AtualizarMateriaComponent
   ],
   imports: [
     BrowserModule,

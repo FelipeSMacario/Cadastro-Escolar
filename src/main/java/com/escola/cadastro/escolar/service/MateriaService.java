@@ -1,7 +1,6 @@
 package com.escola.cadastro.escolar.service;
 
 import com.escola.cadastro.escolar.model.Materia;
-import com.escola.cadastro.escolar.model.Pessoa;
 import com.escola.cadastro.escolar.repository.MateriaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -45,8 +44,8 @@ public class MateriaService {
                 }).orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
-    public ResponseEntity deletarMateria(String nome) {
-        Optional<Materia> materia = materiaRepository.findByNome(nome);
+    public ResponseEntity deletarMateria(Long id) {
+        Optional<Materia> materia = materiaRepository.findById(id);
 
         return materia
                 .map(record -> {

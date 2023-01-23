@@ -4,6 +4,8 @@ import { AtualizarAlunosComponent } from './alunos/atualizar-alunos/atualizar-al
 import { BuscarAlunosComponent } from './alunos/buscar-alunos/buscar-alunos.component';
 import { CadastroAlunosComponent } from './alunos/cadastro-alunos/cadastro-alunos.component';
 import { HomeAlunosComponent } from './alunos/home-alunos/home-alunos.component';
+import { AtualizarMateriaComponent } from './escola/atualizar-materia/atualizar-materia.component';
+import { BuscarMateriaComponent } from './escola/buscar-materia/buscar-materia.component';
 import { HomeEscolaComponent } from './escola/home-escola/home-escola.component';
 import { HomeComponent } from './home/home.component';
 import { AtualizarProfessoresComponent } from './professores/atualizar-professores/atualizar-professores.component';
@@ -21,7 +23,9 @@ const routes: Routes = [
   {path: "professores/buscar", component: BuscarProfessoresComponent},
   {path: "professores/cadastrar", component: CadastroProfessoresComponent},
   {path: "professores/atualizar/:matricula", component: AtualizarProfessoresComponent},
-  {path: "escola", component: HomeEscolaComponent}
+  {path: "escola", component: HomeEscolaComponent},
+  {path: "escola/buscarMateria", component: BuscarMateriaComponent},
+  {path: "materia/atualizar/:nome", component: AtualizarMateriaComponent}
 ];
 
 @NgModule({

@@ -35,8 +35,8 @@ public class MateriaController implements MateriaApi {
         return materiaService.atualizarMateria(materia);
     }
 
-    @DeleteMapping(value = "deletar/{nome}")
-    public ResponseEntity deletarMateria(@PathVariable String nome) {
-        return materiaService.deletarMateria(nome);
+    @DeleteMapping(value = "deletar/{id}")
+    public ResponseEntity deletarMateria(@PathVariable Long id) {
+        return materiaService.deletarMateria(id);
     }
 }

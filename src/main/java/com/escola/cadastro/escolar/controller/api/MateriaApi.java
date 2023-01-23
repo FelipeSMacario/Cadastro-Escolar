@@ -22,5 +22,5 @@ public interface MateriaApi {
     public ResponseEntity atualizaMateria(@RequestBody Materia materia);
 
      @ApiOperation("Deletar uma matéria por nome")
-     public ResponseEntity deletarMateria(@PathVariable String nome);
+     public ResponseEntity deletarMateria(@PathVariable Long id);
 }
