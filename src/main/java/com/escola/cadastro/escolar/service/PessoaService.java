@@ -7,13 +7,47 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Optional;
+import com.sendgrid.*;
+import com.sendgrid.helpers.mail.Mail;
+import com.sendgrid.helpers.mail.objects.Content;
+import com.sendgrid.helpers.mail.objects.Email;
+
+
 
 @Service
 public class PessoaService {
     @Autowired
     PessoaRepository pessoaRepository;
+
+    public void sendEmailToUser(String email) throws IOException {
+
+        Email from = new Email("brunofonseca821@gmail.com");
+        String subject = "Cadastro realizado";
+        Email to = new Email(email);
+        Content content = new Content("text/plain", "and easy to do anywhere, even with Java");
+        Mail mail = new Mail(from, subject, to, content);
+
+        SendGrid sg = new SendGrid("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");
+        Request request = new Request();
+
+        try {
+            
+          request.setMethod(Method.POST);
+          request.setEndpoint("mail/send");
+          request.setBody(mail.build());
+          Response response = sg.api(request);
+          System.out.println(response.getStatusCode());
+          System.out.println(response.getBody());
+          System.out.println(response.getHeaders());
+          
+        } catch (IOException ex) {
+          throw ex;
+        }
+      }
 
     public ResponseEntity listar(String cargo) {
         return ResponseEntity.status(HttpStatus.OK).body(pessoaRepository.findByCargoAndStatus(cargo, "Ativo"));
@@ -35,6 +69,14 @@ public class PessoaService {
                 .cargo(cargo)
                 .status("Ativo").build()
         );
+
+        try {
+            sendEmailToUser("bruno-fonseca99@hotmail.com");
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
         return ResponseEntity.status(HttpStatus.CREATED).body(cargo + " criado com sucesso");
     }
 
