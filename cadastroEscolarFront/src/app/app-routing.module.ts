@@ -8,6 +8,7 @@ import { AtualizarMateriaComponent } from './escola/atualizar-materia/atualizar-
 import { BuscarMateriaComponent } from './escola/buscar-materia/buscar-materia.component';
 import { HomeEscolaComponent } from './escola/home-escola/home-escola.component';
 import { HomeComponent } from './home/home.component';
+import { LoginComponent } from './login/login.component';
 import { AtualizarProfessoresComponent } from './professores/atualizar-professores/atualizar-professores.component';
 import { BuscarProfessoresComponent } from './professores/buscar-professores/buscar-professores.component';
 import { CadastroProfessoresComponent } from './professores/cadastro-professores/cadastro-professores.component';
@@ -15,6 +16,7 @@ import { HomeProfessoresComponent } from './professores/home-professores/home-pr
 
 const routes: Routes = [
   {path: "", component: HomeComponent},
+  {path: "login", component: LoginComponent},
   {path: "alunos", component: HomeAlunosComponent},
   {path: "alunos/buscar", component: BuscarAlunosComponent},
   {path: "alunos/cadastrar", component: CadastroAlunosComponent},

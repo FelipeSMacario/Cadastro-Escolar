@@ -20,6 +20,7 @@ import { AtualizarProfessoresComponent } from './professores/atualizar-professor
 import { HomeEscolaComponent } from './escola/home-escola/home-escola.component';
 import { BuscarMateriaComponent } from './escola/buscar-materia/buscar-materia.component';
 import { AtualizarMateriaComponent } from './escola/atualizar-materia/atualizar-materia.component';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { AtualizarMateriaComponent } from './escola/atualizar-materia/atualizar-
     AtualizarProfessoresComponent,
     HomeEscolaComponent,
     BuscarMateriaComponent,
-    AtualizarMateriaComponent
+    AtualizarMateriaComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,40 @@
+.divContainer{
+    min-height: 84vh;
+    background-color: white;
+    justify-content: center;
+}
+
+.formulario{
+    padding: 35px;
+    min-height:400px;
+    width: 500px;
+    background-color: #27376a;
+    padding: 20px;
+    border-radius: 20px;
+}
+.titulo{
+    text-align: center;
+    color: white;
+}
+.botao{
+    background-color: #27376a;
+    color: white;
+    border: 1px solid white;
+    width: 100%;
+    margin-top: 40px;
+}
+
+.botao:hover{
+    background-color: white;
+    color: #27376a;
+}
+
+.campo{
+    margin-top: 20px;
+}
+
+.labelNome{
+    color: white;
+    font-size: 19px;
+    margin-bottom: 5px;
+}
