@@ -23,6 +23,9 @@ public class Pessoa {
     @Column(name = "cpf")
     private String cpf;
 
+    @Column(name = "email")
+    private String email;
+
     @Column(name = "nome")
     private String nome;
 

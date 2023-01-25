@@ -16,8 +16,6 @@ import com.sendgrid.helpers.mail.Mail;
 import com.sendgrid.helpers.mail.objects.Content;
 import com.sendgrid.helpers.mail.objects.Email;
 
-
-
 @Service
 public class PessoaService {
     @Autowired
@@ -25,29 +23,32 @@ public class PessoaService {
 
     public void sendEmailToUser(String email) throws IOException {
 
+        System.out.println("Sending registration email to " + email);
+
         Email from = new Email("brunofonseca821@gmail.com");
         String subject = "Cadastro realizado";
         Email to = new Email(email);
         Content content = new Content("text/plain", "and easy to do anywhere, even with Java");
         Mail mail = new Mail(from, subject, to, content);
 
-        SendGrid sg = new SendGrid("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");
+        SendGrid sg = new SendGrid("add key here");
         Request request = new Request();
 
         try {
-            
-          request.setMethod(Method.POST);
-          request.setEndpoint("mail/send");
-          request.setBody(mail.build());
-          Response response = sg.api(request);
-          System.out.println(response.getStatusCode());
-          System.out.println(response.getBody());
-          System.out.println(response.getHeaders());
-          
+            request.setMethod(Method.POST);
+            request.setEndpoint("mail/send");
+            request.setBody(mail.build());
+            Response response = sg.api(request);
+            System.out.println(response.getStatusCode());
+            System.out.println(response.getBody());
+            System.out.println(response.getHeaders());
+
         } catch (IOException ex) {
-          throw ex;
+            System.out.println("Error when trying to send email to:" + email);
+            throw ex;
         }
-      }
+        System.out.println("Email to user " + email + " sent successfully");
+    }
 
     public ResponseEntity listar(String cargo) {
         return ResponseEntity.status(HttpStatus.OK).body(pessoaRepository.findByCargoAndStatus(cargo, "Ativo"));
@@ -65,13 +66,13 @@ public class PessoaService {
                 .nome(pessoa.getNome())
                 .sobreNome(pessoa.getSobreNome())
                 .dataNascimento(pessoa.getDataNascimento())
+                .email(pessoa.getEmail())
                 .dataCadastro(LocalDate.now())
                 .cargo(cargo)
-                .status("Ativo").build()
-        );
+                .status("Ativo").build());
 
         try {
-            sendEmailToUser("bruno-fonseca99@hotmail.com");
+            sendEmailToUser(pessoa.getEmail());
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -81,7 +82,8 @@ public class PessoaService {
     }
 
     public ResponseEntity atualizar(EntradaDTO entradaDTO, String cargo) {
-        Optional<Pessoa> pessoa = pessoaRepository.findByMatriculaAndCargoAndStatus(entradaDTO.getMatricula(), cargo, "Ativo");
+        Optional<Pessoa> pessoa = pessoaRepository.findByMatriculaAndCargoAndStatus(entradaDTO.getMatricula(), cargo,
+                "Ativo");
 
         return pessoa
                 .map(record -> {
@@ -99,6 +101,7 @@ public class PessoaService {
     }
 
     public ResponseEntity buscarPorNome(String nome, String cargo) {
-        return  ResponseEntity.status(HttpStatus.OK).body(pessoaRepository.findByNomeAndCargoAndStatus(nome, cargo, "Ativo"));
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(pessoaRepository.findByNomeAndCargoAndStatus(nome, cargo, "Ativo"));
     }
 }
