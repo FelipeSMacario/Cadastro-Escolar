@@ -4,9 +4,9 @@
     <div class="titulo">
         <h1>Login</h1>
     </div>
-    <form class="form form-group">
+    <form class="form form-group" [formGroup]="formulario">
       <div class="row campo">
-          <label class="label labelNome">Login</label>
+          <label class="label labelNome" formControlName = "login">Login</label>
           <input
             type="text"
             class="form-control "
@@ -16,7 +16,7 @@
          
         </div>
         <div class="row campo">
-            <label class="label labelNome">Senha</label>
+            <label class="label labelNome" formControlName = "senha">Senha</label>
             <input
               type="password"
               class="form-control "
@@ -24,7 +24,12 @@
               formControlName="dataNascimento"
             />
         </div>
-
+        
+        <span *ngIf="formulario.invalid">
+          <div class="alert alert-danger" role="alert">
+           O campo deve ter no mínomo 3 caracteres.
+          </div>
+        </span>
       <div class="divBotao">
         <button class="btn botao">Cadastrar</button>
       </div>

@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Data
 @Entity
@@ -19,5 +20,10 @@ public class Materia {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "nome")
     private String nome;
+
+    @ManyToOne
+    @JoinColumn(name = "professor_matricula", nullable = false)
+    private Pessoa professor;
 }
