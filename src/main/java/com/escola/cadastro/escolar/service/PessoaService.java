@@ -31,7 +31,7 @@ public class PessoaService {
         Content content = new Content("text/plain", "and easy to do anywhere, even with Java");
         Mail mail = new Mail(from, subject, to, content);
 
-        SendGrid sg = new SendGrid("add key here");
+        SendGrid sg = new SendGrid(System.getenv("API_SENDGRID_API_KEY"));
         Request request = new Request();
 
         try {
