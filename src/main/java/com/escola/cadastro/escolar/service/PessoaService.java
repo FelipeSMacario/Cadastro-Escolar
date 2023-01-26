@@ -58,5 +58,6 @@ public class PessoaService {
 
     public ResponseEntity buscarPorNome(String nome, String cargo) {
         return  ResponseEntity.status(HttpStatus.OK).body(pessoaRepository.findByNomeAndCargoAndStatus(nome, cargo, "Ativo"));
+
     }
 }

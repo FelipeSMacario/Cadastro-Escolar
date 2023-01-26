@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -40,4 +42,8 @@ public class Pessoa {
 
     @Column(name = "status")
     private String status;
+
+    @ManyToMany(mappedBy = "alunos")
+    private List<Turma> turmas;
+
 }
