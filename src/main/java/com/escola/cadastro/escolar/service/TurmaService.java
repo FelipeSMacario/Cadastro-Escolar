@@ -2,6 +2,8 @@ package com.escola.cadastro.escolar.service;
 
 import com.escola.cadastro.escolar.dto.EntradaTurmaAlunoDTO;
 import com.escola.cadastro.escolar.dto.PessoaEntradaDTO;
+import com.escola.cadastro.escolar.dto.SaidaAlunoTurmaDTO;
+import com.escola.cadastro.escolar.dto.SaidaTurmaAlunoDTO;
 import com.escola.cadastro.escolar.model.Pessoa;
 import com.escola.cadastro.escolar.model.Turma;
 import com.escola.cadastro.escolar.repository.PessoaRepository;
@@ -24,10 +26,11 @@ public class TurmaService {
     @Autowired
     PessoaRepository pessoaRepository;
 
+
     public ResponseEntity cadastrarAlunoTurma(EntradaTurmaAlunoDTO entrada) {
         Optional<Turma> turma = Optional.ofNullable(turmaRepository.findById(entrada.getTurmaId())).orElseThrow(() -> new ServiceException("Nenhuma turma identificada"));
 
-        List<Pessoa> pessoas = validaPessoa(entrada.getPessoas());;
+        List<Pessoa> pessoas = validaPessoa(entrada.getPessoas());
 
         turma.get().setAlunos(pessoas);
 
@@ -61,16 +64,16 @@ public class TurmaService {
                 }).orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
-    public ResponseEntity buscaPorAno(int ano){
+    public ResponseEntity buscaPorAno(int ano) {
         return ResponseEntity.ok().body(turmaRepository.findByAno(ano));
     }
 
-    private  List<Pessoa> validaPessoa(List<PessoaEntradaDTO> matricula){
+    private List<Pessoa> validaPessoa(List<PessoaEntradaDTO> matricula) {
         List<Pessoa> pessoas = new ArrayList<>();
 
-            matricula.forEach(valor -> {
-                pessoas.add(pessoaRepository.findByMatriculaAndCargoAndStatus(valor.getMatricula(), "Aluno", "Ativo").get());
-            });
+        matricula.forEach(valor -> {
+            pessoas.add(pessoaRepository.findByMatriculaAndCargoAndStatus(valor.getMatricula(), "Aluno", "Ativo").get());
+        });
 
 
         return pessoas;
@@ -78,14 +81,41 @@ public class TurmaService {
 
     public ResponseEntity cadastrarCurso(Turma turma) {
         turmaRepository.save(Turma.builder()
-                        .ano(turma.getAno())
-                        .numero(turma.getNumero())
+                .ano(turma.getAno())
+                .numero(turma.getNumero())
                 .build()
         );
         return ResponseEntity.status(HttpStatus.CREATED).body("Cadastrado com sucesso");
     }
 
 
+    public ResponseEntity listarTurmasAlunosPorId(Long id) {
+        Optional<Turma> turma = turmaRepository.findById(id);
+        return turma
+                .map(record -> {
+                    SaidaTurmaAlunoDTO saida = new SaidaTurmaAlunoDTO(turma.get(), turma.get().getAlunos());
+                    return ResponseEntity.ok().body(saida);
+                }).orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+    }
 
+    public ResponseEntity listarTurmaPorMatricula(Long matricula) {
+        Optional<Pessoa> pessoa = pessoaRepository.findByMatriculaAndCargoAndStatus(matricula, "Aluno", "Ativo");
+        Turma turma = pessoa.get().getTurmas().stream().findFirst().orElse(new Turma());
+        return pessoa
+                .map(record -> {
+                    SaidaAlunoTurmaDTO saida = new SaidaAlunoTurmaDTO(pessoa.get(), turma);
+                    return ResponseEntity.ok().body(saida);
+                }).orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+    }
+
+    public ResponseEntity removerAlunoTurma(Long matricula, Long id) {
+        Optional<Turma> turma = turmaRepository.findById(id);
+        Optional<Pessoa> pessoa = turma.get().getAlunos().stream().filter(v -> v.getMatricula().equals(matricula)).findFirst();
+        return pessoa
+                .map(record -> {
+                    turmaRepository.deletaAluno(pessoa.get().getMatricula());
+                    return ResponseEntity.status(HttpStatus.OK).body(turma.get());
+                }).orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+    }
 }
 

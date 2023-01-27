@@ -1,5 +1,6 @@
 package com.escola.cadastro.escolar.model;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,6 +20,7 @@ public class Dia {
     private Long id;
 
     @Column(name = "nome")
+    @ApiModelProperty(value = "nome do dia da semana", example = "Segunda-Feira", required = true, position = 0)
     private String nome;
 
 }

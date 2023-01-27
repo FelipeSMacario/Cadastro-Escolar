@@ -1,6 +1,7 @@
 package com.escola.cadastro.escolar.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -8,7 +9,6 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -20,29 +20,38 @@ import java.util.List;
 public class Pessoa {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonIgnore
     private Long matricula;
 
     @Column(name = "cpf")
+    @ApiModelProperty(value = "CPF da pessoa", example = "15152736900", required = true, position = 1)
     private String cpf;
 
     @Column(name = "nome")
+    @ApiModelProperty(value = "Nome da pessoa", example = "Carlos", required = true, position = 2)
     private String nome;
 
     @Column(name = "sobrenome")
+    @ApiModelProperty(value = "Sobrenome da pessoa", example = "Da Sila", required = true, position = 3)
     private String sobreNome;
 
     @Column(name = "dataNascimento")
+    @ApiModelProperty(value = "Data de nascimento da pessoa", example = "2020-12-25", required = true, position = 4)
     private LocalDate dataNascimento;
 
     @Column(name = "dataCadastro")
+    @JsonIgnore
     private LocalDate dataCadastro;
 
     @Column(name = "cargo")
+    @JsonIgnore
     private String cargo;
 
     @Column(name = "status")
+    @JsonIgnore
     private String status;
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "alunos")
     private List<Turma> turmas;
 
