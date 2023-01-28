@@ -31,7 +31,7 @@ public class TurmaAlunoController implements TurmaAlunos {
     }
 
     @DeleteMapping(value = "/removerAluno/{matricula}/{id}")
-    public ResponseEntity deletarAlunoTurma(@PathVariable String matricula, @PathVariable String id){
-        return turmaService.removerAlunoTurma(Long.parseLong(matricula), Long.parseLong(id));
+    public ResponseEntity deletarAlunoTurma(@PathVariable Long matricula, @PathVariable Long id){
+        return turmaService.removerAlunoTurma(matricula, id);
     }
 }

@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -14,7 +13,7 @@ import java.util.List;
 @Builder
 @Entity
 @Table(name = "TurmaAluno")
-public class TurmaAlunoProfessor {
+public class TurmaAluno {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

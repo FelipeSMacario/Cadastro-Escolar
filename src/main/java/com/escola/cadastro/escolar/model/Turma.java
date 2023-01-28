@@ -35,4 +35,9 @@ public class Turma {
     )
     @JsonIgnore
     private List<Pessoa> alunos = new ArrayList<>();
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name="turma_id")
+    @JsonIgnore
+    private List<QuadroHorario> sala;
 }
