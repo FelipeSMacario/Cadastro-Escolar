@@ -1,0 +1,44 @@
+.tabela{
+    margin-top: 20px;
+    border: #27376a;
+    border: 1px solid #27376a;
+}
+.tabela th{
+    background-color: #27376a;
+    color: white;
+    padding: 10px;    
+}
+.formulario{
+    margin-top: 20px;
+}
+.tabela{
+    margin-top: 20px;
+    border: #27376a;
+    border: 1px solid #27376a;
+}
+.tabela th{
+    background-color: #27376a;
+    color: white;
+    padding: 10px;    
+}
+.tabela td{
+    background-color: white;
+    color: #27376a;
+    padding: 10px;   
+}
+.button{
+    height: 100%;
+    width: 100%;
+    border-radius: 5px;
+    background-color: #27376a;
+    color: white;
+}
+.button:hover{
+    transition: 1s;
+    background-color: white;
+    color: #27376a;
+    border: 1px solid #27376a;
+}
+.imagemTd{
+    height: 10px;
+}

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
-@RequestMapping(value = "QuadroHorario")
+@RequestMapping(value = "quadroHorario")
 public class QuadroHorarioController implements QuadroHorarioApi {
 
     @Autowired
@@ -25,6 +25,16 @@ public class QuadroHorarioController implements QuadroHorarioApi {
     public ResponseEntity buscarHoraLivrees(@PathVariable Long dia, @PathVariable Long sala){
         return quadroHorarioService.buscarHorasPorDia(dia, sala);
     }
+    @GetMapping(value = "buscar/horariosPorTurma/{turma}")
+    public ResponseEntity buscarHorarioPorTurma(@PathVariable Long turma){
+        return quadroHorarioService.buscarHorarioPorTurma(turma);
+    }
+
+    @GetMapping(value = "buscar/HorarioPorMatricula/{matricula}")
+    public ResponseEntity buscaHoraPorMatricula(@PathVariable Long matricula){
+        return quadroHorarioService.buscarHorarioPorMatricula(matricula);
+    }
+
     @PutMapping(value = "atualizar")
     public ResponseEntity atualizarQuadro(@RequestBody EntradaQuadroAtualizarDTO entrada){
         return quadroHorarioService.atualizarQuadro(entrada);

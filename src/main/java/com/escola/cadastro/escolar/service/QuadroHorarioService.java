@@ -2,16 +2,16 @@ package com.escola.cadastro.escolar.service;
 
 import com.escola.cadastro.escolar.dto.EntradaQuadroAtualizarDTO;
 import com.escola.cadastro.escolar.dto.EntradaQuadroHorarioDTO;
-import com.escola.cadastro.escolar.model.Horas;
-import com.escola.cadastro.escolar.model.QuadroHorario;
-import com.escola.cadastro.escolar.repository.HoraRepository;
-import com.escola.cadastro.escolar.repository.QuadroHorarioRepository;
+import com.escola.cadastro.escolar.dto.SaidaTurmaHorarioDTO;
+import com.escola.cadastro.escolar.model.*;
+import com.escola.cadastro.escolar.repository.*;
 import org.hibernate.service.spi.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,9 +19,16 @@ import java.util.Optional;
 public class QuadroHorarioService {
     @Autowired
     QuadroHorarioRepository quadroHorarioRepository;
-
     @Autowired
     HoraRepository horaRepository;
+    @Autowired
+    private TurmaRepository turmaRepository;
+    @Autowired
+    private MateriaRepository materiaRepository;
+    @Autowired
+    private DiasRepositry diasRepositry;
+    @Autowired
+    SalaRepository salaRepository;
 
 
     public ResponseEntity cadastrarSala(EntradaQuadroHorarioDTO entrada) {
@@ -74,6 +81,39 @@ public class QuadroHorarioService {
                 }).orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
+    public ResponseEntity buscarHorarioPorTurma(Long turma) {
+        List<SaidaTurmaHorarioDTO> saida = definaTurmaHorario(turma);
+        return ResponseEntity.ok().body(saida);
+    }
+
+    public ResponseEntity buscarHorarioPorMatricula(Long matricula) {
+        Optional<Turma> turma = turmaRepository.findByAlunosMatricula(matricula);
+    return turma
+            .map(record -> {
+                List<SaidaTurmaHorarioDTO> saida = definaTurmaHorario(turma.get().getId());
+               return ResponseEntity.ok().body(saida);
+            }).orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+
+    }
+
+    private List<SaidaTurmaHorarioDTO> definaTurmaHorario(Long turma) {
+        List<SaidaTurmaHorarioDTO> saida = new ArrayList<>();
+        List<Object[]> horarios = quadroHorarioRepository.listarTurmas(turma);
+        horarios.forEach(h -> {
+            Long id = Long.parseLong(h[0] + "");
+            Optional<Turma> turma1 = turmaRepository.findById(Long.parseLong(h[1] + ""));
+            Optional<Materia> materia = materiaRepository.findById(Long.parseLong(h[2] + ""));
+            Optional<Horas> horas = horaRepository.findById(Long.parseLong(h[3] + ""));
+            Optional<Dia> dia = diasRepositry.findById(Long.parseLong(h[4] + ""));
+            Optional<Sala> sala = salaRepository.findById(Long.parseLong(h[5] + ""));
+           saida.add(new SaidaTurmaHorarioDTO(id, turma1.get(), materia.get(), horas.get(), dia.get(), sala.get()));
+        });
+
+
+        return saida;
+    }
+
+
     private void validacoes(EntradaQuadroHorarioDTO entrada) {
         if (quadroHorarioRepository.validaDiasDisponivel(entrada.getIdDia(), entrada.getIdHora(), entrada.getIdSala()) >= 1)
             throw new ServiceException("Hora já cadastrada");
@@ -81,6 +121,4 @@ public class QuadroHorarioService {
         if (quadroHorarioRepository.validaMateriaDisponivel(entrada.getIdDia(), entrada.getIdHora(), entrada.getIdMateria()) >= 1)
             throw new ServiceException("Hora já matéria já cadastrada para esse horário");
     }
-
-
 }

@@ -1,0 +1,51 @@
+<div class="container">
+    <form class="row g-3 formulario"[formGroup]="formulario" >
+      <div class="col-auto">
+        <input
+          type="text"
+          class="form-control"
+          id="inputPassword2"
+          placeholder="filtro"
+          formControlName = "filtro"
+        />
+      </div>
+      <div class="col-auto">
+        <select class="form-select" aria-label="Default select example" formControlName = "valor">
+          <option value="0" selected disabled>Pelo que deseja filtrar</option>
+          <option value="1">Matricula</option>
+          <option value="2">Turma</option>
+        </select>
+      </div>
+      <div class="col-auto">
+          <button class="button" type="button" (click)="filtrar()">Buscar</button>
+        </div>
+    </form>
+  
+    <table class="table table-striped tabela flex">
+      <thead>
+        <tr>
+          <th scope="col">Turma</th>
+          <th scope="col">Materia</th>
+          <th scope="col">Professor</th>
+          <th scope="col">Hora</th>
+          <th scope="col">Dia da semana</th>
+          <th scope="col">Sala</th>
+          <th>Gerenciamento</th>
+        </tr>
+      </thead>
+      <tbody >
+        <tr *ngFor="let quadro of quadroHorario">
+          <td>{{quadro.turma.numero}}</td>
+          <td>{{quadro.materia.nome}}</td>
+          <td>{{quadro.materia.professor.nome}}</td>
+          <td>{{quadro.horas.hora}}</td>
+          <td>{{quadro.dia.nome}}</td>
+          <td>{{quadro.sala.numero}}</td>
+          <td>
+            <img src="../../../assets/images/editar.jpg" height="40" width="40" class="btn" (click)="editaAula(quadro.id)">
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  

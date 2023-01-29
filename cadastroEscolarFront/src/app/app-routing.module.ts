@@ -4,9 +4,14 @@ import { AtualizarAlunosComponent } from './alunos/atualizar-alunos/atualizar-al
 import { BuscarAlunosComponent } from './alunos/buscar-alunos/buscar-alunos.component';
 import { CadastroAlunosComponent } from './alunos/cadastro-alunos/cadastro-alunos.component';
 import { HomeAlunosComponent } from './alunos/home-alunos/home-alunos.component';
-import { AtualizarMateriaComponent } from './escola/atualizar-materia/atualizar-materia.component';
-import { BuscarMateriaComponent } from './escola/buscar-materia/buscar-materia.component';
+import { AtualizarAulasComponent } from './escola/aula/atualizar-aulas/atualizar-aulas.component';
+import { AulaHomeComponent } from './escola/aula/aula-home/aula-home.component';
+import { BuscarAulasComponent } from './escola/aula/buscar-aulas/buscar-aulas.component';
+import { CadastrarAulasComponent } from './escola/aula/cadastrar-aulas/cadastrar-aulas.component';
+import { MinhasAulasComponent } from './escola/aula/minhas-aulas/minhas-aulas.component';
 import { HomeEscolaComponent } from './escola/home-escola/home-escola.component';
+import { AtualizarMateriaComponent } from './escola/materia/atualizar-materia/atualizar-materia.component';
+import { BuscarMateriaComponent } from './escola/materia/buscar-materia/buscar-materia.component';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { AtualizarProfessoresComponent } from './professores/atualizar-professores/atualizar-professores.component';
@@ -27,7 +32,12 @@ const routes: Routes = [
   {path: "professores/atualizar/:matricula", component: AtualizarProfessoresComponent},
   {path: "escola", component: HomeEscolaComponent},
   {path: "escola/buscarMateria", component: BuscarMateriaComponent},
-  {path: "materia/atualizar/:nome", component: AtualizarMateriaComponent}
+  {path: "materia/atualizar/:nome", component: AtualizarMateriaComponent},
+  {path: "escola/aulas", component: AulaHomeComponent},
+  {path: "escola/aulas/minhasAulas", component: MinhasAulasComponent},
+  {path: "escola/aulas/buscar", component: BuscarAulasComponent},
+  {path: "aula/atualizar/:id", component: AtualizarAulasComponent},
+  {path: "escola/aulas/cadastrar", component: CadastrarAulasComponent}
 ];
 
 @NgModule({
