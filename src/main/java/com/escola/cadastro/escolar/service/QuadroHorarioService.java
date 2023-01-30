@@ -12,8 +12,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class QuadroHorarioService {
@@ -56,6 +58,8 @@ public class QuadroHorarioService {
     }
 
     public ResponseEntity atualizarQuadro(EntradaQuadroAtualizarDTO entrada) {
+        validacoes(new EntradaQuadroHorarioDTO(entrada.getIdDia(), entrada.getIdHora(), entrada.getIdTurma(), entrada.getIdMateria(), entrada.getIdSala()));
+
         Optional<QuadroHorario> quadroHorario = quadroHorarioRepository.findById(entrada.getIdQuadro());
 
         return quadroHorario
@@ -96,6 +100,10 @@ public class QuadroHorarioService {
 
     }
 
+    public ResponseEntity buscaHorarioPorId(Long idHorario){
+        return ResponseEntity.ok().body(defineHorario(idHorario));
+    }
+
     private List<SaidaTurmaHorarioDTO> definaTurmaHorario(Long turma) {
         List<SaidaTurmaHorarioDTO> saida = new ArrayList<>();
         List<Object[]> horarios = quadroHorarioRepository.listarTurmas(turma);
@@ -109,8 +117,27 @@ public class QuadroHorarioService {
            saida.add(new SaidaTurmaHorarioDTO(id, turma1.get(), materia.get(), horas.get(), dia.get(), sala.get()));
         });
 
+       saida.sort(Comparator.comparingLong(c -> c.getDia().getId()));
+        saida.sort(Comparator.comparingLong(c -> c.getHoras().getId()));
 
         return saida;
+    }
+
+    private SaidaTurmaHorarioDTO defineHorario(Long idHorario){
+        List<SaidaTurmaHorarioDTO> saida = new ArrayList<>();
+        List<Object[]> horarioObjeto = quadroHorarioRepository.filtraHorarioPorId(idHorario);
+
+        horarioObjeto.forEach(h -> {
+            Long id = Long.parseLong(h[0] + "");
+            Optional<Turma> turma1 = turmaRepository.findById(Long.parseLong(h[1] + ""));
+            Optional<Materia> materia = materiaRepository.findById(Long.parseLong(h[2] + ""));
+            Optional<Horas> horas = horaRepository.findById(Long.parseLong(h[3] + ""));
+            Optional<Dia> dia = diasRepositry.findById(Long.parseLong(h[4] + ""));
+            Optional<Sala> sala = salaRepository.findById(Long.parseLong(h[5] + ""));
+            saida.add(new SaidaTurmaHorarioDTO(id, turma1.get(), materia.get(), horas.get(), dia.get(), sala.get()));
+        });
+
+        return saida.stream().findFirst().get();
     }
 
 

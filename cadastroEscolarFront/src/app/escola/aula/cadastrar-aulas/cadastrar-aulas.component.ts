@@ -1,12 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Dia } from 'src/app/models/dia';
+import { QuadroDTO } from 'src/app/models/DTO/quadroDTO';
 import { Horas } from 'src/app/models/horas';
 import { Materia } from 'src/app/models/materia';
 import { QuadroHorario } from 'src/app/models/quadroHorario';
 import { Sala } from 'src/app/models/sala';
 import { Turma } from 'src/app/models/turma';
 import { DiaService } from 'src/app/services/dia.service';
+import { HorasService } from 'src/app/services/horas.service';
 import { MateriasService } from 'src/app/services/materias.service';
 import { QuadroHorariosService } from 'src/app/services/quadro-horarios.service';
 import { SalaService } from 'src/app/services/sala.service';
@@ -25,14 +27,16 @@ export class CadastrarAulasComponent implements OnInit{
   materias : Materia[] = [];
   dias : Dia[] = [];
   horas : Horas[] = [];
+  quadro : QuadroDTO = new QuadroDTO();
   quadroHorario : QuadroHorario = new QuadroHorario();
 
   ngOnInit(): void {
     this.formulario = this.fb.group({
-      turma : [0],
-      sala :[0],
-      materia : [0],
-      dia : [0],
+      turma : [null],
+      sala :[null, [Validators.required]],
+      materia : [null],
+      dia : [null],
+      hora : [null],
     });
     this.listarTurma();
     this.listarSalas();
@@ -82,12 +86,36 @@ export class CadastrarAulasComponent implements OnInit{
     });
   }
 
-  teste(){
-    this.quadroHorarioService.findHorasLivres(this.formulario.controls["dia"].value, this.formulario.controls["sala"].value).subscribe({
+ 
+
+
+  atualizar(dia : number, sala : number){
+    this.quadroHorarioService.findHorasLivres(dia, sala).subscribe({
       next : hor => this.horas = hor,
       error : err => console.log(err)
     })
   }
 
+  resetaDia(){
+    this.formulario.controls['dia'].setValue(null);
+  }
+
+  cadastrar(){   
+    this.quadroHorarioService.saveHorasLivres(this.defineQuadro()).subscribe({
+      next : quad => {
+        console.log("Cadastrado com sucesso! " + quad);
+      }, error : err => console.log(err)
+    })
+  }
+
+  defineQuadro() : QuadroDTO{
+    this.quadro.idTurma = this.formulario.value.turma
+    this.quadro.idSala = this.formulario.value.sala
+    this.quadro.idMateria = this.formulario.value.materia
+    this.quadro.idDia = this.formulario.value.dia
+    this.quadro.idHora = this.formulario.value.hora
+
+    return this.quadro;
+  }
 
 }

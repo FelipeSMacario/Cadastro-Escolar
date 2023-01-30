@@ -48,4 +48,7 @@ public interface QuadroHorarioRepository extends JpaRepository<QuadroHorario, Lo
 
     @Query(value = "SELECT * FROM sistemaescolar.quadro_horario WHERE turma_id = :turma_id ", nativeQuery = true)
     List<Object[]> listarTurmas(@Param("turma_id") Long turma_id);
+
+    @Query(value = "SELECT * FROM sistemaescolar.quadro_horario WHERE id = :idHorario ", nativeQuery = true)
+    List<Object[]> filtraHorarioPorId(@Param("idHorario") Long idHorario);
 }

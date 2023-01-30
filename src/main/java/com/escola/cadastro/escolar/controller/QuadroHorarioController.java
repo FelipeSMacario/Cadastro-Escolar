@@ -35,6 +35,11 @@ public class QuadroHorarioController implements QuadroHorarioApi {
         return quadroHorarioService.buscarHorarioPorMatricula(matricula);
     }
 
+    @GetMapping(value = "busca/HorarioPorId/{id}")
+    public ResponseEntity buscaHorarioPorId(@PathVariable Long id){
+        return quadroHorarioService.buscaHorarioPorId(id);
+    }
+
     @PutMapping(value = "atualizar")
     public ResponseEntity atualizarQuadro(@RequestBody EntradaQuadroAtualizarDTO entrada){
         return quadroHorarioService.atualizarQuadro(entrada);
