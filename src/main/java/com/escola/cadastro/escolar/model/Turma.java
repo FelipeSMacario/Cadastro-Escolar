@@ -19,7 +19,6 @@ import java.util.List;
 public class Turma {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonIgnore
     private Long id;
 
     @Column(name = "numero")

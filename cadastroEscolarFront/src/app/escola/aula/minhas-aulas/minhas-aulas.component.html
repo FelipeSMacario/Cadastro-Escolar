@@ -1,0 +1,36 @@
+<div class="container">
+  <form class="row g-3 formulario"  [formGroup]="formulario">
+
+    <div class="selectDiv">
+      <select class="form-select select" aria-label="Default select example"  (change)="filtrar(this.formulario.value.filtro)" formControlName = "filtro">
+        <option value="0" selected disabled>Selecione um dia da semana</option>
+        <option value="1">Segunda-Feira</option>
+        <option value="2">Terça-Feira</option>
+        <option value="3">Quarta-Feira</option>
+        <option value="4">Quinta-Feira</option>
+        <option value="5">Sexta-Feira</option>
+      </select>
+    </div>   
+
+  </form>
+    <table class="table table-striped tabela flex">
+        <thead>
+          <tr>
+            <th scope="col">Turma</th>
+            <th scope="col">Materia</th>
+            <th scope="col">Professor</th>
+            <th scope="col">Hora</th>
+            <th scope="col">Sala</th>
+          </tr>
+        </thead>
+        <tbody >
+          <tr *ngFor="let quadro of quadroHorarioFiltro">
+            <td>{{quadro.turma.numero}}</td>
+            <td>{{quadro.materia.nome}}</td>
+            <td>{{quadro.materia.professor.nome}}</td>
+            <td>{{quadro.horas.hora}}</td>
+            <td>{{quadro.sala.numero}}</td>
+          </tr>
+        </tbody>
+      </table>
+</div>

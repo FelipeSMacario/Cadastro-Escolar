@@ -18,7 +18,6 @@ import java.util.List;
 public class Sala {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonIgnore
     private Long id;
 
     private int numero;

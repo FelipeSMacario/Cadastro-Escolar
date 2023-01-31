@@ -1,0 +1,55 @@
+<div class="container divForm">
+  <div class="formulario">
+    <div class="titulo">
+      <h1>Cadastro de aulas</h1>
+    </div>
+    <form class="form form-group" [formGroup]="formulario">
+      <div class="row">
+        <div class="col">
+          <label class="label labelNome">Turma</label>
+          <select class="form-select" aria-label="Default select example"  formControlName = "turma">
+            <option value="null" selected disabled>Selecione uma turma</option>
+            <option *ngFor="let tur of turma" [ngValue]="tur.id">{{ tur.numero }}</option>
+          </select>
+        </div>
+        <div class="col">
+          <label class="label labelNome">Sala</label>
+          <select class="form-select" aria-label="Default select example" formControlName = "sala" (change)="resetaDia()">
+            <option value="null" selected disabled>Selecione uma sala</option>
+            <option *ngFor="let sal of sala" [ngValue]="sal.id">{{ sal.numero }}</option>
+          </select>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+            <label class="label labelNome">Matéria</label>
+            <select class="form-select" aria-label="Default select example" formControlName = "materia">
+              <option value="null" selected disabled>Selecione uma matéria</option>
+              <option *ngFor="let mat of materias"  [ngValue]="mat.id">{{ mat.nome }}</option>
+            </select>
+        </div>
+
+        <div class="col">
+            <label class="label labelNome">Dia</label>
+            <select class="form-select" [disabled]= "!formulario.valid" aria-label="Default select example" formControlName = "dia" (change)="atualizar(this.formulario.value.dia, this.formulario.value.sala)">
+              <option value="null" selected disabled>Selecione um dias da semana</option>
+              <option *ngFor="let dia of dias" [ngValue]="dia.id">{{ dia.nome }}</option>
+            </select>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+            <label class="label labelNome">Hora</label>
+            <select class="form-select" aria-label="Default select example" formControlName = "hora">
+              <option value="null" selected disabled>Selecione uma hora</option>
+              <option *ngFor="let hora of horas" [ngValue]="hora.id">{{ hora.hora }}</option>
+            </select>
+        </div>
+      </div>
+
+      <div class="divBotao">
+        <button type="button" class="btn botao" (click)="cadastrar()" [disabled]= "!formulario.valid">Cadastrar</button>
+      </div>
+    </form>
+  </div>
+</div>

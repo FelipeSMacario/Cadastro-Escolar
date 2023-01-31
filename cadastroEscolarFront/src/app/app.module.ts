@@ -18,9 +18,14 @@ import { CadastroProfessoresComponent } from './professores/cadastro-professores
 import { BuscarProfessoresComponent } from './professores/buscar-professores/buscar-professores.component';
 import { AtualizarProfessoresComponent } from './professores/atualizar-professores/atualizar-professores.component';
 import { HomeEscolaComponent } from './escola/home-escola/home-escola.component';
-import { BuscarMateriaComponent } from './escola/buscar-materia/buscar-materia.component';
-import { AtualizarMateriaComponent } from './escola/atualizar-materia/atualizar-materia.component';
 import { LoginComponent } from './login/login.component';
+import { AtualizarMateriaComponent } from './escola/materia/atualizar-materia/atualizar-materia.component';
+import { BuscarMateriaComponent } from './escola/materia/buscar-materia/buscar-materia.component';
+import { AulaHomeComponent } from './escola/aula/aula-home/aula-home.component';
+import { MinhasAulasComponent } from './escola/aula/minhas-aulas/minhas-aulas.component';
+import { BuscarAulasComponent } from './escola/aula/buscar-aulas/buscar-aulas.component';
+import { AtualizarAulasComponent } from './escola/aula/atualizar-aulas/atualizar-aulas.component';
+import { CadastrarAulasComponent } from './escola/aula/cadastrar-aulas/cadastrar-aulas.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +44,12 @@ import { LoginComponent } from './login/login.component';
     HomeEscolaComponent,
     BuscarMateriaComponent,
     AtualizarMateriaComponent,
-    LoginComponent
+    LoginComponent,
+    AulaHomeComponent,
+    MinhasAulasComponent,
+    BuscarAulasComponent,
+    AtualizarAulasComponent,
+    CadastrarAulasComponent,
   ],
   imports: [
     BrowserModule,

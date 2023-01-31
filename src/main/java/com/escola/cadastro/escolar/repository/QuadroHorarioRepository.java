@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Objects;
 
 @Repository
 public interface QuadroHorarioRepository extends JpaRepository<QuadroHorario, Long> {
@@ -44,4 +45,10 @@ public interface QuadroHorarioRepository extends JpaRepository<QuadroHorario, Lo
     @Modifying
     @Query(value = "DELETE FROM  sistemaescolar.quadro_horario WHERE id = :quadroId", nativeQuery = true)
     void deletarQuadro(@Param("quadroId") Long quadroId);
+
+    @Query(value = "SELECT * FROM sistemaescolar.quadro_horario WHERE turma_id = :turma_id ", nativeQuery = true)
+    List<Object[]> listarTurmas(@Param("turma_id") Long turma_id);
+
+    @Query(value = "SELECT * FROM sistemaescolar.quadro_horario WHERE id = :idHorario ", nativeQuery = true)
+    List<Object[]> filtraHorarioPorId(@Param("idHorario") Long idHorario);
 }
