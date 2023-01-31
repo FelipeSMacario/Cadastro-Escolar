@@ -9,6 +9,7 @@ import org.hibernate.validator.constraints.UniqueElements;
 
 import javax.persistence.*;
 import java.util.List;
+import javax.validation.constraints.NotNull;
 
 @Data
 @Entity

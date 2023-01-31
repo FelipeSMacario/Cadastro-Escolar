@@ -1,7 +1,9 @@
 package com.escola.cadastro.escolar.service;
 
 import com.escola.cadastro.escolar.model.Materia;
+import com.escola.cadastro.escolar.model.Pessoa;
 import com.escola.cadastro.escolar.repository.MateriaRepository;
+import com.escola.cadastro.escolar.repository.PessoaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +16,9 @@ public class MateriaService {
     @Autowired
     MateriaRepository materiaRepository;
 
+    @Autowired
+    PessoaRepository pessoaRepository;
+
     public ResponseEntity listarMaterias() {
         return ResponseEntity.status(HttpStatus.OK).body(materiaRepository.findAll());
     }
@@ -25,8 +30,12 @@ public class MateriaService {
     }
 
     public ResponseEntity cadastrarMateria(Materia materia) {
-        materiaRepository.save(materia);
-        return ResponseEntity.status(HttpStatus.CREATED).body("Matéria cadastrada com sucesso");
+        return pessoaRepository.findByMatriculaAndCargoAndStatus(materia.getProfessor().getMatricula(), "Professor", "Ativo")
+                .map( record -> {
+                    materiaRepository.save(materia);
+                   return ResponseEntity.status(HttpStatus.CREATED).body("Matéria cadastrada com sucesso");
+                }).orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+
     }
 
     public ResponseEntity atualizarMateria(Materia materia) {
@@ -38,6 +47,7 @@ public class MateriaService {
                             Materia.builder()
                                     .id(materia.getId())
                                     .nome(materia.getNome())
+                                    .professor(materia.getProfessor())
                                     .build()
                     );
                     return ResponseEntity.ok().body(materiaAtualizada);
