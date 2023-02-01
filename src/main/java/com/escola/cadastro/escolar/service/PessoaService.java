@@ -30,9 +30,11 @@ public class PessoaService {
         Email to = new Email(email);
         Content content = new Content("text/plain", "and easy to do anywhere, even with Java");
         Mail mail = new Mail(from, subject, to, content);
+        mail.setTemplateId("d-51c075f4bf2445a284e335a46131cdb8");
 
         SendGrid sg = new SendGrid(System.getenv("API_SENDGRID_API_KEY"));
         Request request = new Request();
+
 
         try {
             request.setMethod(Method.POST);
