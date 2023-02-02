@@ -47,13 +47,13 @@ export class BuscarMateriaComponent implements OnInit{
     if (this.formulario.controls["valor"].value == 3){
       this.materia.nome = this.formulario.controls["filtro"].value;
 
-      this.materiaService.cadastrarMateria(this.materia).pipe(take(1)).subscribe({
+     /* this.materiaService.cadastrarMateria(this.materia).pipe(take(1)).subscribe({
         next : user => {
           console.log("Cadastrado com sucesso", user);
           this.listarTodos();
         },
         error : err => console.log(err)
-      })
+      }) */
     }
   }
 

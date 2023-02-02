@@ -8,6 +8,8 @@ import { AtualizarAulasComponent } from './escola/aula/atualizar-aulas/atualizar
 import { AulaHomeComponent } from './escola/aula/aula-home/aula-home.component';
 import { BuscarAulasComponent } from './escola/aula/buscar-aulas/buscar-aulas.component';
 import { CadastrarAulasComponent } from './escola/aula/cadastrar-aulas/cadastrar-aulas.component';
+import { CadastrarMateriasComponent } from './escola/materia/cadastrar-materia/cadastrar-materias.component';
+import { MateriaHomeComponent } from './escola/aula/materia-home/materia-home.component';
 import { MinhasAulasComponent } from './escola/aula/minhas-aulas/minhas-aulas.component';
 import { HomeEscolaComponent } from './escola/home-escola/home-escola.component';
 import { AtualizarMateriaComponent } from './escola/materia/atualizar-materia/atualizar-materia.component';
@@ -31,9 +33,11 @@ const routes: Routes = [
   {path: "professores/cadastrar", component: CadastroProfessoresComponent},
   {path: "professores/atualizar/:matricula", component: AtualizarProfessoresComponent},
   {path: "escola", component: HomeEscolaComponent},
-  {path: "escola/buscarMateria", component: BuscarMateriaComponent},
+  {path: "escola/materia/buscarMateria", component: BuscarMateriaComponent},
+  {path: "escola/materia/cadastrarMateria", component: CadastrarMateriasComponent},
   {path: "materia/atualizar/:nome", component: AtualizarMateriaComponent},
   {path: "escola/aulas", component: AulaHomeComponent},
+  {path: "escola/materia", component: MateriaHomeComponent},
   {path: "escola/aulas/minhasAulas", component: MinhasAulasComponent},
   {path: "escola/aulas/buscar", component: BuscarAulasComponent},
   {path: "aula/atualizar/:id", component: AtualizarAulasComponent},

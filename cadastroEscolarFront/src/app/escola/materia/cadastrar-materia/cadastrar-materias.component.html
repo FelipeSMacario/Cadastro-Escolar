@@ -1,0 +1,29 @@
+<div class="container divForm">
+  <div class="formulario">
+    <div class="titulo">
+      <h1>Cadastro de matérias</h1>
+    </div>
+    <form class="form form-group" [formGroup]="formulario">
+      <div class="row">
+        <div class="col">
+          <label class="label labelNome">Nome</label>
+          <input type="text" class="form-control" placeholder="Nome" formControlName = "nome" />
+        </div>
+
+      </div>
+      <div class="row">
+        <div class="col">
+            <label class="label labelNome">Professor</label>
+            <select class="form-select" aria-label="Default select example" formControlName = "pessoa">
+              <option value="null" selected disabled>Selecione um professor</option>
+              <option *ngFor="let pessoa of pessoa"  [ngValue]="pessoa.matricula">{{ pessoa.nome }}</option>
+            </select>
+        </div>
+      </div>
+
+      <div class="divBotao">
+        <button type="button" class="btn botao" (click)="cadastrar()" >Cadastrar</button>
+      </div>
+    </form>
+  </div>
+</div>

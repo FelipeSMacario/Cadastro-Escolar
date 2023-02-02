@@ -26,6 +26,9 @@ import { MinhasAulasComponent } from './escola/aula/minhas-aulas/minhas-aulas.co
 import { BuscarAulasComponent } from './escola/aula/buscar-aulas/buscar-aulas.component';
 import { AtualizarAulasComponent } from './escola/aula/atualizar-aulas/atualizar-aulas.component';
 import { CadastrarAulasComponent } from './escola/aula/cadastrar-aulas/cadastrar-aulas.component';
+import { MateriaHomeComponent } from './escola/aula/materia-home/materia-home.component';
+import { CadastrarMateriasComponent } from './escola/materia/cadastrar-materia/cadastrar-materias.component';
+
 
 @NgModule({
   declarations: [
@@ -34,7 +37,9 @@ import { CadastrarAulasComponent } from './escola/aula/cadastrar-aulas/cadastrar
     HomeComponent,
     FooterComponent,
     HomeAlunosComponent,
+    MateriaHomeComponent,
     CadastroAlunosComponent,
+    CadastrarMateriasComponent,
     BuscarAlunosComponent,
     AtualizarAlunosComponent,
     HomeProfessoresComponent,
@@ -43,6 +48,7 @@ import { CadastrarAulasComponent } from './escola/aula/cadastrar-aulas/cadastrar
     AtualizarProfessoresComponent,
     HomeEscolaComponent,
     BuscarMateriaComponent,
+
     AtualizarMateriaComponent,
     LoginComponent,
     AulaHomeComponent,

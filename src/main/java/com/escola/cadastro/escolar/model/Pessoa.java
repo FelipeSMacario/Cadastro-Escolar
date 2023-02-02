@@ -20,7 +20,6 @@ import java.util.List;
 public class Pessoa {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonIgnore
     private Long matricula;
 
     @Column(name = "cpf")
