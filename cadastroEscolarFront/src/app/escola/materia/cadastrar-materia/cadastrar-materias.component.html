@@ -3,26 +3,28 @@
     <div class="titulo">
       <h1>Cadastro de matérias</h1>
     </div>
-    <form class="form form-group" [formGroup]="formulario">
+    <form class="form form-group" [formGroup]="formulario" (ngSubmit) = "onSubmit()">
       <div class="row">
         <div class="col">
           <label class="label labelNome">Nome</label>
-          <input type="text" class="form-control" placeholder="Nome" formControlName = "nome" />
+          <input type="text" class="form-control" placeholder="Nome" formControlName = "nome" [ngClass] = "{'is-invalid':submitted && formulario.controls.nome.errors}" />
+          <div *ngIf="submitted && formulario.controls.nome.errors" class="text-danger"></div>
+            <div class= "mensagemErro" *ngIf="formulario.controls.nome.errors?.required">O nome é obrigatório!</div>
         </div>
-
       </div>
       <div class="row">
         <div class="col">
             <label class="label labelNome">Professor</label>
-            <select class="form-select" aria-label="Default select example" formControlName = "pessoa">
+            <select class="form-select" aria-label="Default select example" formControlName = "pessoa" [ngClass] = "{'is-invalid':submitted && formulario.controls.pessoa.errors}">
               <option value="null" selected disabled>Selecione um professor</option>
               <option *ngFor="let pessoa of pessoa"  [ngValue]="pessoa.matricula">{{ pessoa.nome }}</option>
             </select>
+            <div class= "mensagemErro" *ngIf="formulario.controls.pessoa.errors?.required">Selecionar o professor é obrigatório!</div>
         </div>
       </div>
 
       <div class="divBotao">
-        <button type="button" class="btn botao" (click)="cadastrar()" >Cadastrar</button>
+        <button type="button" class="btn botao" (click)="onSubmit()" >Cadastrar </button>
       </div>
     </form>
   </div>

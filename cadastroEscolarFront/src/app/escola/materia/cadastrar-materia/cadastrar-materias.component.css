@@ -29,3 +29,8 @@
     text-align: center;
     color: white;
 }
+
+.mensagemErro{
+    color: white;
+    font-weight: bold;
+}

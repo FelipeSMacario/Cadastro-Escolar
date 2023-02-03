@@ -13,18 +13,17 @@ import { Materia } from 'src/app/models/materia';
 })
 export class CadastrarMateriasComponent implements OnInit{
   formulario : FormGroup;
+  submitted = false;
   pessoa : Pessoa[] = [];
   materia : Materia = new Materia();
 
   ngOnInit(): void {
     this.formulario = this.fb.group({
-      pessoa : [null],
-      nome: [null],
+      pessoa : ['', Validators.required],
+      nome: ['', Validators.required],
     });
     this.listarProfessores();
   }
-
-  
   constructor(
     private professorService : ProfessorService,
     private fb : FormBuilder,
@@ -50,12 +49,21 @@ export class CadastrarMateriasComponent implements OnInit{
   } 
 
   cadastrar(){
-
     this.materiaService.cadastrarMateria(this.defineMateria()).subscribe({
       next : quad => {
         console.log("Cadastrado com sucesso! " + quad);
       }, error : err => console.log(err)
     })
   }
-  
+
+  onSubmit(){
+    this.submitted = true;
+    if(this.formulario.invalid){
+      alert("O nome deve ser preenchido!");
+      return
+    } else {
+      this.cadastrar();
+    }
+    alert("Cadastro realizado com sucesso!");
+  }
 }
