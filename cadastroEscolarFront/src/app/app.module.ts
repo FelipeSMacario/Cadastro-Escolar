@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
@@ -26,6 +26,7 @@ import { MinhasAulasComponent } from './escola/aula/minhas-aulas/minhas-aulas.co
 import { BuscarAulasComponent } from './escola/aula/buscar-aulas/buscar-aulas.component';
 import { AtualizarAulasComponent } from './escola/aula/atualizar-aulas/atualizar-aulas.component';
 import { CadastrarAulasComponent } from './escola/aula/cadastrar-aulas/cadastrar-aulas.component';
+import { NotasHomeComponent } from './escola/notas/notas-home/notas-home.component';
 
 @NgModule({
   declarations: [
@@ -50,11 +51,13 @@ import { CadastrarAulasComponent } from './escola/aula/cadastrar-aulas/cadastrar
     BuscarAulasComponent,
     AtualizarAulasComponent,
     CadastrarAulasComponent,
+    NotasHomeComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
+    FormsModule,
     BrowserAnimationsModule,
     HttpClientModule
   ],

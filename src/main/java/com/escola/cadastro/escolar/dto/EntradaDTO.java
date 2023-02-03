@@ -15,5 +15,7 @@ public class EntradaDTO {
     private String nome;
     private String sobreNome;
     private LocalDate dataNascimento;
+
+    private String urlFoto;
     private String status;
 }

@@ -4,14 +4,13 @@
     padding: 20px;
 }
 .row{
-    margin-top: 50px;
+    margin-top: 20px;
 }
 .divBotao{
     margin-top: 20px;
     text-align: center;
 }
 .botao{
-    margin-top: 20px;
     background-color: #27376a;
     color: white;
     border: 1px solid white;
@@ -29,4 +28,18 @@
 .titulo{
     text-align: center;
     color: white;
+}
+.divImagem{
+    height: 200px;
+    width:  200px;
+}
+
+.botaoFoto{
+    background-color: #27376a;
+    color: white;
+    border: 1px solid white;
+    border-radius: 10px;
+    width: 20%;
+    margin-top: 10px;
+
 }
