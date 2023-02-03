@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { take } from 'rxjs';
 import { Pessoa } from 'src/app/models/pessoa';
 import { PessoaService } from 'src/app/services/pessoa.service';
@@ -14,10 +15,13 @@ export class CadastroProfessoresComponent  implements OnInit{
   formulario : FormGroup;
   pessoa : Pessoa = new Pessoa();
   private readonly cargo : string = "professor";
+  urlFoto : SafeResourceUrl;
+  imagem2 : any;
 
   constructor(
     private fb : FormBuilder,
-    private alunoService : PessoaService){
+    private alunoService : PessoaService,
+    private sanitizer : DomSanitizer){
     
   }
 
@@ -26,7 +30,8 @@ export class CadastroProfessoresComponent  implements OnInit{
       cpf : [null],
       dataNascimento : [null],
       nome : [null],
-      sobreNome : [null]
+      sobreNome : [null],
+      urlFoto : [null]
     })
   }
   salvarAluno(){
@@ -34,6 +39,25 @@ export class CadastroProfessoresComponent  implements OnInit{
       next : user => console.log("Cadastrado com sucesso", user),
       error : err => console.log(err)
     })
+  }
+
+  carregaImagem(event : Event){
+    let valor  = this.base(event);
+  }
+
+  base(event : Event) : any{
+    const target = event.target as HTMLInputElement;
+  
+    const file : File = (target.files as FileList)[0];
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+        this.imagem2 = reader.result;
+        this.urlFoto = this.sanitizer.bypassSecurityTrustResourceUrl(reader.result as string)
+        this.formulario.controls['urlFoto'].setValue( reader.result as string)
+  
+    };
+    return reader.result;
   }
 
 

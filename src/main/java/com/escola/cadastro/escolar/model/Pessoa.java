@@ -8,6 +8,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.sql.Blob;
+import java.sql.Clob;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -38,20 +40,23 @@ public class Pessoa {
     @ApiModelProperty(value = "Data de nascimento da pessoa", example = "2020-12-25", required = true, position = 4)
     private LocalDate dataNascimento;
 
+    @Column(name = "foto", columnDefinition="longblob")
+    @ApiModelProperty(value = "urlFoto")
+    private String urlFoto;
+
     @Column(name = "dataCadastro")
-    @JsonIgnore
     private LocalDate dataCadastro;
 
     @Column(name = "cargo")
-    @JsonIgnore
     private String cargo;
 
     @Column(name = "status")
-    @JsonIgnore
     private String status;
 
     @JsonIgnore
     @ManyToMany(mappedBy = "alunos")
     private List<Turma> turmas;
+
+
 
 }

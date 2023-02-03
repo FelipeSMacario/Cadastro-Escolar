@@ -14,6 +14,7 @@ import { MinhasAulasComponent } from './escola/aula/minhas-aulas/minhas-aulas.co
 import { HomeEscolaComponent } from './escola/home-escola/home-escola.component';
 import { AtualizarMateriaComponent } from './escola/materia/atualizar-materia/atualizar-materia.component';
 import { BuscarMateriaComponent } from './escola/materia/buscar-materia/buscar-materia.component';
+import { NotasHomeComponent } from './escola/notas/notas-home/notas-home.component';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { AtualizarProfessoresComponent } from './professores/atualizar-professores/atualizar-professores.component';
@@ -41,7 +42,8 @@ const routes: Routes = [
   {path: "escola/aulas/minhasAulas", component: MinhasAulasComponent},
   {path: "escola/aulas/buscar", component: BuscarAulasComponent},
   {path: "aula/atualizar/:id", component: AtualizarAulasComponent},
-  {path: "escola/aulas/cadastrar", component: CadastrarAulasComponent}
+  {path: "escola/aulas/cadastrar", component: CadastrarAulasComponent},
+  {path: "escola/notas", component: NotasHomeComponent}
 ];
 
 @NgModule({

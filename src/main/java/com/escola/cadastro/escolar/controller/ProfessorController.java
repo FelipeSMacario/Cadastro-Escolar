@@ -42,4 +42,6 @@ public class ProfessorController implements ProfessorApi {
         return professorService.atualizar(entradaDTO, cargo);
     }
 
+
+
 }

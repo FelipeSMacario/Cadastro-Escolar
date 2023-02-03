@@ -9,6 +9,8 @@ export class Pessoa {
     
     dataNascimento : Date;
 
+    urlFoto : string;
+
     dataCadastro : Date;
 
     cargo : string;

@@ -29,3 +29,17 @@
     text-align: center;
     color: white;
 }
+.divImagem{
+    height: 200px;
+    width:  200px;
+}
+
+.botaoFoto{
+    background-color: #27376a;
+    color: white;
+    border: 1px solid white;
+    border-radius: 10px;
+    width: 20%;
+    margin-top: 10px;
+
+}
