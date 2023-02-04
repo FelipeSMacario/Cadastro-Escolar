@@ -27,7 +27,7 @@ public class PessoaService {
     }
 
     public ResponseEntity cadastrar(Pessoa pessoa, String cargo) {
-        pessoaRepository.save(Pessoa.builder()
+        Pessoa pessoa1 = Pessoa.builder()
                 .cpf(pessoa.getCpf())
                 .nome(pessoa.getNome())
                 .sobreNome(pessoa.getSobreNome())
@@ -35,9 +35,9 @@ public class PessoaService {
                 .urlFoto(pessoa.getUrlFoto())
                 .dataCadastro(LocalDate.now())
                 .cargo(cargo)
-                .status("Ativo").build()
-        );
-        return ResponseEntity.status(HttpStatus.CREATED).body(cargo + " criado com sucesso");
+                .status("Ativo").build();
+        pessoaRepository.save(pessoa1);
+        return ResponseEntity.status(HttpStatus.CREATED).body(pessoa1);
     }
 
     public ResponseEntity atualizar(EntradaDTO entradaDTO, String cargo) {

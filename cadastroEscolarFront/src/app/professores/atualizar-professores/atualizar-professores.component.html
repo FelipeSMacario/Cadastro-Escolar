@@ -1,7 +1,7 @@
 <div class="container">
     <div class="formulario">
       <div class="titulo">
-        <h1>Cadastro de professores</h1>
+        <h1>Atualizar professores</h1>
       </div>
       <form [formGroup]="formulario" class="form form-group" (ngSubmit)="salvarAluno()">
         <div class="row">
@@ -28,7 +28,7 @@
         <div class="row">
           <div class="col">
             <label class="label labelNome">Matricula</label>
-            <input type="text" class="form-control"   placeholder="Matricula" formControlName = "matricula" />
+            <input type="text" readonly class="form-control"   placeholder="Matricula" formControlName = "matricula" />
           </div>
           <div class="col">
             <label class="label labelNome">CPF</label>
@@ -73,7 +73,7 @@
         
   
         <div class="divBotao">
-          <button class="btn botao" type="submit">Cadastrar</button>
+          <button class="btn botao" type="submit">Atualizar</button>
         </div>
         
       </form>

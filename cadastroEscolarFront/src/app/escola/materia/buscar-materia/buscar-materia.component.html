@@ -11,9 +11,9 @@
       </div>
       <div class="col-auto">
         <select class="form-select" aria-label="Default select example" formControlName = "valor">
+          <option value="0" selected disabled>Pelo que deseja filtrar</option>
           <option value="1">Nome</option>
           <option value="2">Todas</option>
-          <option value="3">Inserir nova matéria</option>
         </select>
       </div>
       <div class="col-auto">
@@ -32,7 +32,7 @@
           <td>{{materia.nome}}</td>
           <td>
             <img src="../../../assets/images/editar.jpg" height="40" width="40" class="btn" (click)="editarMateria(materia.nome)">
-            <img src="../../../assets/images/delete.png" height="40" width="40" class="btn" (click)="deletarMateria(materia.id)">
+            <img src="../../../assets/images/delete.png" height="40" width="40" class="btn" (click)="modalDeletar(materia.id)">
           </td>
       </tr>
     </table>

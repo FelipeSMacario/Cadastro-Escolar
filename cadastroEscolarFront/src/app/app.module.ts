@@ -29,10 +29,10 @@ import { CadastrarAulasComponent } from './escola/aula/cadastrar-aulas/cadastrar
 import { MateriaHomeComponent } from './escola/aula/materia-home/materia-home.component';
 import { CadastrarMateriasComponent } from './escola/materia/cadastrar-materia/cadastrar-materias.component';
 import {MatDialogModule} from '@angular/material/dialog';
-import { NotasHomeComponent } from './escola/notas/notas-home/notas-home.component';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import { ModalConfirmacaoComponent } from './modal/modal-confirmacao/modal-confirmacao.component';
 import { ModalInformacaoComponent } from './modal/modal-informacao/modal-informacao.component';
+import { HomeNotasComponent } from './escola/notas/home-notas/home-notas.component';
 
 @NgModule({
   declarations: [
@@ -60,9 +60,9 @@ import { ModalInformacaoComponent } from './modal/modal-informacao/modal-informa
     BuscarAulasComponent,
     AtualizarAulasComponent,
     CadastrarAulasComponent,
-    NotasHomeComponent,
     ModalConfirmacaoComponent,
     ModalInformacaoComponent,
+    HomeNotasComponent,
     
   ],
   imports: [

@@ -24,7 +24,7 @@ export class BuscarAlunosComponent implements OnInit{
 
   ngOnInit(): void {  
     this.formulario = this.fb.group({
-      valor : [null],
+      valor : [0],
       filtro : [null]
     })  
   }

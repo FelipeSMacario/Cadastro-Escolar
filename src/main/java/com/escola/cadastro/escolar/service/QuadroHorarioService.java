@@ -43,7 +43,7 @@ public class QuadroHorarioService {
                 entrada.getIdHora(), entrada.getIdDia(), entrada.getIdSala());
 
 
-        return ResponseEntity.ok().body("sala cadastrada com sucesso");
+        return ResponseEntity.ok().body(entrada);
     }
 
     public ResponseEntity buscarHorasPorDia(Long dia, Long sala) {

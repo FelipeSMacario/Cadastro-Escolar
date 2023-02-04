@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Dia } from 'src/app/models/dia';
 import { QuadroDTO } from 'src/app/models/DTO/quadroDTO';
 import { Horas } from 'src/app/models/horas';
@@ -31,13 +32,7 @@ export class CadastrarAulasComponent implements OnInit{
   quadroHorario : QuadroHorario = new QuadroHorario();
 
   ngOnInit(): void {
-    this.formulario = this.fb.group({
-      turma : [null],
-      sala :[null, [Validators.required]],
-      materia : [null],
-      dia : [null],
-      hora : [null],
-    });
+    this.formularioVazio();
     this.listarTurma();
     this.listarSalas();
     this.listarMaterias();
@@ -51,7 +46,18 @@ export class CadastrarAulasComponent implements OnInit{
     private materiaService : MateriasService,
     private diaService : DiaService,
     private fb : FormBuilder,
+    private _snackBar: MatSnackBar
   ){}
+
+  formularioVazio(){
+    this.formulario = this.fb.group({
+      turma : [null],
+      sala :[null, [Validators.required]],
+      materia : [null],
+      dia : [null],
+      hora : [null],
+    });
+  }
 
 
   listarTurma(){
@@ -84,9 +90,7 @@ export class CadastrarAulasComponent implements OnInit{
         this.dias = dia;
       }, error : err => console.log(err)
     });
-  }
-
- 
+  } 
 
 
   atualizar(dia : number, sala : number){
@@ -103,8 +107,10 @@ export class CadastrarAulasComponent implements OnInit{
   cadastrar(){   
     this.quadroHorarioService.saveHorasLivres(this.defineQuadro()).subscribe({
       next : quad => {
-        console.log("Cadastrado com sucesso! " + quad);
-      }, error : err => console.log(err)
+        this._snackBar.open("Aula cadastrada com sucesso", "", {duration : 5000});
+        this.formularioVazio();
+      }, 
+      error : err => this._snackBar.open(err, "", {duration : 5000})
     })
   }
 

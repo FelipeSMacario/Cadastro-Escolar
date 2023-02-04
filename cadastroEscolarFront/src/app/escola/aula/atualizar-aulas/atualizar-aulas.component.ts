@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Dia } from 'src/app/models/dia';
 import { QuadroDTO } from 'src/app/models/DTO/quadroDTO';
 import { Horas } from 'src/app/models/horas';
@@ -44,10 +45,12 @@ export class AtualizarAulasComponent  implements OnInit{
     private turmaService : TurmaService,
     private salaService : SalaService,
     private materiaService : MateriasService,
+    private router: Router,
     private diaService : DiaService,
     private fb : FormBuilder,
     private horasService : HorasService,
-    private activatedRoute : ActivatedRoute
+    private activatedRoute : ActivatedRoute,
+    private _snackBar: MatSnackBar
   ){}
 
   defineQuadro(id : number) : QuadroHorario{
@@ -146,9 +149,12 @@ export class AtualizarAulasComponent  implements OnInit{
 
   cadastrar(){   
     this.quadroHorarioService.updateQuadro(this.defineFormQuadro()).subscribe({
-      next : quad => {
-        console.log("Cadastrado com sucesso! " + quad);
-      }, error : err => console.log(err)
+      next : async quad => {
+        this._snackBar.open("Aula atualizada com sucesso", "", {duration : 5000});
+          await new Promise(f => setTimeout(f, 5000));
+          this.router.navigate(['escola/aulas/buscar'])
+      },
+      error : err => this._snackBar.open(err, "", {duration : 5000})
     })
   }
 

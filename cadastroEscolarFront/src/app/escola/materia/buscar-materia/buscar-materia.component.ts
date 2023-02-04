@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { take } from 'rxjs';
+import { ModalConfirmacaoComponent } from 'src/app/modal/modal-confirmacao/modal-confirmacao.component';
 import { Materia } from 'src/app/models/materia';
 import { MateriasService } from 'src/app/services/materias.service';
 
@@ -21,12 +24,14 @@ export class BuscarMateriaComponent implements OnInit{
   constructor(
     private fb : FormBuilder,
     private materiaService : MateriasService,
-    private router: Router
+    private router: Router,
+    private dialog : MatDialog,
+    private _snackBar: MatSnackBar,
   ){}
 
   ngOnInit(): void {  
     this.formulario = this.fb.group({
-      valor : [null],
+      valor : [0],
       filtro : [null]
     })  
   }
@@ -44,17 +49,7 @@ export class BuscarMateriaComponent implements OnInit{
     if (this.formulario.controls["valor"].value == 2){
       this.listarTodos();
     }
-    if (this.formulario.controls["valor"].value == 3){
-      this.materia.nome = this.formulario.controls["filtro"].value;
-
-     /* this.materiaService.cadastrarMateria(this.materia).pipe(take(1)).subscribe({
-        next : user => {
-          console.log("Cadastrado com sucesso", user);
-          this.listarTodos();
-        },
-        error : err => console.log(err)
-      }) */
-    }
+   
   }
 
   removerTodos() : Materia[] {
@@ -72,13 +67,25 @@ export class BuscarMateriaComponent implements OnInit{
     })
   }
 
+  modalDeletar(id : number){
+    const dialogRef = this.dialog.open(ModalConfirmacaoComponent, {
+      data: "Tem certeza que deseja excluir a matéria?",
+    });
+  
+    dialogRef.afterClosed().subscribe((result : boolean) => {
+      if(result){
+        this.deletarMateria(id);      
+      }      
+    });
+  }
+
   deletarMateria(id : number){
     this.materiaService.deletarMateria(id).subscribe({
       next : mat =>  {
-        console.log("Deletado com sucesso")
+        this._snackBar.open("Deletado com sucesso", "", {duration : 3000})
         this.listarTodos()
       },
-      error : err => console.log(err)
+      error : err =>  this._snackBar.open(err, "", {duration : 3000})
     })
   }
   editarMateria(nome : string){

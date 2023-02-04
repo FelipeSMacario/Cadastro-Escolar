@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { take } from 'rxjs';
 import { Pessoa } from 'src/app/models/pessoa';
 import { PessoaService } from 'src/app/services/pessoa.service';
@@ -24,7 +25,9 @@ export class AtualizarProfessoresComponent  implements OnInit{
     private fb : FormBuilder,
     private alunoService : PessoaService,
     private activatedRoute : ActivatedRoute,
-    private sanitizer : DomSanitizer
+    private router: Router,
+    private sanitizer : DomSanitizer,
+    private _snackBar: MatSnackBar
     ){}
 
     ngOnInit(): void {    
@@ -36,8 +39,12 @@ export class AtualizarProfessoresComponent  implements OnInit{
 
     salvarAluno(){
       this.alunoService.updateAlunos(this.cargo, this.formulario.value).pipe(take(1)).subscribe({
-        next : user => console.log("Cadastrado com sucesso", user),
-        error : err => console.log(err)
+        next : async user => {
+          this._snackBar.open("Professor atualizado com sucesso", "", {duration : 5000});
+          await new Promise(f => setTimeout(f, 5000));
+          this.router.navigate(['professores/buscar'])
+        },
+        error : err => this._snackBar.open(err, "", {duration : 5000})
       })
     }
 
