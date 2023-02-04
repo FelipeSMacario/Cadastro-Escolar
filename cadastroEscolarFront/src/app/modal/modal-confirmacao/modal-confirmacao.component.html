@@ -1,7 +1,10 @@
-<div mat-dialog-content>
-    <p>{{data}}</p>
+<div class="divModal">
+  <div mat-dialog-content class="divTitulo">
+    <p class="titulo">{{ data }}</p>
   </div>
-  <div mat-dialog-actions>
-    <button mat-button (click)="onConfirm(true)">No Thanks</button>
-    <button mat-button (click)="onConfirm(true)">Ok</button>
+  <div mat-dialog-actions class="divBotao">
+    <button mat-button (click)="onConfirm(true)" class="botao">Confirmar</button>
+    <button mat-button (click)="onConfirm(false)" class="botao">Cancelar</button>
   </div>
+  
+</div>

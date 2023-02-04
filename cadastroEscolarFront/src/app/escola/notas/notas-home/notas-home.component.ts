@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ModalConfirmacaoComponent } from 'src/app/modal/modal-confirmacao/modal-confirmacao.component';
+import { ModalInformacaoComponent } from 'src/app/modal/modal-informacao/modal-informacao.component';
 import { QuadroHorariosService } from 'src/app/services/quadro-horarios.service';
 
 
@@ -26,7 +27,8 @@ ngOnInit(): void {
 constructor(
   private sanitizer : DomSanitizer,
   private dialog : MatDialog,
-  private _snackBar: MatSnackBar){
+  private _snackBar: MatSnackBar,
+  private snack : ModalInformacaoComponent){
 }
 
 abc(){
@@ -76,7 +78,7 @@ teste(){
 
   dialogRef.afterClosed().subscribe((result : boolean) => {
     if(result){
-      this._snackBar.open("Verdadeiro", "", {duration : 3000});
+      this.snack.openSnackBar("a", "b")
       
     }else {
       this._snackBar.open("Falso", "", {duration : 3000});

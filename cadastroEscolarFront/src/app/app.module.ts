@@ -32,6 +32,7 @@ import {MatDialogModule} from '@angular/material/dialog';
 import { NotasHomeComponent } from './escola/notas/notas-home/notas-home.component';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import { ModalConfirmacaoComponent } from './modal/modal-confirmacao/modal-confirmacao.component';
+import { ModalInformacaoComponent } from './modal/modal-informacao/modal-informacao.component';
 
 @NgModule({
   declarations: [
@@ -61,6 +62,7 @@ import { ModalConfirmacaoComponent } from './modal/modal-confirmacao/modal-confi
     CadastrarAulasComponent,
     NotasHomeComponent,
     ModalConfirmacaoComponent,
+    ModalInformacaoComponent,
     
   ],
   imports: [
@@ -73,7 +75,7 @@ import { ModalConfirmacaoComponent } from './modal/modal-confirmacao/modal-confi
     MatDialogModule,
     MatSnackBarModule
   ],
-  providers: [PessoaService],
+  providers: [PessoaService, ModalInformacaoComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
