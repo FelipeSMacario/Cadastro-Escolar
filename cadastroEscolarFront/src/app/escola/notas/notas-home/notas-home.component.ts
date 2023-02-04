@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { ModalConfirmacaoComponent } from 'src/app/modal/modal-confirmacao/modal-confirmacao.component';
 import { QuadroHorariosService } from 'src/app/services/quadro-horarios.service';
 
 
@@ -21,10 +24,10 @@ ngOnInit(): void {
 }
 
 constructor(
-  private sanitizer : DomSanitizer){
+  private sanitizer : DomSanitizer,
+  private dialog : MatDialog,
+  private _snackBar: MatSnackBar){
 }
-
-
 
 abc(){
   let data = this.imagem2;
@@ -65,5 +68,26 @@ teste3(event : Event){
   let valor  = this.base(event);
   console.log("Valor " +  this.imagem2)
 }
+
+teste(){
+  const dialogRef = this.dialog.open(ModalConfirmacaoComponent, {
+    data: "Tem certeza blablabla",
+  });
+
+  dialogRef.afterClosed().subscribe((result : boolean) => {
+    if(result){
+      this._snackBar.open("Verdadeiro", "", {duration : 3000});
+      
+    }else {
+      this._snackBar.open("Falso", "", {duration : 3000});
+    }
+    
+  });
+}
+
+
+ 
+
+
 
 }

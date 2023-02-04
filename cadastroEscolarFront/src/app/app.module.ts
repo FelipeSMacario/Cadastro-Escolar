@@ -28,8 +28,10 @@ import { AtualizarAulasComponent } from './escola/aula/atualizar-aulas/atualizar
 import { CadastrarAulasComponent } from './escola/aula/cadastrar-aulas/cadastrar-aulas.component';
 import { MateriaHomeComponent } from './escola/aula/materia-home/materia-home.component';
 import { CadastrarMateriasComponent } from './escola/materia/cadastrar-materia/cadastrar-materias.component';
-
+import {MatDialogModule} from '@angular/material/dialog';
 import { NotasHomeComponent } from './escola/notas/notas-home/notas-home.component';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
+import { ModalConfirmacaoComponent } from './modal/modal-confirmacao/modal-confirmacao.component';
 
 @NgModule({
   declarations: [
@@ -58,6 +60,8 @@ import { NotasHomeComponent } from './escola/notas/notas-home/notas-home.compone
     AtualizarAulasComponent,
     CadastrarAulasComponent,
     NotasHomeComponent,
+    ModalConfirmacaoComponent,
+    
   ],
   imports: [
     BrowserModule,
@@ -65,7 +69,9 @@ import { NotasHomeComponent } from './escola/notas/notas-home/notas-home.compone
     ReactiveFormsModule,
     FormsModule,
     BrowserAnimationsModule,
-    HttpClientModule
+    HttpClientModule,
+    MatDialogModule,
+    MatSnackBarModule
   ],
   providers: [PessoaService],
   bootstrap: [AppComponent]
