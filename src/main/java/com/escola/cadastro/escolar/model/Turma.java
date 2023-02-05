@@ -39,4 +39,6 @@ public class Turma {
     @JoinColumn(name="turma_id")
     @JsonIgnore
     private List<QuadroHorario> sala;
+
+
 }

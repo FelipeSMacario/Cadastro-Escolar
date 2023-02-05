@@ -33,6 +33,7 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import { ModalConfirmacaoComponent } from './modal/modal-confirmacao/modal-confirmacao.component';
 import { ModalInformacaoComponent } from './modal/modal-informacao/modal-informacao.component';
 import { HomeNotasComponent } from './escola/notas/home-notas/home-notas.component';
+import { CadastrarNotasComponent } from './escola/notas/cadastrar-notas/cadastrar-notas.component';
 
 @NgModule({
   declarations: [
@@ -63,6 +64,7 @@ import { HomeNotasComponent } from './escola/notas/home-notas/home-notas.compone
     ModalConfirmacaoComponent,
     ModalInformacaoComponent,
     HomeNotasComponent,
+    CadastrarNotasComponent,
     
   ],
   imports: [

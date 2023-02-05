@@ -37,6 +37,9 @@ public class Notas {
     @Column(name = "nota")
     private Double nota;
 
-    @Column(name = "semestre")
+    @Column(name = "trimestre")
     private Integer trimeste;
+
+    @ManyToOne
+    Turma turma;
 }

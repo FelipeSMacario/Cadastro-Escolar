@@ -12,7 +12,7 @@ import java.util.Optional;
 @Repository
 public interface NotasRepository  extends JpaRepository<Notas, Long> {
 
-    @Query(value = "SELECT * FROM sistemaescolar.nota WHERE professor_matricula = :idProfessor AND aluno_matricula = :idAluno AND materia_id = :idMateria AND semestre = :trimestre", nativeQuery = true)
+    @Query(value = "SELECT * FROM sistemaescolar.nota WHERE professor_matricula = :idProfessor AND aluno_matricula = :idAluno AND materia_id = :idMateria AND trimestre = :trimestre", nativeQuery = true)
     Optional<Notas> buscaNotas(@Param("idProfessor") Long idProfessor, @Param("idAluno") Long idAluno, @Param("idMateria") Long idMateria, @Param("trimestre") Integer trimestre);
 
 

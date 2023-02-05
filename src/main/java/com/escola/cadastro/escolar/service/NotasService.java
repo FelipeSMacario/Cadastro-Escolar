@@ -7,9 +7,11 @@ import com.escola.cadastro.escolar.dto.NotasTrimestreDTO;
 import com.escola.cadastro.escolar.model.Materia;
 import com.escola.cadastro.escolar.model.Notas;
 import com.escola.cadastro.escolar.model.Pessoa;
+import com.escola.cadastro.escolar.model.Turma;
 import com.escola.cadastro.escolar.repository.MateriaRepository;
 import com.escola.cadastro.escolar.repository.NotasRepository;
 import com.escola.cadastro.escolar.repository.PessoaRepository;
+import com.escola.cadastro.escolar.repository.TurmaRepository;
 import org.hibernate.service.spi.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,28 +32,29 @@ public class NotasService {
     @Autowired
     MateriaRepository materiaRepository;
 
+    @Autowired
+    TurmaRepository turmaRepository;
+
     public ResponseEntity cadastrarNotas(NotasDTO notasDTO) {
         Optional<Pessoa> professor = buscaPessoa(notasDTO.getMatriculaProfessor(), "Professor");
-
-        Optional<Pessoa> aluno = buscaPessoa(notasDTO.getMatriculaAluno(), "Aluno");
-
         Optional<Materia> materia = buscaMateria(notasDTO.getMateria());
+        Optional<Turma> turma = buscaTurma(notasDTO.getTurmaId());
 
-        if (validaTrimeste(professor.get().getMatricula(), aluno.get().getMatricula(), materia.get().getId(), buscaTrimeste(LocalDate.now())))
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Já existe notas cadastradas nesse trimeste para esse aluno nessa materia");
+        notasDTO.getMatriculasNotas().forEach(valor -> {
+            Optional<Pessoa> aluno = buscaPessoa(valor.getMatriculaAluno(), "Aluno");
+            validaTrimeste(professor.get().getMatricula(), aluno.get().getMatricula(), materia.get().getId(), buscaTrimeste());
+            Notas motas = Notas.builder()
+                    .nota(valor.getNotas())
+                    .professor(professor.get())
+                    .turma(turma.get())
+                    .aluno(aluno.get())
+                    .materia(materia.get())
+                    .dataInclusao(LocalDate.now())
+                    .trimeste(buscaTrimeste()).build();
+            notasRepository.save(motas);
+        });
 
-        notasRepository.save(
-                Notas.builder()
-                        .professor(professor.get())
-                        .aluno(aluno.get())
-                        .materia(materia.get())
-                        .nota(notasDTO.getNota())
-                        .dataInclusao(LocalDate.now())
-                        .trimeste(buscaTrimeste(LocalDate.now()))
-                        .build()
-        );
-
-        return ResponseEntity.status(HttpStatus.CREATED).body("notas cadastradas com sucesso");
+        return ResponseEntity.ok().body(notasDTO);
     }
 
     public ResponseEntity alterarNotas(NotasTrimestreDTO notasDTO) {
@@ -102,7 +105,8 @@ public class NotasService {
                 }).orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
-    private Integer buscaTrimeste(LocalDate datas) {
+    private Integer buscaTrimeste() {
+        LocalDate datas = LocalDate.now();
         if (datas.isAfter(LocalDate.of(LocalDate.now().getYear(), 1, 1)) && datas.isBefore(LocalDate.of(LocalDate.now().getYear(), 3, 31)))
             return 1;
 
@@ -119,9 +123,10 @@ public class NotasService {
 
     }
 
-    private boolean validaTrimeste(Long idProfessor, Long idAluno, Long idMateria, Integer semestre) {
+    private void validaTrimeste(Long idProfessor, Long idAluno, Long idMateria, Integer semestre) {
         Optional<Notas> notas = notasRepository.buscaNotas(idProfessor, idAluno, idMateria, semestre);
-        return notas.isPresent();
+        if (notas.isPresent())
+            throw new ServiceException("Ja existe nota cadastrada para essa matéria nesse semestre");
     }
 
     private Optional<Pessoa> buscaPessoa(Long matricula, String cargo) {
@@ -132,6 +137,11 @@ public class NotasService {
     private Optional<Materia> buscaMateria(String nome) {
         return Optional.ofNullable(materiaRepository.findByNome(nome))
                 .orElseThrow(() -> new ServiceException("Nenhuma materia identificado com essas carecterísticas"));
+    }
+
+    private Optional<Turma> buscaTurma(Long turmaId) {
+        return Optional.ofNullable(turmaRepository.findById(turmaId))
+                .orElseThrow(() -> new ServiceException("Nenhuma turma identificado com essas carecterísticas"));
     }
 
     private Optional<Notas> buscaNotas(NotasTrimestreDTO notasDTO) {
