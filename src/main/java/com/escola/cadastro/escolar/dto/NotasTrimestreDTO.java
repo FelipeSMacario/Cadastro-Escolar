@@ -8,10 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class NotasTrimestreDTO {
-    private Long matriculaProfessor;
-    private Long matriculaAluno;
-    private String materia;
+    private Long notaId;
     private Double nota;
-    private Integer trimeste;
 
 }

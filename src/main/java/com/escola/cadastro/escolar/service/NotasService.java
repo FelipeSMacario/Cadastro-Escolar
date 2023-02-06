@@ -12,6 +12,7 @@ import com.escola.cadastro.escolar.repository.MateriaRepository;
 import com.escola.cadastro.escolar.repository.NotasRepository;
 import com.escola.cadastro.escolar.repository.PessoaRepository;
 import com.escola.cadastro.escolar.repository.TurmaRepository;
+import org.aspectj.weaver.ast.Not;
 import org.hibernate.service.spi.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -42,7 +43,7 @@ public class NotasService {
 
         notasDTO.getMatriculasNotas().forEach(valor -> {
             Optional<Pessoa> aluno = buscaPessoa(valor.getMatriculaAluno(), "Aluno");
-            validaTrimeste(professor.get().getMatricula(), aluno.get().getMatricula(), materia.get().getId(), buscaTrimeste());
+            validaTrimeste(professor.get().getMatricula(), aluno.get().getMatricula(), materia.get().getId(), buscaTrimeste(), notasDTO.getTurmaId());
             Notas motas = Notas.builder()
                     .nota(valor.getNotas())
                     .professor(professor.get())
@@ -50,7 +51,7 @@ public class NotasService {
                     .aluno(aluno.get())
                     .materia(materia.get())
                     .dataInclusao(LocalDate.now())
-                    .trimeste(buscaTrimeste()).build();
+                    .trimestre(buscaTrimeste()).build();
             notasRepository.save(motas);
         });
 
@@ -58,7 +59,7 @@ public class NotasService {
     }
 
     public ResponseEntity alterarNotas(NotasTrimestreDTO notasDTO) {
-        Optional<Notas> notas = buscaNotas(notasDTO);
+        Optional<Notas> notas = notasRepository.findById(notasDTO.getNotaId());
 
         return notas
                 .map(record -> {
@@ -67,7 +68,8 @@ public class NotasService {
                             .professor(notas.get().getProfessor())
                             .aluno(notas.get().getAluno())
                             .materia(notas.get().getMateria())
-                            .trimeste(notas.get().getTrimeste())
+                            .trimestre(notas.get().getTrimestre())
+                                    .turma(notas.get().getTurma())
                             .dataInclusao(notas.get().getDataInclusao())
                             .nota(notasDTO.getNota())
                             .build());
@@ -76,7 +78,7 @@ public class NotasService {
     }
 
     public ResponseEntity deletarNotas(NotasTrimestreDTO notasDTO) {
-        Optional<Notas> notas = buscaNotas(notasDTO);
+        Optional<Notas> notas = notasRepository.findById(notasDTO.getNotaId());
 
         return notas
                 .map(record -> {
@@ -105,6 +107,22 @@ public class NotasService {
                 }).orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
+    public ResponseEntity buscaNotaPorId(Long id) {
+        Optional<Notas> notas = notasRepository.findById(id);
+        return notas
+                .map(record -> {
+                    return ResponseEntity.ok().body(notas);
+                })
+                .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+    }
+
+    public ResponseEntity buscaNotasPorTurmaAMateria(Long idTurma, Long idMateria) {
+        Optional<Turma> turma = buscaTurma(idTurma);
+        Optional<Materia> materia = buscaMateriaPorId(idMateria);
+
+        return ResponseEntity.ok().body(notasRepository.findByTurmaIdAndMateriaId(turma.get().getId(), materia.get().getId()));
+    }
+
     private Integer buscaTrimeste() {
         LocalDate datas = LocalDate.now();
         if (datas.isAfter(LocalDate.of(LocalDate.now().getYear(), 1, 1)) && datas.isBefore(LocalDate.of(LocalDate.now().getYear(), 3, 31)))
@@ -123,8 +141,8 @@ public class NotasService {
 
     }
 
-    private void validaTrimeste(Long idProfessor, Long idAluno, Long idMateria, Integer semestre) {
-        Optional<Notas> notas = notasRepository.buscaNotas(idProfessor, idAluno, idMateria, semestre);
+    private void validaTrimeste(Long idProfessor, Long idAluno, Long idMateria, Integer semestre, Long idTurma) {
+        Optional<Notas> notas = notasRepository.buscaNotas(idProfessor, idAluno, idMateria, semestre, idTurma);
         if (notas.isPresent())
             throw new ServiceException("Ja existe nota cadastrada para essa matéria nesse semestre");
     }
@@ -144,15 +162,9 @@ public class NotasService {
                 .orElseThrow(() -> new ServiceException("Nenhuma turma identificado com essas carecterísticas"));
     }
 
-    private Optional<Notas> buscaNotas(NotasTrimestreDTO notasDTO) {
-        Optional<Pessoa> professor = buscaPessoa(notasDTO.getMatriculaProfessor(), "Professor");
-
-        Optional<Pessoa> aluno = buscaPessoa(notasDTO.getMatriculaAluno(), "Aluno");
-
-        Optional<Materia> materia = buscaMateria(notasDTO.getMateria());
-
-        return Optional.ofNullable(notasRepository.buscaNotas(professor.get().getMatricula(), aluno.get().getMatricula(), materia.get().getId(), notasDTO.getTrimeste()))
-                .orElseThrow(() -> new ServiceException("Nenhuma nota identificada"));
+    private Optional<Materia> buscaMateriaPorId(Long id) {
+        return Optional.ofNullable(materiaRepository.findById(id))
+                .orElseThrow(() -> new ServiceException("Nenhuma materia identificado com essas carecterísticas"));
     }
 
 
