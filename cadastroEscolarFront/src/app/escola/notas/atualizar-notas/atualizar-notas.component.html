@@ -1,0 +1,60 @@
+<div class="container divForm">
+  <div class="formulario">
+    <div class="titulo">
+      <h1>Alteração de notas</h1>
+    </div>
+    <form class="form form-group" [formGroup]="formulario">
+      <div class="row">
+        <div class="col">
+          <label class="label labelNome">Turma</label>
+          <input
+            type="text"
+            class="form-control"
+            readonly
+            placeholder="Turma"
+            formControlName="turma"
+          />
+        </div>
+        <div class="col">
+          <label class="label labelNome">Matéria</label>
+          <input
+            type="text"
+            class="form-control"
+            readonly
+            placeholder="Matéria"
+            formControlName="materiaNome"
+          />
+        </div>
+      </div>
+      <div class="row"></div>
+      <div class="row">
+        <div class="col">
+          <label class="label labelNome">Aluno</label>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Aluno"
+            readonly
+            formControlName="matriculaNome"
+          />
+        </div>
+     
+      <div class="col">
+        <label class="label labelNome">Nota</label>
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Nota"
+          formControlName="nota"
+        />
+      </div>
+    </div>
+
+      <div class="divBotao">
+        <button type="button" class="btn botao" (click)="atualizarNotas()">
+          Alterar
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

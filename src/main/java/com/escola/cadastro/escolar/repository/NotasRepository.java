@@ -12,8 +12,8 @@ import java.util.Optional;
 @Repository
 public interface NotasRepository  extends JpaRepository<Notas, Long> {
 
-    @Query(value = "SELECT * FROM sistemaescolar.nota WHERE professor_matricula = :idProfessor AND aluno_matricula = :idAluno AND materia_id = :idMateria AND semestre = :trimestre", nativeQuery = true)
-    Optional<Notas> buscaNotas(@Param("idProfessor") Long idProfessor, @Param("idAluno") Long idAluno, @Param("idMateria") Long idMateria, @Param("trimestre") Integer trimestre);
+    @Query(value = "SELECT * FROM sistemaescolar.nota WHERE professor_matricula = :idProfessor AND aluno_matricula = :idAluno AND materia_id = :idMateria AND trimestre = :trimestre AND turma_id = :turmaId", nativeQuery = true)
+    Optional<Notas> buscaNotas(@Param("idProfessor") Long idProfessor, @Param("idAluno") Long idAluno, @Param("idMateria") Long idMateria, @Param("trimestre") Integer trimestre, @Param("turmaId") Long turmaId);
 
 
     @Query(value = "SELECT nt.* FROM sistemaescolar.nota nt JOIN  sistemaescolar.pessoa pe ON nt.professor_matricula = pe.matricula " +
@@ -23,4 +23,6 @@ public interface NotasRepository  extends JpaRepository<Notas, Long> {
     @Query(value = "SELECT nt.* FROM sistemaescolar.nota nt JOIN  sistemaescolar.pessoa pe ON nt.aluno_matricula = pe.matricula " +
             "WHERE nt.aluno_matricula = :idPessoa AND pe.status = 'Ativo' AND nt.semestre = :trimestre ", nativeQuery = true)
     List<Notas> buscaNotasAluno(@Param("idPessoa") Long idPessoa, @Param("trimestre") Integer trimestre);
+
+    List<Notas> findByTurmaIdAndMateriaId(Long id, Long id1);
 }

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = "notas")
+@CrossOrigin(origins = "http://localhost:4200")
 public class NotasController implements NotasApi {
 
     @Autowired
@@ -34,5 +35,14 @@ public class NotasController implements NotasApi {
     @GetMapping(value = "/listar")
     public ResponseEntity listarNotas(@RequestBody NotasPessoaDTO notasPessoaDTO){
         return notasService.listarNotas(notasPessoaDTO);
+    }
+
+    @GetMapping(value = "buscar/{id}")
+    public ResponseEntity buscarNota(@PathVariable Long id){
+        return notasService.buscaNotaPorId(id);
+    }
+    @GetMapping(value = "buscar/{idTurma}/{idMateria}")
+    public ResponseEntity buscarNotaPorTurma(@PathVariable Long idTurma, @PathVariable Long idMateria){
+        return notasService.buscaNotasPorTurmaAMateria(idTurma, idMateria);
     }
 }

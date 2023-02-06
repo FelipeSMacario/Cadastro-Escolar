@@ -18,7 +18,6 @@ import java.time.LocalDate;
 public class Notas {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonIgnore
     private Long id;
 
     @ManyToOne
@@ -37,6 +36,9 @@ public class Notas {
     @Column(name = "nota")
     private Double nota;
 
-    @Column(name = "semestre")
-    private Integer trimeste;
+    @Column(name = "trimestre")
+    private Integer trimestre;
+
+    @ManyToOne
+    Turma turma;
 }

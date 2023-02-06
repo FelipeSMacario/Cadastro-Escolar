@@ -33,6 +33,10 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import { ModalConfirmacaoComponent } from './modal/modal-confirmacao/modal-confirmacao.component';
 import { ModalInformacaoComponent } from './modal/modal-informacao/modal-informacao.component';
 import { HomeNotasComponent } from './escola/notas/home-notas/home-notas.component';
+import { CadastrarNotasComponent } from './escola/notas/cadastrar-notas/cadastrar-notas.component';
+import { BuscarNotasComponent } from './escola/notas/buscar-notas/buscar-notas.component';
+import {MatIconModule} from '@angular/material/icon';
+import { AtualizarNotasComponent } from './escola/notas/atualizar-notas/atualizar-notas.component';
 
 @NgModule({
   declarations: [
@@ -63,6 +67,9 @@ import { HomeNotasComponent } from './escola/notas/home-notas/home-notas.compone
     ModalConfirmacaoComponent,
     ModalInformacaoComponent,
     HomeNotasComponent,
+    CadastrarNotasComponent,
+    BuscarNotasComponent,
+    AtualizarNotasComponent,
     
   ],
   imports: [
@@ -73,7 +80,8 @@ import { HomeNotasComponent } from './escola/notas/home-notas/home-notas.compone
     BrowserAnimationsModule,
     HttpClientModule,
     MatDialogModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatIconModule
   ],
   providers: [PessoaService, ModalInformacaoComponent],
   bootstrap: [AppComponent]

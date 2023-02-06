@@ -1,0 +1,77 @@
+<div class="container divForm">
+    <div class="formulario">
+      <div class="titulo">
+        <h1>Buscar notas</h1>
+      </div>
+      <form class="form form-group" [formGroup]="formulario">
+
+        <div class="row">
+            <div class="col">
+                <label class="label labelNome">Turma</label>
+                <select class="form-select" aria-label="Default select example" formControlName = "turma">
+                  <option value="null" selected disabled>Selecione uma turma</option>
+                  <option *ngFor="let tur of turmas" [ngValue]="tur.id">{{ tur.numero }}</option>
+                </select>
+              </div>
+            <div class="col">
+              <label class="label labelNome">Matéria</label>
+              <select
+                class="form-select"
+                aria-label="Default select example"
+                formControlName="materia"
+              >
+                <option value="null" selected disabled>
+                  Selecione uma matéria
+                </option>
+                <option *ngFor="let mat of materias" [ngValue]="mat.id">
+                  {{ mat.nome }}
+                </option>
+              </select>
+            </div>
+          
+        </div>
+        <div class="row">
+            <div class="col">
+                <label class="label labelNome">Nome do aluno</label>
+                <input type="text" class="form-control" placeholder="Nome do aluno" formControlName = "nome" />
+            </div>
+          
+        </div>
+  
+        <div *ngIf="notas; else loading">        
+          <div class="divTabela">
+            <table class="table flex tabela">
+              <thead>
+                <tr>
+                  <th scope="col">Aluno</th>
+                  <th scope="col">Nota</th>
+                  <th>Gerenciamento</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let not of notas" >
+                    <td>{{not.aluno.nome}}</td>
+                    <td>{{not.nota}}</td>
+                    <td>
+                        <div class="btn">
+                            <mat-icon  (click)="atualizar(not.id)">edit</mat-icon>
+                        </div>
+                       
+                    </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        
+        <ng-template #loading let-user>
+          
+        </ng-template>  
+  
+        <div class="divBotao">
+          <button type="button" class="btn botao" (click)="buscarNotas()">Buscar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  

@@ -20,7 +20,10 @@ import { AtualizarProfessoresComponent } from './professores/atualizar-professor
 import { BuscarProfessoresComponent } from './professores/buscar-professores/buscar-professores.component';
 import { CadastroProfessoresComponent } from './professores/cadastro-professores/cadastro-professores.component';
 import { HomeProfessoresComponent } from './professores/home-professores/home-professores.component';
+import { CadastrarNotasComponent } from './escola/notas/cadastrar-notas/cadastrar-notas.component';
 import { HomeNotasComponent } from './escola/notas/home-notas/home-notas.component';
+import { BuscarNotasComponent } from './escola/notas/buscar-notas/buscar-notas.component';
+import { AtualizarNotasComponent } from './escola/notas/atualizar-notas/atualizar-notas.component';
 
 const routes: Routes = [
   {path: "", component: HomeComponent},
@@ -43,7 +46,10 @@ const routes: Routes = [
   {path: "escola/aulas/buscar", component: BuscarAulasComponent},
   {path: "aula/atualizar/:id", component: AtualizarAulasComponent},
   {path: "escola/aulas/cadastrar", component: CadastrarAulasComponent},
-  {path: "escola/notas", component: HomeNotasComponent}
+  {path: "escola/notas", component: HomeNotasComponent},
+  {path: "escola/notas/cadastrar", component: CadastrarNotasComponent},
+  {path: "escola/notas/buscar", component: BuscarNotasComponent},
+  {path: "notas/atualizar/:id", component: AtualizarNotasComponent}
 ];
 
 @NgModule({

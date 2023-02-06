@@ -1,0 +1,81 @@
+<div class="container divForm">
+  <div class="formulario">
+    <div class="titulo">
+      <h1>Cadastro de notas</h1>
+    </div>
+    <form class="form form-group" [formGroup]="formulario">
+      <div class="row">
+        <div class="col">
+          <div class="col">
+            <label class="label labelNome">Matéria</label>
+            <select
+              class="form-select"
+              aria-label="Default select example"
+              formControlName="materia"
+              (change)="buscaProfessor(this.formulario.value.materia)"
+            >
+              <option value="null" selected disabled>
+                Selecione uma matéria
+              </option>
+              <option *ngFor="let mat of materias" [ngValue]="mat.id">
+                {{ mat.nome }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="col">
+          <label class="label labelNome">Professor</label>
+          <input
+            type="text"
+            readonly
+            class="form-control"
+            placeholder="Professor"
+            formControlName="professor"
+          />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <label class="label labelNome">Turma</label>
+          <select class="form-select" aria-label="Default select example" formControlName = "turma" (change)="buscaAlunos(this.formulario.value.turma)">
+            <option value="null" selected disabled>Selecione uma turma</option>
+            <option *ngFor="let tur of turmas" [ngValue]="tur.id">{{ tur.numero }}</option>
+          </select>
+        </div>
+      </div>
+
+      <div *ngIf="alunos; else loading">        
+        <div class="divTabela">
+          <table class="table flex tabela" formArrayName="matriculasNotas">
+            <thead>
+              <tr>
+                <th scope="col">Aluno</th>
+                <th scope="col">Nota</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of matriculasNotas.controls; let i = index" [formGroupName]="i">
+                  <td>
+                    <input class="input" type="text" readonly formControlName="nome"/>
+                  </td>
+                  <td>
+                    <input type="number" formControlName="notas" />
+                  </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      
+      <ng-template #loading let-user>
+        
+      </ng-template>  
+
+      <div class="divBotao">
+        <button type="button" class="btn botao" (click)="salvarNotas()">
+          Cadastrar
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
