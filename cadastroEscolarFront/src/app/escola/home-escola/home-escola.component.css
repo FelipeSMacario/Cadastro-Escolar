@@ -1,22 +1,23 @@
 .divContainer{
-    padding: 1%;
+    padding: 5%;
+}
+.texto{
+    text-align: center;
+    font-size: 15px;
 }
 
-img, svg {
-    vertical-align: middle;
-    height: 40%;
-}
 .cards{
     background-color: #27376a;
     color: white;
+    width: 100%;
 }
 
 .colHover:hover{
     background-color: #ADD8E6;
     transition: 1s;
 }
-.altura{
-    height: 25%;
-    width: 20%;
-    margin-right: 200px;
+.imagem{
+    height: 200px;
+    width: 100%;
 }
+

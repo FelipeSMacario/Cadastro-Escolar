@@ -57,6 +57,7 @@ public class Pessoa {
     @ManyToMany(mappedBy = "alunos")
     private List<Turma> turmas;
 
-
+    @Column(name = "ano")
+    private int ano;
 
 }

@@ -19,10 +19,10 @@
    
 }
 .divBotao{
-    padding: 15px;
+    padding: 15px 40px 15px 40px;
     display: flex;
     justify-content: space-between;
-    width: 250px;
+    width: 100%;
 }
 .divTitulo{
     display: flex;

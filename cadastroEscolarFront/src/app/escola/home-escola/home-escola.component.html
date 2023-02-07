@@ -1,40 +1,40 @@
 <div class="container divContainer">
-    <div class="row row-cols-1 row-cols-md-3 g-4">
-        <div class="col colHover altura" [routerLink]="['aulas']">
-          <div class="card h-100 btn">
-            <img src="../../../assets/images/aulas.png" class="card-img-top" alt="...">
-            <div class="card-body cards">
-              <h5 class="card-title texto">Aulas</h5>
-              <p class="card-text">Gerencimaneto de aulas</p>
-            </div>
-          </div>
-        </div>
-        <div class="col colHover altura">
-          <div class="card h-100 btn">
-            <img src="../../../assets/images/notas.png" class="card-img-top" alt="..." [routerLink]="['notas']">
-            <div class="card-body cards">
-              <h5 class="card-title texto">Notas</h5>
-              <p class="card-text">Gerencimaneto e visualização de aulas</p>
-            </div>
-          </div>
-        </div>
-        <div class="col colHover altura" [routerLink]="['materia']">
-          <div class="card h-100 btn">
-            <img src="../../../assets/images/materia.jpg" class="card-img-top" alt="...">
-            <div class="card-body cards">
-              <h5 class="card-title texto">Matérias escolares</h5>
-              <p class="card-text">Gerencimaneto de matérias</p>
-            </div>
-          </div>
-        </div>
-        <div class="col colHover altura">
-          <div class="card h-100 btn">
-            <img src="../../../assets/images/turma.png" class="card-img-top" alt="...">
-            <div class="card-body cards">
-              <h5 class="card-title texto">Turmas escolares</h5>
-              <p class="card-text">Gerencimaneto de turmas e alunos</p>
-            </div>
-          </div>
+  <div class="row row-cols-1 row-cols-md-3 g-4">
+    <div class="col colHover" [routerLink]="['aulas']">
+      <div class="card btn divCard">
+        <img src="../../../assets/images/aulas.png" class="card-img-top imagem" alt="...">
+        <div class="card-body cards">
+          <h5 class="card-title texto">Aulas</h5>
+              <p class="card-text texto">Gerencimaneto de aulas</p>
         </div>
       </div>
+    </div>
+    <div class="col colHover" [routerLink]="['notas']">
+      <div class="card btn divCard">
+        <img src="../../../assets/images/notas.png" class="card-img-top imagem" alt="..." [routerLink]="['notas']">
+        <div class="card-body cards">
+          <h5 class="card-title texto">Notas</h5>
+              <p class="card-text texto">Gerencimaneto e visualização de aulas</p>
+        </div>
+      </div>
+    </div>
+    <div class="col colHover" [routerLink]="['materia']">
+      <div class="card btn divCard">
+        <img src="../../../assets/images/materia.jpg" class="card-img-top imagem" alt="...">
+        <div class="card-body cards">
+          <h5 class="card-title texto">Matérias escolares</h5>
+              <p class="card-text texto">Gerencimaneto de matérias</p>
+        </div>
+      </div>
+    </div>
+    <div class="col colHover" [routerLink]="['turmas']">
+      <div class="card btn divCard">
+        <img src="../../../assets/images/turma.png" class="card-img-top imagem" alt="...">
+        <div class="card-body cards">
+          <h5 class="card-title texto">Turmas escolares</h5>
+              <p class="card-text texto">Gerencimaneto de turmas e alunos</p>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
