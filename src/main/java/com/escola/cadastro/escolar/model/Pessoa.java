@@ -36,6 +36,9 @@ public class Pessoa {
     @ApiModelProperty(value = "Sobrenome da pessoa", example = "Da Sila", required = true, position = 3)
     private String sobreNome;
 
+    @Column(name = "email")
+    private String email;
+
     @Column(name = "dataNascimento")
     @ApiModelProperty(value = "Data de nascimento da pessoa", example = "2020-12-25", required = true, position = 4)
     private LocalDate dataNascimento;
@@ -58,6 +61,6 @@ public class Pessoa {
     private List<Turma> turmas;
 
     @Column(name = "ano")
-    private int ano;
+    private Integer ano;
 
 }

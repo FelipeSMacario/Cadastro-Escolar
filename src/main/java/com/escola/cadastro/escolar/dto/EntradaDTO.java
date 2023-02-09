@@ -14,6 +14,8 @@ public class EntradaDTO {
     private String cpf;
     private String nome;
     private String sobreNome;
+
+    private String email;
     private LocalDate dataNascimento;
 
     private String urlFoto;

@@ -1,4 +1,4 @@
-package com.escola.cadastro.escolar.swagger;
+package com.escola.cadastro.escolar.configs.swagger;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

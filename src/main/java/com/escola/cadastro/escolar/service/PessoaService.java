@@ -1,11 +1,15 @@
 package com.escola.cadastro.escolar.service;
 
 import com.escola.cadastro.escolar.dto.EntradaDTO;
+import com.escola.cadastro.escolar.model.Login;
 import com.escola.cadastro.escolar.model.Pessoa;
+import com.escola.cadastro.escolar.repository.LoginRepository;
 import com.escola.cadastro.escolar.repository.PessoaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -15,6 +19,12 @@ import java.util.Optional;
 public class PessoaService {
     @Autowired
     PessoaRepository pessoaRepository;
+
+    @Autowired
+    PasswordEncoder encoder;
+
+    @Autowired
+    LoginRepository loginRepository;
 
     public ResponseEntity listar(String cargo) {
         return ResponseEntity.status(HttpStatus.OK).body(pessoaRepository.findByCargoAndStatus(cargo, "Ativo"));
@@ -27,16 +37,27 @@ public class PessoaService {
     }
 
     public ResponseEntity cadastrar(Pessoa pessoa, String cargo) {
+        int anoFiltrado = (null == pessoa.getAno()) ? 0 : pessoa.getAno();
         Pessoa pessoa1 = Pessoa.builder()
                 .cpf(pessoa.getCpf())
                 .nome(pessoa.getNome())
                 .sobreNome(pessoa.getSobreNome())
+                .email(pessoa.getEmail())
                 .dataNascimento(pessoa.getDataNascimento())
                 .urlFoto(pessoa.getUrlFoto())
                 .dataCadastro(LocalDate.now())
                 .cargo(cargo)
+                .ano(anoFiltrado)
                 .status("Ativo").build();
         pessoaRepository.save(pessoa1);
+
+        Login login = Login.builder()
+                .usuario(pessoa1.getEmail())
+                .senha(encoder.encode(pessoa1.getCpf()))
+                .pessoa(pessoa1)
+                .build();
+        loginRepository.save(login);
+
         return ResponseEntity.status(HttpStatus.CREATED).body(pessoa1);
     }
 
@@ -50,6 +71,7 @@ public class PessoaService {
                             .cpf(entradaDTO.getCpf())
                             .nome(entradaDTO.getNome())
                             .sobreNome(entradaDTO.getSobreNome())
+                                    .email(entradaDTO.getEmail())
                             .dataNascimento(entradaDTO.getDataNascimento())
                             .dataCadastro(pessoa.get().getDataCadastro())
                             .status(entradaDTO.getStatus())
@@ -61,6 +83,7 @@ public class PessoaService {
 
     public ResponseEntity buscarPorNome(String nome, String cargo) {
         return ResponseEntity.status(HttpStatus.OK).body(pessoaRepository.findByNomeAndCargoAndStatus(nome, cargo, "Ativo"));
-
     }
+
+
 }

@@ -9,9 +9,11 @@
 .cards{
     background-color: #27376a;
     color: white;
-    width: 100%;
+    width: 100%
 }
-
+.divCard{
+    padding: 50px;
+}
 .colHover:hover{
     background-color: #ADD8E6;
     transition: 1s;
@@ -19,5 +21,8 @@
 .imagem{
     height: 200px;
     width: 100%;
+}
+.colHover{
+    width: 50%;
 }
 
