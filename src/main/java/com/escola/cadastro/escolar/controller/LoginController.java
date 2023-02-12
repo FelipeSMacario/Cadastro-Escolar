@@ -1,9 +1,9 @@
 package com.escola.cadastro.escolar.controller;
 
 import com.escola.cadastro.escolar.dto.LoginEntradaDTO;
+import com.escola.cadastro.escolar.model.response.AuthenticationResponse;
 import com.escola.cadastro.escolar.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -13,7 +13,7 @@ public class LoginController {
     @Autowired
     LoginService loginService;
     @PostMapping(value = "/logar")
-    public ResponseEntity logar(@RequestBody LoginEntradaDTO entradaDTO){
+    public AuthenticationResponse logar(@RequestBody LoginEntradaDTO entradaDTO){
         return loginService.loganUsuario(entradaDTO);
     }
 }

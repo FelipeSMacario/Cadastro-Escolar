@@ -38,7 +38,7 @@ public class Login implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return this.roles;
+        return null;
     }
     @Override
     public String getPassword() {
