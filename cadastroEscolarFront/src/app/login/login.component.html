@@ -1,38 +1,19 @@
-<div  class="h-100 d-flex align-items-center justify-content-center divContainer">
-    
-  <div class="formulario">
-    <div class="titulo">
-        <h1>Login</h1>
-    </div>
-    <form class="form form-group" [formGroup]="formulario">
-      <div class="row campo">
-          <label class="label labelNome" formControlName = "login">Login</label>
-          <input
-            type="text"
-            class="form-control "
-            placeholder="login"
-            formControlName="login"
-          />
-         
-        </div>
-        <div class="row campo">
-            <label class="label labelNome" formControlName = "senha">Senha</label>
-            <input
-              type="password"
-              class="form-control "
-              placeholder="Senha"
-              formControlName="dataNascimento"
-            />
-        </div>
-        
-        <span *ngIf="formulario.invalid">
-          <div class="alert alert-danger" role="alert">
-           O campo deve ter no mínomo 3 caracteres.
-          </div>
-        </span>
-      <div class="divBotao">
-        <button class="btn botao">Cadastrar</button>
+<div class="container">
+  <form [formGroup]="formulario">
+    <div class="row">
+      <div class="col">
+        <label>Usuário</label>
+        <input type="text" class="form-control" placeholder="CPF" formControlName = "usuario" />
       </div>
-    </form>
-  </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <label class="label labelNome">Data Nascimento</label>
+          <input type="password" class="form-control" placeholder="Data Nascimento" formControlName = "senha"/>
+        </div>
+    </div>
+    <div class="row">
+      <button (click)="logar()">teste</button>
+    </div>
+  </form>
 </div>

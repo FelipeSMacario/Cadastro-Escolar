@@ -8,6 +8,7 @@ import io.jsonwebtoken.security.Keys;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
 import java.security.Key;
 import java.util.Date;
@@ -39,7 +40,7 @@ public class JWTService {
                 .setClaims(extractClaims)
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 600_000))
+                .setExpiration(new Date(System.currentTimeMillis() + 1800000))
                 .signWith(getSignInKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
@@ -69,5 +70,19 @@ public class JWTService {
     private Key getSignInKey(){
         byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);
         return Keys.hmacShaKeyFor(keyBytes);
+    }
+
+    public void configureCors(HttpServletResponse response){
+        if (response.getHeader("Access-Control-Allow-Origin") == null)
+            response.addHeader("Access-Control-Allow-Origin", "*");
+
+        if  (response.getHeader("Access-Control-Allow-Headers") == null)
+            response.addHeader("Access-Control-Allow-Headers", "*");
+
+        if  (response.getHeader("Access-Control-Request-Headers") == null)
+            response.addHeader("Access-Control-Request-Headers", "*");
+
+        if  (response.getHeader("Access-Control-Allow-Methods") == null)
+            response.addHeader("Access-Control-Allow-Methods", "*");
     }
 }
