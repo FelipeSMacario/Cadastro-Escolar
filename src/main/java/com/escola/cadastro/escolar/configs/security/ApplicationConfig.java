@@ -16,7 +16,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import javax.transaction.Transactional;
 
 @Configuration
-@Transactional
 public class ApplicationConfig {
 
     @Autowired
