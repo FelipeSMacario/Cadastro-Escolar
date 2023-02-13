@@ -37,6 +37,7 @@ import { CadastrarNotasComponent } from './escola/notas/cadastrar-notas/cadastra
 import { BuscarNotasComponent } from './escola/notas/buscar-notas/buscar-notas.component';
 import {MatIconModule} from '@angular/material/icon';
 import { AtualizarNotasComponent } from './escola/notas/atualizar-notas/atualizar-notas.component';
+import {MatMenuModule} from '@angular/material/menu';
 
 @NgModule({
   declarations: [
@@ -81,7 +82,8 @@ import { AtualizarNotasComponent } from './escola/notas/atualizar-notas/atualiza
     HttpClientModule,
     MatDialogModule,
     MatSnackBarModule,
-    MatIconModule
+    MatIconModule,
+    MatMenuModule
   ],
   providers: [PessoaService, ModalInformacaoComponent],
   bootstrap: [AppComponent]

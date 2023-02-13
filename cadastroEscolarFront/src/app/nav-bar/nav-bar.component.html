@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg nav">
+<nav *ngIf="mostrarMenu == true" class="navbar navbar-expand-lg nav">
     <div class="container">
       <div class="container-fluid">
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -13,8 +13,19 @@
             </li>
             
           </ul>
-          <div class="d-flex" role="search">
-            <button class="btn login" type="button" [routerLink]="['login']">LOGIN</button>
+          <div class="btn-group-vertical d-flex btn img">
+            <button class="botao" mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+              <img src="../../assets/images/meu icone2.png" alt="">
+             </button>
+             <mat-menu #menu="matMenu">
+              <button mat-menu-item>
+                <mat-icon>not_interested</mat-icon>
+                <span (click)="logout()">Logout</span>
+              </button>
+            </mat-menu>
+            <div class="divLabel">
+            <label class="label">{{pessoa.nome}} {{pessoa.sobreNome}}</label>
+            </div>
           </div>
           
         </div>

@@ -33,7 +33,9 @@ public class LoginService {
 
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder()
-                .token(jwtToken).build();
+                .pessoa(user.getPessoa())
+                .token(jwtToken)
+                .build();
     }
 
 }

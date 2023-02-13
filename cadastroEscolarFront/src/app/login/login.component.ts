@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { LoginService } from '../services/login.service';
 
 @Component({
@@ -13,6 +14,7 @@ export class LoginComponent implements OnInit{
 
   constructor(
     private fb : FormBuilder,
+    private router: Router,
     private loginService : LoginService
   ) { }
 
@@ -26,9 +28,19 @@ export class LoginComponent implements OnInit{
 
   logar(){
     this.loginService.logar(this.formulario.value).subscribe({
-      next : log => console.log(log),
+      next : log => {
+        localStorage.setItem("token", log.token)
+        localStorage.setItem("pessoa", JSON.stringify(log.pessoa))
+        localStorage.setItem("mostrarMenu", JSON.stringify(true))
+        this.router.navigate(['/']).then(() => window.location.reload())
+      },
       error : err => console.log(err)
     })
+  }
+
+  teste(){
+    console.log(localStorage.getItem('mostrarMenu'))
+    console.log(localStorage.getItem('pessoa'))
   }
 
   
