@@ -1,40 +1,48 @@
-.divContainer{
-    min-height: 84vh;
-    background-color: white;
+.divForm{
+    background-image: url(../../assets/images/fundo.jpg);
+    width: 100%;
+    height: 100%;
+    display: flex;
     justify-content: center;
+    background-size: 100% 100%;
+    
 }
-
 .formulario{
-    padding: 35px;
-    min-height:400px;
-    width: 500px;
-    background-color: #27376a;
-    padding: 20px;
-    border-radius: 20px;
+    height: 100%;
+    padding: 10%;
+}
+.form{
+    width: 85%;
+    border-radius: 40px;
+    border: 5px white solid;
+    background-color: #27376a;    
+}
+.divTitulo{
+    padding: 40px;
+    text-align: center;
 }
 .titulo{
-    text-align: center;
     color: white;
+    font-size: 25px;
 }
-.botao{
-    background-color: #27376a;
-    color: white;
-    border: 1px solid white;
-    width: 100%;
-    margin-top: 40px;
-}
-
-.botao:hover{
-    background-color: white;
-    color: #27376a;
-}
-
-.campo{
-    margin-top: 20px;
-}
-
 .labelNome{
     color: white;
-    font-size: 19px;
-    margin-bottom: 5px;
+    font-size: 20px;
+}
+.divRow{
+    padding: 2%;
+}
+.divBotao{
+    padding: 3% 4% 3% 4%;
+}
+.botao{
+    background-color: white;
+    color: #27376a;
+    font-size: 25px;
+}
+.botao:hover{
+    background-color: #27376a;
+    color: white;
+    border: 1px white solid;
+    transition: 0.5s;
 }

@@ -38,10 +38,6 @@ export class LoginComponent implements OnInit{
     })
   }
 
-  teste(){
-    console.log(localStorage.getItem('mostrarMenu'))
-    console.log(localStorage.getItem('pessoa'))
-  }
 
   
 

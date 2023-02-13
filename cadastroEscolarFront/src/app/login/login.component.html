@@ -1,20 +1,31 @@
-<div class="container">
-  <form [formGroup]="formulario">
-    <div class="row">
-      <div class="col">
-        <label>Usuário</label>
-        <input type="text" class="form-control" placeholder="CPF" formControlName = "usuario" />
-      </div>
-    </div>
-    <div class="row">
-      <div class="col">
-        <label class="label labelNome">Data Nascimento</label>
-          <input type="password" class="form-control" placeholder="Data Nascimento" formControlName = "senha"/>
+<div class="divForm">
+  <div class="formulario container">
+    <form class="form " [formGroup]="formulario">
+      <div class="row">
+        <div class="col">
+          <div class="divTitulo">
+            <label class="titulo">LOGIN</label>
+          </div>        
         </div>
-    </div>
-    <div class="row">
-      <button (click)="logar()">teste</button>
-      <button (click)="teste()">ABC</button>
-    </div>
-  </form>
+      </div>
+      <div class="row divRow">
+        <div class="col">
+          <label class="label labelNome">Usuário</label>
+          <input type="text" class="form-control" placeholder="Usuário" formControlName = "usuario" />
+        </div>
+      </div>
+
+      <div class="row divRow">
+        <div class="col">
+          <label class="label labelNome">Senha</label>
+          <input type="text" class="form-control" placeholder="Senha" formControlName = "senha" />
+        </div>
+      </div>
+
+      <div class="row divBotao">
+        <button class="btn botao" (click)="logar()">Logar</button>
+      </div>
+    </form>
+  </div>
+
 </div>
