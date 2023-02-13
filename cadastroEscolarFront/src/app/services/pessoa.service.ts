@@ -17,11 +17,11 @@ export class PessoaService {
   }
 
   findAlunosByNome(cargo : string, nome : string){
-    return this.httpClient.get<Pessoa[]>(`${this.url}/${cargo}/buscar/porNome/${nome}`);
+    return this.httpClient.get<Pessoa[]>(`${this.url}${cargo}/buscar/porNome/${nome}`);
   }
 
   findAlunosByMatricula(cargo : string, matricula : number) : Observable<Pessoa>{
-    return this.httpClient.get<Pessoa>(`${this.url}/${cargo}/buscar/${matricula}`);
+    return this.httpClient.get<Pessoa>(`${this.url}${cargo}/buscar/${matricula}`);
   }
 
   salvarAluno(cargo : string, pessoa : Pessoa) : Observable<Object> {
