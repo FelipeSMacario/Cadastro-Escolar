@@ -23,8 +23,7 @@ export class CadastroProfessoresComponent  implements OnInit{
     private fb : FormBuilder,
     private alunoService : PessoaService,
     private sanitizer : DomSanitizer,
-    private _snackBar: MatSnackBar){
-    
+    private _snackBar: MatSnackBar){    
   }
 
   ngOnInit(): void {
@@ -37,7 +36,8 @@ export class CadastroProfessoresComponent  implements OnInit{
       dataNascimento : [null],
       nome : [null],
       sobreNome : [null],
-      urlFoto : [null]
+      urlFoto : [null],
+      email : [null]
     })
   }
 

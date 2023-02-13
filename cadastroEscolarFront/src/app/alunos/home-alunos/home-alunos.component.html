@@ -1,6 +1,6 @@
 <div class="container divContainer">
   <div class="row row-cols-1 row-cols-md-3 g-4">
-    <div class="col btn colHover" [routerLink]="['buscar']">
+    <div class="col btn colHover" [routerLink]="['buscar']"  *ngIf="pessoa.cargo === 'Professor' || pessoa.cargo === 'Admin'">
       <div class="card h-100">
         <img src="../../../assets/images/alunos buscar.jpg">
         <div class="card-body">
@@ -10,7 +10,7 @@
         </div>
       </div>
     </div>
-    <div class="col btn colHover" [routerLink]="['cadastrar']">
+    <div class="col btn colHover" [routerLink]="['cadastrar']" *ngIf="pessoa.cargo === 'Professor' || pessoa.cargo === 'Admin'">
       <div class="card h-100">
         <img src="../../../assets/images/alunos novo.jpg" class="card-img-top imagem">
         <div class="card-body">
@@ -20,7 +20,7 @@
         </div>
       </div>
     </div>
-    <div class="col btn colHover" [routerLink]="['meusDados']">
+    <div class="col btn colHover" [routerLink]="['meusDados']" *ngIf="pessoa.cargo === 'Aluno'">
       <div class="card h-100">
         <img src="../../../assets/images/alunos novo.jpg" class="card-img-top imagem">
         <div class="card-body">

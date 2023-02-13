@@ -5,7 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HomeComponent } from './home/home.component';
 import { FooterComponent } from './footer/footer.component';
 import { HomeAlunosComponent } from './alunos/home-alunos/home-alunos.component';
@@ -38,6 +38,7 @@ import { BuscarNotasComponent } from './escola/notas/buscar-notas/buscar-notas.c
 import {MatIconModule} from '@angular/material/icon';
 import { AtualizarNotasComponent } from './escola/notas/atualizar-notas/atualizar-notas.component';
 import {MatMenuModule} from '@angular/material/menu';
+import { TokenInterceptorService } from './services/token-interceptor.service';
 
 @NgModule({
   declarations: [
@@ -85,7 +86,11 @@ import {MatMenuModule} from '@angular/material/menu';
     MatIconModule,
     MatMenuModule
   ],
-  providers: [PessoaService, ModalInformacaoComponent],
+  providers: [PessoaService, ModalInformacaoComponent,  {
+    provide: HTTP_INTERCEPTORS,
+    useClass: TokenInterceptorService,
+    multi: true,
+  },],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

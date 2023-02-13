@@ -16,6 +16,7 @@ export class LoginService {
     ) { }
 
     logar(login : LoginDTO) : Observable<LoginResponse>{
+      
       return this.httpClient.post<LoginResponse>(this.url + "/logar", login);
     }
 }

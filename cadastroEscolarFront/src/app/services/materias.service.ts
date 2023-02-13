@@ -7,6 +7,10 @@ import { Materia } from '../models/materia';
   providedIn: 'root'
 })
 export class MateriasService {
+  userValue: { token: any; };
+  logout() {
+    throw new Error('Method not implemented.');
+  }
 
   constructor(private httpClient : HttpClient) { }
 
