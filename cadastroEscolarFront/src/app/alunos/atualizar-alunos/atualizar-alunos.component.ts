@@ -87,7 +87,9 @@ export class AtualizarAlunosComponent implements OnInit{
       dataCadastro : [null],
       cargo : [null],
       status : [null],
-      urlFoto : [null]
+      urlFoto : [null],
+      email : [null],
+      ano : [null]
     });
   }
 
@@ -104,7 +106,9 @@ export class AtualizarAlunosComponent implements OnInit{
         dataCadastro : [pessoa.dataCadastro],
         cargo : [pessoa.cargo],
         status : [pessoa.status],
-        urlFoto : [pessoa.urlFoto]
+        urlFoto : [pessoa.urlFoto],
+        email : [pessoa.email],
+        ano : [pessoa.ano]
       });
 
       this.urlFoto = pessoa.urlFoto;

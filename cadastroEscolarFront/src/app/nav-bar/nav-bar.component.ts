@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { Pessoa } from '../models/pessoa';
 
@@ -11,13 +12,19 @@ export class NavBarComponent implements OnInit{
 
   mostrarMenu : boolean;
 
-  constructor(  private router: Router){}
+  fotoUrl : SafeResourceUrl ;
+
+  constructor(  
+    private router: Router,
+    private sanitizer : DomSanitizer
+    ){}
 
   pessoa : Pessoa;
 
   ngOnInit(): void {
     this.pessoa = JSON.parse(localStorage.getItem("pessoa")!);
     this.mostrarMenu = JSON.parse(localStorage.getItem("mostrarMenu")!);
+    this.fotoUrl =  this.sanitizer.bypassSecurityTrustResourceUrl(this.pessoa.urlFoto)
   }
 
   logout(){

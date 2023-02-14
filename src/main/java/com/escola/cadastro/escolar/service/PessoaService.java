@@ -1,30 +1,33 @@
 package com.escola.cadastro.escolar.service;
 
 import com.escola.cadastro.escolar.dto.EntradaDTO;
+import com.escola.cadastro.escolar.enums.RoleName;
 import com.escola.cadastro.escolar.model.Login;
 import com.escola.cadastro.escolar.model.Pessoa;
+import com.escola.cadastro.escolar.model.Role;
 import com.escola.cadastro.escolar.repository.LoginRepository;
 import com.escola.cadastro.escolar.repository.PessoaRepository;
+import org.hibernate.service.spi.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
 public class PessoaService {
     @Autowired
     PessoaRepository pessoaRepository;
-
     @Autowired
     PasswordEncoder encoder;
-
     @Autowired
     LoginRepository loginRepository;
+
 
     public ResponseEntity listar(String cargo) {
         return ResponseEntity.status(HttpStatus.OK).body(pessoaRepository.findByCargoAndStatus(cargo, "Ativo"));
@@ -37,7 +40,6 @@ public class PessoaService {
     }
 
     public ResponseEntity cadastrar(Pessoa pessoa, String cargo) {
-        int anoFiltrado = (null == pessoa.getAno()) ? 0 : pessoa.getAno();
         Pessoa pessoa1 = Pessoa.builder()
                 .cpf(pessoa.getCpf())
                 .nome(pessoa.getNome())
@@ -47,14 +49,19 @@ public class PessoaService {
                 .urlFoto(pessoa.getUrlFoto())
                 .dataCadastro(LocalDate.now())
                 .cargo(cargo)
-                .ano(anoFiltrado)
+                .ano(pessoa.getAno())
                 .status("Ativo").build();
         pessoaRepository.save(pessoa1);
+
+        List<Role> roles = new ArrayList<>();
+        Role role = new Role(1L, RoleName.ROLE_ADMIN);
+        roles.add(role);
 
         Login login = Login.builder()
                 .usuario(pessoa1.getEmail())
                 .senha(encoder.encode(pessoa1.getCpf()))
                 .pessoa(pessoa1)
+                .roles(roles)
                 .build();
         loginRepository.save(login);
 

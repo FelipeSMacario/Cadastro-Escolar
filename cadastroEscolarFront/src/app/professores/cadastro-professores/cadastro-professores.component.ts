@@ -37,7 +37,8 @@ export class CadastroProfessoresComponent  implements OnInit{
       nome : [null],
       sobreNome : [null],
       urlFoto : [null],
-      email : [null]
+      email : [null],
+      ano : [0]
     })
   }
 

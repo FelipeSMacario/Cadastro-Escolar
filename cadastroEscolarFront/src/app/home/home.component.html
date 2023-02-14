@@ -15,8 +15,8 @@
         </div>
       </div>
     </div>
-    <div class="col colHover">
-      <div class="card h-100 btn"  [routerLink]="['/alunos']" *ngIf="pessoa.cargo === 'Aluno' || pessoa.cargo === 'Admin'">
+    <div class="col colHover" *ngIf="pessoa.cargo === 'Aluno' || pessoa.cargo === 'Admin'">
+      <div class="card h-100 btn"  [routerLink]="['/alunos']" >
         <img
           src="../../assets/images/alunos.jpg"
           class="card-img-top"

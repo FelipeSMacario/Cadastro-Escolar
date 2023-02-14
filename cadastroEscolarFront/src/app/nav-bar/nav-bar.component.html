@@ -14,9 +14,15 @@
             
           </ul>
           <div class="btn-group-vertical d-flex btn img">
-            <button class="botao" mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
-              <img src="../../assets/images/meu icone2.png" alt="">
+            <button class="botao" mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu"  *ngIf="fotoUrl; else loading">
+              <img [src]="fotoUrl" alt="">
              </button>
+             <ng-template #loading let-user>
+              <button class="botao" mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu"  *ngIf="fotoUrl; else loading">
+                <img src="../../../assets/images/sem foto.png" alt="">
+               </button>
+              
+            </ng-template>  
              <mat-menu #menu="matMenu">
               <button mat-menu-item>
                 <mat-icon>not_interested</mat-icon>

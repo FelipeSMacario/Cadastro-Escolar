@@ -17,4 +17,8 @@ export class Pessoa {
 
     status : string;
 
+    email : string;
+
+    ano : number;
+
 }

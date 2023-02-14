@@ -36,7 +36,9 @@ export class CadastroAlunosComponent implements OnInit{
       dataNascimento : [null],
       nome : [null],
       sobreNome : [null],
-      urlFoto : [null]
+      urlFoto : [null],
+      email : [null],
+      ano : [null]
     })
   }
   salvarAluno(){
