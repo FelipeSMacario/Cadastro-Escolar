@@ -32,13 +32,13 @@ export class CadastroAlunosComponent implements OnInit{
 
   formularioVazio(){
     this.formulario = this.fb.group({
-      cpf : [null],
-      dataNascimento : [null],
-      nome : [null],
-      sobreNome : [null],
+      cpf : [null,[Validators.required, Validators.minLength(11), Validators.maxLength(11)]],
+      dataNascimento : [null, [Validators.required]],
+      nome : [null, [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
+      sobreNome : [null, [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
       urlFoto : [null],
-      email : [null],
-      ano : [null]
+      email : [null, [Validators.required, Validators.email, Validators.maxLength(100)]],
+      ano : [null,  [Validators.required, Validators.min(1), Validators.max(3)]]
     })
   }
   salvarAluno(){
