@@ -54,7 +54,8 @@ public class PessoaService {
         pessoaRepository.save(pessoa1);
 
         List<Role> roles = new ArrayList<>();
-        Role role = new Role(1L, RoleName.ROLE_ADMIN);
+
+        Role role = pessoa1.getCargo().equals("Professor") ? new Role(2L, RoleName.ROLE_PROFESSOR) : new Role(3L, RoleName.ROLE_ALUNO);
         roles.add(role);
 
         Login login = Login.builder()
