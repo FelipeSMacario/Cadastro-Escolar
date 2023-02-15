@@ -34,48 +34,137 @@
           </div>
           <div class="col">
             <label class="label labelNome">CPF</label>
-              <input type="text" class="form-control"  placeholder="CPF" formControlName = "cpf"/>
+              <input type="text" class="form-control" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"  placeholder="CPF" formControlName = "cpf"/>
+              <ng-container *ngIf="formulario.controls.cpf.touched">
+                <span *ngIf="formulario.controls.cpf.errors?.required || formulario.controls.cpf.errors?.minlength">
+                  <div class="alert alert-danger" role="alert">
+                    Por Favor preencha um CPF válido!
+                  </div>
+                </span>
+              </ng-container>
             </div>
         </div>
         <div class="row">
           <div class="col">
             <label class="label labelNome">Nome</label>
             <input type="text" class="form-control"  placeholder="Nome" formControlName = "nome" />
+            <ng-container *ngIf="formulario.controls.nome.touched">
+              <span *ngIf="formulario.controls.nome.errors?.required">
+                <div class="alert alert-danger" role="alert">
+                  O campo nome é um campo obrigatório!
+                </div>
+              </span>
+              <span *ngIf="formulario.controls.nome.errors?.minlength">
+                <div class="alert alert-danger" role="alert">
+                  O campo nome não tem a quantidade mínima de 3 caracteres!
+                </div>
+              </span>
+              <span *ngIf="formulario.controls.nome.errors?.maxlength">
+                <div class="alert alert-danger" role="alert">
+                  O campo nome ultrapassou o limite máximo de 50 caracteres!
+                </div>
+              </span>
+            </ng-container>
           </div>
   
           <div class="col">
             <label class="label labelNome">Sobrenome</label>
             <input type="text" class="form-control"   placeholder="Sobrenome" formControlName = "sobreNome" />
+            <ng-container *ngIf="formulario.controls.sobreNome.touched">
+              <span *ngIf="formulario.controls.sobreNome.errors?.required">
+                <div class="alert alert-danger" role="alert">
+                  O campo sobrenome é um campo obrigatório!
+                </div>
+              </span>
+              <span *ngIf="formulario.controls.sobreNome.errors?.minlength">
+                <div class="alert alert-danger" role="alert">
+                  O campo sobrenome não tem a quantidade mínima de 3 caracteres!
+                </div>
+              </span>
+              <span *ngIf="formulario.controls.sobreNome.errors?.maxlength">
+                <div class="alert alert-danger" role="alert">
+                  O campo sobrenome ultrapassou o limite máximo de 50 caracteres!
+                </div>
+              </span>
+            </ng-container>
           </div>
         </div>
         <div class="row">
             <div class="col">
                 <label class="label labelNome">Data Nascimento</label>
               <input type="date"  class="form-control"  placeholder="Data Nascimento" formControlName = "dataNascimento" />
+              <ng-container *ngIf="formulario.controls.dataNascimento.touched">
+                <span *ngIf="formulario.controls.dataNascimento.errors?.required">
+                  <div class="alert alert-danger" role="alert">
+                    Data de nascimento é um campo obrigatório!
+                  </div>
+                </span>
+              </ng-container>
             </div>
             <div class="col">
                 <label class="label labelNome">Email</label>
-                <input type="email" class="form-control"   readonly placeholder="Email" formControlName = "email"/>
+                <input type="email" class="form-control" [readonly]="isReadOnly()"  placeholder="Email" formControlName = "email"/>
+                <ng-container *ngIf="formulario.controls.email.touched">
+                  <span *ngIf="formulario.controls.email.errors?.required">
+                    <div class="alert alert-danger" role="alert">
+                      O campo email é um campo obrigatório!
+                    </div>
+                  </span>
+                  <span *ngIf="formulario.controls.email.errors?.email">
+                    <div class="alert alert-danger" role="alert">
+                      O campo email não apresenta o padrão correto!
+                    </div>
+                  </span>
+                  <span *ngIf="formulario.controls.email.errors?.maxlength">
+                    <div class="alert alert-danger" role="alert">
+                      O campo email ultrapassou o limite máximo de 100 caracteres!
+                    </div>
+                  </span>
+                </ng-container>
               </div>
           </div>
 
           <div class="row">
             <div class="col">
                 <label class="label labelNome">Ano</label>
-              <input type="text" readonly class="form-control" placeholder="Ano" formControlName = "ano" />
+              <input type="text" readonly class="form-control" [readonly]="isReadOnly()" placeholder="Ano" formControlName = "ano" />
+              <ng-container *ngIf="formulario.controls.ano.touched">
+                <span *ngIf="formulario.controls.ano.errors?.required">
+                  <div class="alert alert-danger" role="alert">
+                    O campo ano é um campo obrigatório!
+                  </div>
+                </span>
+                <span *ngIf="formulario.controls.ano.errors?.min">
+                  <div class="alert alert-danger" role="alert">
+                    O campo ano só possui as opções 1, 2 ou 3!
+                  </div>
+                </span>
+                <span *ngIf="formulario.controls.ano.errors?.max">
+                  <div class="alert alert-danger" role="alert">
+                    O campo ano só possui as opções 1, 2 ou 3!
+                  </div>
+                </span>
+              </ng-container>
             </div>
             <div class="col">
                 <label class="label labelNome">Status</label>
-                <select class="form-select"  aria-label="Default select example" formControlName = "status">
+                <select class="form-select"  aria-label="Default select example" [disabled]="isReadOnly()" formControlName = "status">
                   <option value="Ativo">Ativo</option>
                   <option value="Inativo">Inativo</option>
                 </select>
+                <ng-container *ngIf="formulario.controls.status.touched">
+                  <span *ngIf="formulario.controls.status.errors?.required">
+                    <div class="alert alert-danger" role="alert">
+                      O campo status é um campo obrigatório!
+                    </div>
+                  </span>
+                </ng-container>
               </div>
           </div>
         
   
         <div class="divBotao">
-          <button class="btn botao" type="submit">Atualizar</button>
+          <button class="btn botao" type="submit" [disabled]="!formulario.valid">Atualizar</button>
         </div>
         
       </form>

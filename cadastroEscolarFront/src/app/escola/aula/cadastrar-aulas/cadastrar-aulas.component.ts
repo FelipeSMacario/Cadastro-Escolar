@@ -51,11 +51,11 @@ export class CadastrarAulasComponent implements OnInit{
 
   formularioVazio(){
     this.formulario = this.fb.group({
-      turma : [null],
+      turma : [null, [Validators.required]],
       sala :[null, [Validators.required]],
-      materia : [null],
-      dia : [null],
-      hora : [null],
+      materia : [null, [Validators.required]],
+      dia : [null, [Validators.required]],
+      hora : [null, [Validators.required]],
     });
   }
 

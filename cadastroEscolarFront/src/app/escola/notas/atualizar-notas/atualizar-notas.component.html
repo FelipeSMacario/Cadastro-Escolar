@@ -42,16 +42,34 @@
       <div class="col">
         <label class="label labelNome">Nota</label>
         <input
-          type="text"
+          type="number"
           class="form-control"
           placeholder="Nota"
           formControlName="nota"
+          min="0" max="10" step="0.1"
         />
+        <ng-container *ngIf="formulario.controls.nota.touched">
+          <span *ngIf="formulario.controls.nota.errors?.required">
+            <div class="alert alert-danger" role="alert">
+              O campo ano é um campo obrigatório!
+            </div>
+          </span>
+          <span *ngIf="formulario.controls.nota.errors?.min">
+            <div class="alert alert-danger" role="alert">
+              Preencha uma nota valida!
+            </div>
+          </span>
+          <span *ngIf="formulario.controls.nota.errors?.max">
+            <div class="alert alert-danger" role="alert">
+              Preencha uma nota valida!
+            </div>
+          </span>
+        </ng-container>
       </div>
     </div>
 
       <div class="divBotao">
-        <button type="button" class="btn botao" (click)="atualizarNotas()">
+        <button type="button" class="btn botao" (click)="atualizarNotas()" [disabled]="!formulario.valid">
           Alterar
         </button>
       </div>

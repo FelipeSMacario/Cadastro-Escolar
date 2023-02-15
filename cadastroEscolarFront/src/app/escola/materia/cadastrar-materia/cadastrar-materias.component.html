@@ -9,7 +9,24 @@
           <label class="label labelNome">Nome</label>
           <input type="text" class="form-control" placeholder="Nome" formControlName = "nome" [ngClass] = "{'is-invalid':submitted && formulario.controls.nome.errors}" />
           <div *ngIf="submitted && formulario.controls.nome.errors" class="text-danger"></div>
-            <div class= "mensagemErro" *ngIf="formulario.controls.nome.errors?.required">O nome é obrigatório!</div>
+          <ng-container *ngIf="formulario.controls.nome.touched">
+
+            <span *ngIf="formulario.controls.nome.errors?.required">
+              <div class="alert alert-danger" role="alert">
+                O campo nome é um campo obrigatório!
+              </div>
+            </span>
+            <span *ngIf="formulario.controls.nome.errors?.minlength">
+              <div class="alert alert-danger" role="alert">
+                O campo nome não tem a quantidade mínima de 3 caracteres!
+              </div>
+            </span>
+            <span *ngIf="formulario.controls.nome.errors?.maxlength">
+              <div class="alert alert-danger" role="alert">
+                O campo nome ultrapassou o limite máximo de 50 caracteres!
+              </div>
+            </span>
+          </ng-container>
         </div>
       </div>
       <div class="row">
@@ -19,12 +36,18 @@
               <option value="null" selected disabled>Selecione um professor</option>
               <option *ngFor="let pessoa of pessoa"  [ngValue]="pessoa.matricula">{{ pessoa.nome }}</option>
             </select>
-            <div class= "mensagemErro" *ngIf="formulario.controls.pessoa.errors?.required">Selecionar o professor é obrigatório!</div>
+            <ng-container *ngIf="formulario.controls.pessoa.touched">
+              <span *ngIf="formulario.controls.pessoa.errors?.required">
+                <div class="alert alert-danger" role="alert">
+                  O campo nome do professor é um campo obrigatório!
+                </div>
+              </span>
+            </ng-container>
         </div>
       </div>
 
       <div class="divBotao">
-        <button type="button" class="btn botao" (click)="onSubmit()" >Cadastrar </button>
+        <button type="button" class="btn botao" (click)="onSubmit()" [disabled]="!formulario.valid">Cadastrar </button>
       </div>
     </form>
   </div>

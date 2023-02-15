@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, FormArray, FormControl } from '@angular/forms';
+import { FormGroup, FormBuilder, FormArray, FormControl, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatriculaNotasDTO } from 'src/app/models/DTO/matriculaNotaDTO';
 import { NotasDTO } from 'src/app/models/DTO/notasDTO';
@@ -42,9 +42,9 @@ export class CadastrarNotasComponent implements OnInit{
 
   formularioVazio(){
     this.formulario = this.fb.group({
-      materia : [null],
-      professor : [null],
-      turma : [null],
+      materia : [null, [Validators.required]],
+      professor : [null, [Validators.required]],
+      turma : [null, [Validators.required]],
       matriculasNotas : new FormArray([])
     });
   }
@@ -84,7 +84,7 @@ export class CadastrarNotasComponent implements OnInit{
         this.fb.group({
           matriculaAluno : [v.matricula],
           nome : [v.nome + " " + v.sobreNome],
-          notas : [0]
+          notas : [0, [Validators.required]]
         })
       )
     })

@@ -7,7 +7,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.br.CPF;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -30,7 +29,7 @@ public class Pessoa {
     @NotBlank
     //@CPF
     @Length(min = 11, max = 11)
-    @Column(name = "cpf")
+    @Column(name = "cpf", nullable = false)
     @ApiModelProperty(value = "CPF da pessoa", example = "15152736900", required = true, position = 1)
     private String cpf;
 
@@ -38,7 +37,7 @@ public class Pessoa {
     @NotEmpty
     @NotBlank
     @Length(min = 3, max = 50)
-    @Column(name = "nome")
+    @Column(name = "nome", nullable = false)
     @ApiModelProperty(value = "Nome da pessoa", example = "Carlos", required = true, position = 2)
     private String nome;
 
@@ -46,18 +45,18 @@ public class Pessoa {
     @NotEmpty
     @NotBlank
     @Length(min = 3, max = 50)
-    @Column(name = "sobrenome")
+    @Column(name = "sobrenome", nullable = false)
     @ApiModelProperty(value = "Sobrenome da pessoa", example = "Da Sila", required = true, position = 3)
     private String sobreNome;
 
     @Email
     @NotNull
     @Length(max = 50)
-    @Column(name = "email")
+    @Column(name = "email", nullable = false)
     private String email;
 
     @NotNull
-    @Column(name = "dataNascimento")
+    @Column(name = "dataNascimento", nullable = false)
     @ApiModelProperty(value = "Data de nascimento da pessoa", example = "2020-12-25", required = true, position = 4)
     private LocalDate dataNascimento;
 
@@ -65,13 +64,13 @@ public class Pessoa {
     @ApiModelProperty(value = "urlFoto")
     private String urlFoto;
 
-    @Column(name = "dataCadastro")
+    @Column(name = "dataCadastro", nullable = false)
     private LocalDate dataCadastro;
 
-    @Column(name = "cargo")
+    @Column(name = "cargo", nullable = false)
     private String cargo;
 
-    @Column(name = "status")
+    @Column(name = "status", nullable = false)
     private String status;
 
     @JsonIgnore
@@ -79,8 +78,9 @@ public class Pessoa {
     private List<Turma> turmas;
 
     @NotNull
-    @Size(min = 1, max = 1)
-    @Column(name = "ano")
+    @Min(0)
+    @Max(3)
+    @Column(name = "ano", nullable = false)
     private Integer ano;
 
 }

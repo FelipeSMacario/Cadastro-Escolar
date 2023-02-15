@@ -89,15 +89,15 @@ export class AtualizarProfessoresComponent  implements OnInit{
          this.pessoa = pessoa;   
          this.formulario = this.fb.group({
           matricula : [pessoa.matricula],
-          cpf : [pessoa.cpf],
-          nome : [pessoa.nome],
-          sobreNome : [pessoa.sobreNome],
-          dataNascimento : [pessoa.dataNascimento],
-          dataCadastro : [pessoa.dataCadastro],
-          cargo : [pessoa.cargo],
-          status : [pessoa.status],
+          cpf : [pessoa.cpf, [Validators.required, Validators.minLength(11), Validators.maxLength(11)]],
+          nome : [pessoa.nome, [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
+          sobreNome : [pessoa.sobreNome, [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
+          dataNascimento : [pessoa.dataNascimento, [Validators.required]],
+          dataCadastro : [pessoa.dataCadastro, [Validators.required]],
+          cargo : [pessoa.cargo, [Validators.required]],
+          status : [pessoa.status, [Validators.required]],
           urlFoto : [pessoa.urlFoto],
-          email : [pessoa.email],
+          email : [pessoa.email, [Validators.required, Validators.email, Validators.maxLength(100)]],
           ano : [0]
         });
 

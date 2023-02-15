@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Materia } from 'src/app/models/materia';
 import { MateriasService } from 'src/app/services/materias.service';
@@ -34,7 +34,7 @@ export class AtualizarMateriaComponent implements OnInit{
   
       this.formulario = this.fb.group({
         nomeAntigo : [null],
-        nomeNovo : [null]       
+        nomeNovo : [null, [Validators.required, Validators.minLength(3), Validators.maxLength(50)]]       
       });
   
     }

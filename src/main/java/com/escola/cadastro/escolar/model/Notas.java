@@ -7,6 +7,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import java.time.LocalDate;
 
 @Data
@@ -27,16 +29,20 @@ public class Notas {
     @JoinColumn(name = "materia_id", nullable = false)
     private Materia materia;
 
-    @Column(name = "dataInclusao")
+    @Column(name = "dataInclusao", nullable = false)
     private LocalDate dataInclusao;
 
     @ManyToOne
     private Pessoa aluno;
 
-    @Column(name = "nota")
+    @Min(0)
+    @Max(10)
+    @Column(name = "nota", nullable = false)
     private Double nota;
 
-    @Column(name = "trimestre")
+    @Min(1)
+    @Max(4)
+    @Column(name = "trimestre", nullable = false)
     private Integer trimestre;
 
     @ManyToOne
