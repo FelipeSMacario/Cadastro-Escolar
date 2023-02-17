@@ -11,8 +11,9 @@ import { Pessoa } from '../models/pessoa';
 export class NavBarComponent implements OnInit{
 
   mostrarMenu : boolean;
+  isTherePhoto: boolean = false;
 
-  fotoUrl : SafeResourceUrl ;
+  fotoUrl : SafeResourceUrl;
 
   constructor(  
     private router: Router,
@@ -24,7 +25,10 @@ export class NavBarComponent implements OnInit{
   ngOnInit(): void {
     this.pessoa = JSON.parse(localStorage.getItem("pessoa")!);
     this.mostrarMenu = JSON.parse(localStorage.getItem("mostrarMenu")!);
-    this.fotoUrl =  this.sanitizer.bypassSecurityTrustResourceUrl(this.pessoa.urlFoto)
+    if(this.pessoa.urlFoto){
+      this.isTherePhoto = true;
+    }
+    this.fotoUrl =  this.sanitizer.bypassSecurityTrustResourceUrl(this.pessoa.urlFoto);
   }
 
   logout(){
