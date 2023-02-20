@@ -3,11 +3,11 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { NavBarComponent } from './nav-bar/nav-bar.component';
+import { NavBarComponent } from './shared/nav-bar/nav-bar.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HomeComponent } from './home/home.component';
-import { FooterComponent } from './footer/footer.component';
+import { FooterComponent } from './shared/footer/footer.component';
 import { HomeAlunosComponent } from './alunos/home-alunos/home-alunos.component';
 import { CadastroAlunosComponent } from './alunos/cadastro-alunos/cadastro-alunos.component';
 import { BuscarAlunosComponent } from './alunos/buscar-alunos/buscar-alunos.component';
@@ -40,6 +40,8 @@ import { AtualizarNotasComponent } from './escola/notas/atualizar-notas/atualiza
 import {MatMenuModule} from '@angular/material/menu';
 import { TokenInterceptorService } from './services/token-interceptor.service';
 import { MinhasNotasComponent } from './escola/notas/minhas-notas/minhas-notas.component';
+import { AuthGuard } from './guards/auth.guard';
+import { PageNotFoundComponent } from './shared/page-not-found/page-not-found.component';
 
 @NgModule({
   declarations: [
@@ -74,6 +76,7 @@ import { MinhasNotasComponent } from './escola/notas/minhas-notas/minhas-notas.c
     BuscarNotasComponent,
     AtualizarNotasComponent,
     MinhasNotasComponent,
+    PageNotFoundComponent,
     
   ],
   imports: [
@@ -88,10 +91,11 @@ import { MinhasNotasComponent } from './escola/notas/minhas-notas/minhas-notas.c
     MatIconModule,
     MatMenuModule
   ],
-  providers: [PessoaService, ModalInformacaoComponent,  {
+  providers: [PessoaService, ModalInformacaoComponent, AuthGuard,  {
     provide: HTTP_INTERCEPTORS,
     useClass: TokenInterceptorService,
     multi: true,
+    
   },],
   bootstrap: [AppComponent]
 })

@@ -25,35 +25,41 @@ import { HomeNotasComponent } from './escola/notas/home-notas/home-notas.compone
 import { BuscarNotasComponent } from './escola/notas/buscar-notas/buscar-notas.component';
 import { AtualizarNotasComponent } from './escola/notas/atualizar-notas/atualizar-notas.component';
 import { MinhasNotasComponent } from './escola/notas/minhas-notas/minhas-notas.component';
+import { AuthGuard } from './guards/auth.guard';
+import { PageNotFoundComponent } from './shared/page-not-found/page-not-found.component';
+import { AlunoGuard } from './guards/aluno.guard';
+import { ProfessorGuard } from './guards/professor.guard';
 
 const routes: Routes = [
-  {path: "", component: HomeComponent},
+  {path: '',  redirectTo: 'home',  pathMatch: 'full'},  
+  {path: "home", component: HomeComponent, canActivate: [AuthGuard]},
   {path: "login", component: LoginComponent},
-  {path: "alunos", component: HomeAlunosComponent},
-  {path: "alunos/buscar", component: BuscarAlunosComponent},
-  {path: "alunos/cadastrar", component: CadastroAlunosComponent},
-  {path: "alunos/atualizar/:matricula", component: AtualizarAlunosComponent},
-  {path: "alunos/meusDados", component: AtualizarAlunosComponent},
-  {path: "professores", component: HomeProfessoresComponent},
-  {path: "professores/buscar", component: BuscarProfessoresComponent},
-  {path: "professores/cadastrar", component: CadastroProfessoresComponent},
-  {path: "professores/meusDados", component: AtualizarProfessoresComponent},
-  {path: "professores/atualizar/:matricula", component: AtualizarProfessoresComponent},
-  {path: "escola", component: HomeEscolaComponent},
-  {path: "escola/materia/buscarMateria", component: BuscarMateriaComponent},
-  {path: "escola/materia/cadastrarMateria", component: CadastrarMateriasComponent},
-  {path: "materia/atualizar/:nome", component: AtualizarMateriaComponent},
-  {path: "escola/aulas", component: AulaHomeComponent},
-  {path: "escola/materia", component: MateriaHomeComponent},
-  {path: "escola/aulas/minhasAulas", component: MinhasAulasComponent},
-  {path: "escola/aulas/buscar", component: BuscarAulasComponent},
-  {path: "aula/atualizar/:id", component: AtualizarAulasComponent},
-  {path: "escola/aulas/cadastrar", component: CadastrarAulasComponent},
-  {path: "escola/notas", component: HomeNotasComponent},
-  {path: "escola/notas/cadastrar", component: CadastrarNotasComponent},
-  {path: "escola/notas/buscar", component: BuscarNotasComponent},
-  {path: "notas/atualizar/:id", component: AtualizarNotasComponent},
-  {path: "escola/notas/minhasAulas", component: MinhasNotasComponent}
+  {path: "alunos", component: HomeAlunosComponent, canActivate: [AuthGuard, ProfessorGuard]},
+  {path: "alunos/buscar", component: BuscarAlunosComponent, canActivate: [AuthGuard, AlunoGuard, ProfessorGuard]},
+  {path: "alunos/cadastrar", component: CadastroAlunosComponent, canActivate: [AuthGuard, AlunoGuard, ProfessorGuard]},
+  {path: "alunos/atualizar/:matricula", component: AtualizarAlunosComponent, canActivate: [AuthGuard, AlunoGuard, ProfessorGuard]},
+  {path: "alunos/meusDados", component: AtualizarAlunosComponent, canActivate: [AuthGuard, ProfessorGuard]},
+  {path: "professores", component: HomeProfessoresComponent, canActivate: [AuthGuard, AlunoGuard]},
+  {path: "professores/buscar", component: BuscarProfessoresComponent, canActivate: [AuthGuard, AlunoGuard, ProfessorGuard]},
+  {path: "professores/cadastrar", component: CadastroProfessoresComponent, canActivate: [AuthGuard, AlunoGuard, ProfessorGuard]},
+  {path: "professores/meusDados", component: AtualizarProfessoresComponent, canActivate: [AuthGuard, AlunoGuard]},
+  {path: "professores/atualizar/:matricula", component: AtualizarProfessoresComponent, canActivate: [AuthGuard, AlunoGuard, ProfessorGuard]},
+  {path: "escola", component: HomeEscolaComponent, canActivate: [AuthGuard]},
+  {path: "escola/materia/buscarMateria", component: BuscarMateriaComponent, canActivate: [AuthGuard, AlunoGuard, ProfessorGuard]},
+  {path: "escola/materia/cadastrarMateria", component: CadastrarMateriasComponent, canActivate: [AuthGuard, AlunoGuard, ProfessorGuard]},
+  {path: "materia/atualizar/:nome", component: AtualizarMateriaComponent, canActivate: [AuthGuard, AlunoGuard, ProfessorGuard]},
+  {path: "escola/aulas", component: AulaHomeComponent, canActivate: [AuthGuard]},
+  {path: "escola/materia", component: MateriaHomeComponent, canActivate: [AuthGuard, AlunoGuard, ProfessorGuard]},
+  {path: "escola/aulas/minhasAulas", component: MinhasAulasComponent, canActivate: [AuthGuard]},
+  {path: "escola/aulas/buscar", component: BuscarAulasComponent, canActivate: [AuthGuard, AlunoGuard]},
+  {path: "aula/atualizar/:id", component: AtualizarAulasComponent, canActivate: [AuthGuard, AlunoGuard, , ProfessorGuard]},
+  {path: "escola/aulas/cadastrar", component: CadastrarAulasComponent, canActivate: [AuthGuard, AlunoGuard, , ProfessorGuard]},
+  {path: "escola/notas", component: HomeNotasComponent, canActivate: [AuthGuard]},
+  {path: "escola/notas/cadastrar", component: CadastrarNotasComponent, canActivate: [AuthGuard, AlunoGuard]},
+  {path: "escola/notas/buscar", component: BuscarNotasComponent, canActivate: [AuthGuard, AlunoGuard]},
+  {path: "notas/atualizar/:id", component: AtualizarNotasComponent, canActivate: [AuthGuard, AlunoGuard]},
+  {path: "escola/notas/minhasNotas", component: MinhasNotasComponent, canActivate: [AuthGuard]},
+  {path: '**',  component: PageNotFoundComponent}
   
  
  

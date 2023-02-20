@@ -9,6 +9,7 @@ import { LoginResponse } from '../models/Response/loginResponse';
 })
 export class LoginService {
 
+
   private url = "http://localhost:8080/login";
 
   constructor(
@@ -16,7 +17,7 @@ export class LoginService {
     ) { }
 
     logar(login : LoginDTO) : Observable<LoginResponse>{
-      
       return this.httpClient.post<LoginResponse>(this.url + "/logar", login);
     }
+
 }

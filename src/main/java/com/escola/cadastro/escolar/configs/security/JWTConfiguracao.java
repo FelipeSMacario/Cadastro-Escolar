@@ -21,36 +21,19 @@ public class JWTConfiguracao {
     @Autowired
     AuthenticationProvider authenticationProvider;
 
-
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
         http.csrf().disable().authorizeHttpRequests()
-                .antMatchers(HttpMethod.POST, "/login/logar").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .cors()
-                .and()
+               .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
-
-        /*
-.httpBasic()
-                .and()
-                .authorizeHttpRequests()
-//                .antMatchers(HttpMethod.GET, "/parking-spot/**").permitAll()
-//                .antMatchers(HttpMethod.POST, "/parking-spot").hasRole("USER")
-//                .antMatchers(HttpMethod.DELETE, "/parking-spot/**").hasRole("ADMIN")
-                .anyRequest().authenticated()
-                .and()
-                .csrf().disable();
-        */
-
     }
-
-
 
 }

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { Router } from '@angular/router';
-import { Pessoa } from '../models/pessoa';
+import { Pessoa } from '../../models/pessoa';
 
 @Component({
   selector: 'app-nav-bar',

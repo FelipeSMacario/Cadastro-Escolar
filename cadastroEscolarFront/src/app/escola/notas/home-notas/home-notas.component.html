@@ -20,7 +20,7 @@
         </div>
       </div>
     </div>
-    <div class="col btn colHover" [routerLink]="['minhasAulas']">
+    <div class="col btn colHover" [routerLink]="['minhasNotas']" *ngIf="pessoa.cargo === 'Aluno'">
       <div class="card h-100">
         <img src="../../../../assets/images/notas minhas.png" class="card-img-top imagem">
         <div class="card-body">
