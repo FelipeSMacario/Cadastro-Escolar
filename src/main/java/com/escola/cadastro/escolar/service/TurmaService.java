@@ -30,13 +30,18 @@ public class TurmaService {
     public ResponseEntity cadastrarAlunoTurma(EntradaTurmaAlunoDTO entrada) {
         Optional<Turma> turma = Optional.ofNullable(turmaRepository.findById(entrada.getTurmaId())).orElseThrow(() -> new ServiceException("Nenhuma turma identificada"));
 
-        List<Pessoa> pessoas = validaPessoa(entrada.getPessoas());
+        List<Pessoa> pessoas = validaPessoa(turma.get().getAno(), entrada.getPessoas());
 
-        turma.get().setAlunos(pessoas);
+        cadastraAlunos(pessoas, turma.get().getId());
 
-        turmaRepository.save(turma.get());
 
         return ResponseEntity.status(HttpStatus.CREATED).body("Cadastro realizado com sucesso!");
+    }
+
+    private void cadastraAlunos(List<Pessoa> pessoas, Long turmaId) {
+        pessoas.forEach(p -> {
+            turmaRepository.cadastrarTurmaAluno(turmaRepository.buscaIdMaximo(), turmaId, p.getMatricula());
+        });
     }
 
     public ResponseEntity listarTurmas() {
@@ -68,11 +73,15 @@ public class TurmaService {
         return ResponseEntity.ok().body(turmaRepository.findByAno(ano));
     }
 
-    private List<Pessoa> validaPessoa(List<PessoaEntradaDTO> matricula) {
+    private List<Pessoa> validaPessoa(Integer ano, List<PessoaEntradaDTO> matricula) {
         List<Pessoa> pessoas = new ArrayList<>();
 
         matricula.forEach(valor -> {
-            pessoas.add(pessoaRepository.findByMatriculaAndCargoAndStatus(valor.getMatricula(), "Aluno", "Ativo").get());
+            Pessoa pessoa = pessoaRepository.findByMatriculaAndCargoAndStatus(valor.getMatricula(), "Aluno", "Ativo").get();
+
+            if (!pessoa.getAno().equals(ano)) throw new ServiceException("Ano incompativel entre a turma e o aluno");
+
+            pessoas.add(pessoa);
         });
 
 
@@ -116,6 +125,17 @@ public class TurmaService {
                     turmaRepository.deletaAluno(pessoa.get().getMatricula());
                     return ResponseEntity.status(HttpStatus.OK).body(turma.get());
                 }).orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+    }
+
+    public ResponseEntity listarAlunosPorAno(Integer ano) {
+        List<Pessoa> pessoas = pessoaRepository.findByCargoAndStatusAndAno("Aluno", "Ativo", ano);
+        List<Pessoa> pessoasFiltradas = new ArrayList<>();
+        pessoas.forEach(p -> {
+
+            if (turmaRepository.validaAluno(p.getMatricula()).get() == 0) pessoasFiltradas.add(p);
+
+        });
+        return ResponseEntity.ok().body(pessoasFiltradas);
     }
 }
 

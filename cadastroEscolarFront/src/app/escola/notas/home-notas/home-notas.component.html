@@ -1,25 +1,33 @@
 <div class="container divContainer">
-    <div class="card-group">
-        <div class="card btn" [routerLink]="['buscar']"  *ngIf="pessoa.cargo === 'Professor' || pessoa.cargo === 'Admin'">
-          <img src="../../../../assets/images/notas buscar.png" class="card-img-top imagem" alt="...">
+  <div class="row row-cols-1 row-cols-md-3 g-4">
+    <div class="col btn colHover" [routerLink]="['buscar']"  *ngIf="pessoa.cargo === 'Professor' || pessoa.cargo === 'Admin'">
+      <div class="card h-100">
+        <img src="../../../../assets/images/notas buscar.png">
+        <div class="card-body">
           <div class="card-body cards">
-            <h5 class="card-title texto">Buscar notas</h5>
-            <p class="card-text">Filtrar notas.</p>
-          </div>
-        </div>
-        <div class="card btn" [routerLink]="['cadastrar']" *ngIf="pessoa.cargo === 'Professor' || pessoa.cargo === 'Admin'">
-          <img src="../../../../assets/images/notas.png" class="card-img-top imagem" alt="...">
-          <div class="card-body cards">
-            <h5 class="card-title texto">Cadastrar notas</h5>
-            <p class="card-text">Cadastro de notas.</p>
-          </div>
-        </div>
-        <div class="card btn" [routerLink]="['minhasAulas']">
-          <img src="../../../../assets/images/notas minhas.png" class="card-img-top imagem" alt="...">
-          <div class="card-body cards">
-            <h5 class="card-title texto">Minhas notas</h5>
-            <p class="card-text">Acessar minhas notas.</p>
+            <h5 class="card-title texto">Filtrar notas</h5>
           </div>
         </div>
       </div>
+    </div>
+    <div class="col btn colHover" [routerLink]="['cadastrar']" *ngIf="pessoa.cargo === 'Professor' || pessoa.cargo === 'Admin'">
+      <div class="card h-100">
+        <img src="../../../../assets/images/notas.png" class="card-img-top imagem">
+        <div class="card-body">
+          <div class="card-body cards">
+            <h5 class="card-title texto">Cadastro de notas</h5>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col btn colHover" [routerLink]="['minhasAulas']">
+      <div class="card h-100">
+        <img src="../../../../assets/images/notas minhas.png" class="card-img-top imagem">
+        <div class="card-body">
+          <div class="card-body cards">
+            <h5 class="card-title texto">Minhas notas</h5>
+          </div>
+      </div>
+    </div>
+  </div>
 </div>

@@ -1,25 +1,33 @@
 <div class="container divContainer">
-    <div class="card-group">
-        <div class="card btn" [routerLink]="['buscar']" *ngIf="pessoa.cargo === 'Admin'">
-          <img src="../../../../assets/images/aulas editar.png" class="card-img-top" alt="...">
+  <div class="row row-cols-1 row-cols-md-3 g-4">
+    <div class="col btn colHover" [routerLink]="['buscar']" *ngIf="pessoa.cargo === 'Admin'">
+      <div class="card h-100">
+        <img src="../../../../assets/images/aulas editar.png" class="card-img-top imagem">
+        <div class="card-body">
           <div class="card-body cards">
-            <h5 class="card-title texto">Buscar notas</h5>
-            <p class="card-text">Filtrar notas.</p>
-          </div>
-        </div>
-        <div class="card btn" [routerLink]="['cadastrar']" *ngIf="pessoa.cargo === 'Admin'">
-          <img src="../../../../assets/images/aulas cadastrar.png" class="card-img-top" alt="...">
-          <div class="card-body cards">
-            <h5 class="card-title texto">Cadastrar aulas</h5>
-            <p class="card-text">Cadastro de aulas.</p>
-          </div>
-        </div>
-        <div class="card btn" [routerLink]="['minhasAulas']">
-          <img src="../../../../assets/images/aulas minha aula.png" class="card-img-top" alt="...">
-          <div class="card-body cards">
-            <h5 class="card-title texto">Minhas aulas</h5>
-            <p class="card-text">Acessar minhas aulas.</p>
+            <h5 class="card-title texto">Buscar aulas</h5>
           </div>
         </div>
       </div>
+    </div>
+    <div class="col btn colHover" [routerLink]="['cadastrar']" *ngIf="pessoa.cargo === 'Admin'">
+      <div class="card h-100">
+        <img src="../../../../assets/images/aulas cadastrar.png" class="card-img-top imagem">
+        <div class="card-body">
+          <div class="card-body cards">
+            <h5 class="card-title texto">Cadastrar aulas</h5>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col btn colHover" [routerLink]="['minhasAulas']" >
+      <div class="card h-100">
+        <img src="../../../../assets/images/aulas minha aula.png" class="card-img-top imagem">
+        <div class="card-body">
+          <div class="card-body cards">
+            <h5 class="card-title texto">Minhas aulas</h5>
+          </div>
+      </div>
+    </div>
+  </div>
 </div>

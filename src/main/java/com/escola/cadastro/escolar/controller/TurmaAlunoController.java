@@ -30,6 +30,11 @@ public class TurmaAlunoController implements TurmaAlunos {
         return turmaService.listarTurmaPorMatricula(matricula);
     }
 
+    @GetMapping(value = "/buscarAluno/porAno/{ano}")
+    public ResponseEntity listarAlunosPorAno(@PathVariable Integer ano){
+        return turmaService.listarAlunosPorAno(ano);
+    }
+
     @DeleteMapping(value = "/removerAluno/{matricula}/{id}")
     public ResponseEntity deletarAlunoTurma(@PathVariable Long matricula, @PathVariable Long id){
         return turmaService.removerAlunoTurma(matricula, id);

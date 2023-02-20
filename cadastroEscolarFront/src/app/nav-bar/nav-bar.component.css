@@ -5,11 +5,19 @@
 
 img{
     height:100%;
-    width: 100%;
+    width: 100%;    
 }
 .imagem{
     height:18%;
-    width: 18%;
+    width: 18%;    
+}
+.imagemBtn{
+    height:100%;
+    width: 100%;    
+    border-radius: 50%;
+}
+.imagemBtn:hover{
+    border: solid #ADD8E6 3px;
 }
 .padrao{
     margin-left: 30px;
@@ -36,6 +44,7 @@ img{
     width: 70px;
     padding: 0;
     border: 0;
+    background-color: #27376a;
 }
 .divLabel{
     width: 80px;

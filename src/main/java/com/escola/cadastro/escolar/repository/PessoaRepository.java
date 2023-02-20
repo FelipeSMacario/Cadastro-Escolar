@@ -16,4 +16,6 @@ public interface PessoaRepository extends JpaRepository<Pessoa, String> {
     Optional<Pessoa> findByMatriculaAndStatus(Long matricula, String status);
 
     List<Pessoa> findByCargoAndStatus(String cargo, String status);
+
+    List<Pessoa> findByCargoAndStatusAndAno(String cargo, String status, Integer ano);
 }

@@ -24,4 +24,15 @@ public interface TurmaRepository extends JpaRepository<Turma, Long> {
     @Modifying
     @Query(value = "DELETE FROM sistemaescolar.turma_aluno WHERE aluno_id = :matricula", nativeQuery = true)
     void deletaAluno(@Param("matricula" )Long matricula);
+
+    @Query(value = "SELECT ifnull(max(id), 0) + 1 FROM sistemaescolar.turma_aluno", nativeQuery = true)
+    Long buscaIdMaximo();
+
+    @Transactional
+    @Modifying
+    @Query(value = "INSERT INTO sistemaescolar.turma_aluno VALUES (:idTurmaAluno, :idTurma, :alunoId)", nativeQuery = true)
+    void cadastrarTurmaAluno(@Param("idTurmaAluno") Long idTurmaAluno, @Param("idTurma") Long idTurma, @Param("alunoId") Long alunoId);
+
+    @Query(value = "SELECT count(aluno_id) FROM sistemaescolar.turma_aluno WHERE aluno_id = :matricula", nativeQuery = true)
+    Optional<Integer> validaAluno(@Param("matricula") Long matricula);
 }

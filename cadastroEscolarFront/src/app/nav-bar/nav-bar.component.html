@@ -15,7 +15,7 @@
           </ul>
           <div class="btn-group-vertical d-flex btn img">
             <button class="botao" mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu"  *ngIf="isTherePhoto; else loading">
-              <img [src]="fotoUrl" alt="">
+              <img [src]="fotoUrl" alt="" class="imagemBtn">
              </button>
              <ng-template #loading let-user>
               <button class="botao" mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu"  *ngIf="fotoUrl; else loading">
