@@ -1,7 +1,7 @@
 <div class="container">
     <div class="formulario">
       <div class="titulo">
-        <h1>Atualizar alunos</h1>
+        <h1>{{titulo}}</h1>
       </div>
       <form [formGroup]="formulario" class="form form-group" (ngSubmit)="salvarAluno()">
 
@@ -47,7 +47,7 @@
         <div class="row">
           <div class="col">
             <label class="label labelNome">Nome</label>
-            <input type="text" class="form-control"  placeholder="Nome" formControlName = "nome" />
+            <input type="text" class="form-control" [readonly]="isReadOnly()"  placeholder="Nome" formControlName = "nome" />
             <ng-container *ngIf="formulario.controls.nome.touched">
               <span *ngIf="formulario.controls.nome.errors?.required">
                 <div class="alert alert-danger" role="alert">
@@ -69,7 +69,7 @@
   
           <div class="col">
             <label class="label labelNome">Sobrenome</label>
-            <input type="text" class="form-control"   placeholder="Sobrenome" formControlName = "sobreNome" />
+            <input type="text" class="form-control" [readonly]="isReadOnly()"   placeholder="Sobrenome" formControlName = "sobreNome" />
             <ng-container *ngIf="formulario.controls.sobreNome.touched">
               <span *ngIf="formulario.controls.sobreNome.errors?.required">
                 <div class="alert alert-danger" role="alert">
@@ -92,7 +92,7 @@
         <div class="row">
             <div class="col">
                 <label class="label labelNome">Data Nascimento</label>
-              <input type="date"  class="form-control"  placeholder="Data Nascimento" formControlName = "dataNascimento" />
+              <input type="date"  class="form-control" [readonly]="isReadOnly()"  placeholder="Data Nascimento" formControlName = "dataNascimento" />
               <ng-container *ngIf="formulario.controls.dataNascimento.touched">
                 <span *ngIf="formulario.controls.dataNascimento.errors?.required">
                   <div class="alert alert-danger" role="alert">

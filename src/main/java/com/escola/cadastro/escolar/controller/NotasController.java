@@ -37,6 +37,11 @@ public class NotasController implements NotasApi {
         return notasService.listarNotas(notasPessoaDTO);
     }
 
+    @GetMapping(value = "/buscar/porMatricula/{matricula}")
+    public ResponseEntity buscarPorMatricula(@PathVariable Long matricula){
+        return notasService.buscaPorMatricula(matricula);
+    }
+
     @GetMapping(value = "buscar/{id}")
     public ResponseEntity buscarNota(@PathVariable Long id){
         return notasService.buscaNotaPorId(id);

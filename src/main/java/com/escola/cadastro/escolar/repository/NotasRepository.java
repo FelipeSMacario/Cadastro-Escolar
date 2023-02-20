@@ -25,4 +25,6 @@ public interface NotasRepository  extends JpaRepository<Notas, Long> {
     List<Notas> buscaNotasAluno(@Param("idPessoa") Long idPessoa, @Param("trimestre") Integer trimestre);
 
     List<Notas> findByTurmaIdAndMateriaId(Long id, Long id1);
+
+    List<Notas> findByAlunoMatricula(Long matricula);
 }

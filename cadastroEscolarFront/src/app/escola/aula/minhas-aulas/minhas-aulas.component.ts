@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
+import { Pessoa } from 'src/app/models/pessoa';
 import { QuadroHorario } from 'src/app/models/quadroHorario';
 import { QuadroHorariosService } from 'src/app/services/quadro-horarios.service';
 
@@ -13,12 +14,14 @@ export class MinhasAulasComponent implements OnInit{
   quadroHorario : QuadroHorario [] = [];
   quadroHorarioFiltro : QuadroHorario [] = [];
   formulario : FormGroup;
+  pessoa : Pessoa
 
   ngOnInit(): void {
+    this.pessoa = JSON.parse(localStorage.getItem("pessoa")!);
     this.formulario = this.fb.group({
       filtro : [0]
     });
-    this.quadroHorarioService.findByMatricula(1).subscribe({
+    this.quadroHorarioService.findByMatricula(this.pessoa.matricula).subscribe({
     next : quad => {
       this.quadroHorario = quad;
     }, error : err => console.log(err)

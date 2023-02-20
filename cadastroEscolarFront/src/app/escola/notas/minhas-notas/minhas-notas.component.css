@@ -1,0 +1,21 @@
+.tabela{
+    margin-top: 20px;
+    border: #27376a;
+    border: 1px solid #27376a;
+    width: 50%;
+}
+.tabela th{
+    background-color: #27376a;
+    color: white;
+    padding: 10px;    
+}
+.tabela td{
+    background-color: white;
+    color: #27376a;
+    padding: 10px;   
+}
+.divContainer{
+    display: flex;
+    justify-content: center;
+    
+}

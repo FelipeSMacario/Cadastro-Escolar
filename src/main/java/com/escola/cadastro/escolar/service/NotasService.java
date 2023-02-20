@@ -123,6 +123,11 @@ public class NotasService {
         return ResponseEntity.ok().body(notasRepository.findByTurmaIdAndMateriaId(turma.get().getId(), materia.get().getId()));
     }
 
+    public ResponseEntity buscaPorMatricula(Long matricula) {
+        Optional<Pessoa> aluno = buscaPessoa(matricula, "Aluno");
+        return ResponseEntity.ok().body(notasRepository.findByAlunoMatricula(aluno.get().getMatricula()));
+    }
+
     private Integer buscaTrimeste() {
         LocalDate datas = LocalDate.now();
         if (datas.isAfter(LocalDate.of(LocalDate.now().getYear(), 1, 1)) && datas.isBefore(LocalDate.of(LocalDate.now().getYear(), 3, 31)))
@@ -166,6 +171,7 @@ public class NotasService {
         return Optional.ofNullable(materiaRepository.findById(id))
                 .orElseThrow(() -> new ServiceException("Nenhuma materia identificado com essas carecterísticas"));
     }
+
 
 
 }

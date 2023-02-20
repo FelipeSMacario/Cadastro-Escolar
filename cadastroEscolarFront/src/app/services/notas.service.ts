@@ -27,4 +27,7 @@ export class NotasService {
   updateNota(notas : NotaAtualizacaoDTO):Observable<Object>{
     return this.httpClient.put<Object>(this.url + "alterar", notas);
   }
+  filtrarNotas(matricula : number) : Observable<Notas[]>{
+    return this.httpClient.get<Notas[]>(this.url + "buscar/porMatricula/" + matricula);
+  }
 }

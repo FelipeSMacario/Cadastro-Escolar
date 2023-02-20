@@ -15,15 +15,17 @@ import { PessoaService } from 'src/app/services/pessoa.service';
 export class AtualizarProfessoresComponent  implements OnInit{
 
   pessoa : Pessoa = new Pessoa();
+  pessoaLogada : Pessoa;
   formulario : FormGroup;
   matricula : number;
   private readonly cargo : string = "professor";
   urlFoto : SafeResourceUrl;
   imagem2 : any;
+  titulo : string;
 
   constructor(
     private fb : FormBuilder,
-    private alunoService : PessoaService,
+    private professorService : PessoaService,
     private activatedRoute : ActivatedRoute,
     private router: Router,
     private sanitizer : DomSanitizer,
@@ -32,13 +34,24 @@ export class AtualizarProfessoresComponent  implements OnInit{
 
     ngOnInit(): void {    
 
-      this.matricula = this.activatedRoute.snapshot.params['matricula'];
       this.formularioVazio();
-      this. buscarPessoa(this.matricula);
+      this.matricula = this.activatedRoute.snapshot.params['matricula'];
+
+      if(this.matricula){
+        this.titulo = "Atualizar professores";
+        this.professorService.findAlunosByMatricula(this.cargo, this.matricula).subscribe({
+          next : alu => this.formularioPreenchido(alu),
+          error : err => console.log(err)
+        })
+      } else {
+        this.titulo = "Meus dados";
+        this.pessoa = JSON.parse(localStorage.getItem("pessoa")!);
+        this.formularioPreenchido(this.pessoa);   
+      }
     }
 
     salvarAluno(){
-      this.alunoService.updateAlunos(this.cargo, this.formulario.value).pipe(take(1)).subscribe({
+      this.professorService.updateAlunos(this.cargo, this.formulario.value).pipe(take(1)).subscribe({
         next : async user => {
           this._snackBar.open("Professor atualizado com sucesso", "", {duration : 5000});
           await new Promise(f => setTimeout(f, 5000));
@@ -83,29 +96,29 @@ export class AtualizarProfessoresComponent  implements OnInit{
       });
     }
 
-    buscarPessoa(matricula : number){
-      this.alunoService.findAlunosByMatricula(this.cargo, this.matricula).subscribe({
-        next: pessoa => {
-         this.pessoa = pessoa;   
-         this.formulario = this.fb.group({
-          matricula : [pessoa.matricula],
-          cpf : [pessoa.cpf, [Validators.required, Validators.minLength(11), Validators.maxLength(11)]],
-          nome : [pessoa.nome, [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
-          sobreNome : [pessoa.sobreNome, [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
-          dataNascimento : [pessoa.dataNascimento, [Validators.required]],
-          dataCadastro : [pessoa.dataCadastro, [Validators.required]],
-          cargo : [pessoa.cargo, [Validators.required]],
-          status : [pessoa.status, [Validators.required]],
-          urlFoto : [pessoa.urlFoto],
-          email : [pessoa.email, [Validators.required, Validators.email, Validators.maxLength(100)]],
-          ano : [0]
-        });
+  
 
-        this.urlFoto = pessoa.urlFoto;
-
-        },
-        error : err => console.log("Error", err)
+    formularioPreenchido(pessoa : Pessoa){
+      
+      this.formulario = this.fb.group({
+        matricula : [pessoa.matricula],
+        cpf : [pessoa.cpf, [Validators.required, Validators.minLength(11), Validators.maxLength(11)]],
+        nome : [pessoa.nome, [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
+        sobreNome : [pessoa.sobreNome, [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
+        dataNascimento : [pessoa.dataNascimento, [Validators.required]],
+        dataCadastro : [pessoa.dataCadastro, [Validators.required]],
+        cargo : [pessoa.cargo, [Validators.required]],
+        status : [pessoa.status, [Validators.required]],
+        urlFoto : [pessoa.urlFoto],
+        email : [pessoa.email, [Validators.required, Validators.email, Validators.maxLength(100)]],
+        ano : [0]
       });
+      this.urlFoto = pessoa.urlFoto;
+    }
+
+    isReadOnly() : boolean{
+      this.pessoaLogada = JSON.parse(localStorage.getItem("pessoa")!);
+     return this.pessoaLogada.cargo === "Professor" ? true : false;
     }
 
 }

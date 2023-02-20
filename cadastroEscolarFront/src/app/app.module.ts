@@ -39,6 +39,7 @@ import {MatIconModule} from '@angular/material/icon';
 import { AtualizarNotasComponent } from './escola/notas/atualizar-notas/atualizar-notas.component';
 import {MatMenuModule} from '@angular/material/menu';
 import { TokenInterceptorService } from './services/token-interceptor.service';
+import { MinhasNotasComponent } from './escola/notas/minhas-notas/minhas-notas.component';
 
 @NgModule({
   declarations: [
@@ -72,6 +73,7 @@ import { TokenInterceptorService } from './services/token-interceptor.service';
     CadastrarNotasComponent,
     BuscarNotasComponent,
     AtualizarNotasComponent,
+    MinhasNotasComponent,
     
   ],
   imports: [

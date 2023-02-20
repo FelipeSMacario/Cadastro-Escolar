@@ -24,6 +24,7 @@ import { CadastrarNotasComponent } from './escola/notas/cadastrar-notas/cadastra
 import { HomeNotasComponent } from './escola/notas/home-notas/home-notas.component';
 import { BuscarNotasComponent } from './escola/notas/buscar-notas/buscar-notas.component';
 import { AtualizarNotasComponent } from './escola/notas/atualizar-notas/atualizar-notas.component';
+import { MinhasNotasComponent } from './escola/notas/minhas-notas/minhas-notas.component';
 
 const routes: Routes = [
   {path: "", component: HomeComponent},
@@ -32,9 +33,11 @@ const routes: Routes = [
   {path: "alunos/buscar", component: BuscarAlunosComponent},
   {path: "alunos/cadastrar", component: CadastroAlunosComponent},
   {path: "alunos/atualizar/:matricula", component: AtualizarAlunosComponent},
+  {path: "alunos/meusDados", component: AtualizarAlunosComponent},
   {path: "professores", component: HomeProfessoresComponent},
   {path: "professores/buscar", component: BuscarProfessoresComponent},
   {path: "professores/cadastrar", component: CadastroProfessoresComponent},
+  {path: "professores/meusDados", component: AtualizarProfessoresComponent},
   {path: "professores/atualizar/:matricula", component: AtualizarProfessoresComponent},
   {path: "escola", component: HomeEscolaComponent},
   {path: "escola/materia/buscarMateria", component: BuscarMateriaComponent},
@@ -49,7 +52,11 @@ const routes: Routes = [
   {path: "escola/notas", component: HomeNotasComponent},
   {path: "escola/notas/cadastrar", component: CadastrarNotasComponent},
   {path: "escola/notas/buscar", component: BuscarNotasComponent},
-  {path: "notas/atualizar/:id", component: AtualizarNotasComponent}
+  {path: "notas/atualizar/:id", component: AtualizarNotasComponent},
+  {path: "escola/notas/minhasAulas", component: MinhasNotasComponent}
+  
+ 
+ 
 ];
 
 @NgModule({

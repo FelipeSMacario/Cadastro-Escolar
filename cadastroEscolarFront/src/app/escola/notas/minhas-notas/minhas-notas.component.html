@@ -1,0 +1,12 @@
+<div class="container divContainer">
+    <table class="table table-striped tabela flex">  
+        <tr>
+            <th>Matéria</th>
+            <th>Notas</th>
+        </tr>      
+        <tr *ngFor="let materia of notas">
+            <td>{{materia.materia.nome}}</td>
+            <td>{{materia.nota}}</td>
+        </tr>
+    </table>
+</div>
