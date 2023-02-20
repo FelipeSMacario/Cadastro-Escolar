@@ -7,6 +7,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,10 +24,12 @@ public class Turma {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "numero")
+    @Column(name = "numero", nullable = false)
     private int numero;
-
-    @Column(name = "ano")
+    @NotNull
+    @Min(0)
+    @Max(3)
+    @Column(name = "ano", nullable = false)
     private int ano;
 
     @ManyToMany(cascade = CascadeType.MERGE)

@@ -58,11 +58,11 @@ export class AtualizarAulasComponent  implements OnInit{
       next : qua => {
         this.quadroHorario = qua;
         this.formulario = this.fb.group({
-          turma : [qua.turma.id],
-          sala :[qua.sala.id],
-          materia : [qua.materia.id],
-          dia : [qua.dia.id],
-          hora : [qua.horas.id],
+          turma : [qua.turma.id, [Validators.required]],
+          sala :[qua.sala.id, [Validators.required]],
+          materia : [qua.materia.id, [Validators.required]],
+          dia : [qua.dia.id, [Validators.required]],
+          hora : [qua.horas.id, [Validators.required]],
         })
       },
       error : err => console.log(err)

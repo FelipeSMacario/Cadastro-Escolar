@@ -9,7 +9,7 @@ import { AulaHomeComponent } from './escola/aula/aula-home/aula-home.component';
 import { BuscarAulasComponent } from './escola/aula/buscar-aulas/buscar-aulas.component';
 import { CadastrarAulasComponent } from './escola/aula/cadastrar-aulas/cadastrar-aulas.component';
 import { CadastrarMateriasComponent } from './escola/materia/cadastrar-materia/cadastrar-materias.component';
-import { MateriaHomeComponent } from './escola/aula/materia-home/materia-home.component';
+import { MateriaHomeComponent } from './escola/materia/materia-home/materia-home.component';
 import { MinhasAulasComponent } from './escola/aula/minhas-aulas/minhas-aulas.component';
 import { HomeEscolaComponent } from './escola/home-escola/home-escola.component';
 import { AtualizarMateriaComponent } from './escola/materia/atualizar-materia/atualizar-materia.component';

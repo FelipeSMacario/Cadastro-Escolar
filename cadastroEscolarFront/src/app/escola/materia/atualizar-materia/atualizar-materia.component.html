@@ -12,12 +12,30 @@
           <div class="col">
             <label class="label labelNome">Matéria nova</label>
               <input type="text" class="form-control" placeholder="Nome matéria nova" formControlName = "nomeNovo"/>
+              <ng-container *ngIf="formulario.controls.nomeNovo.touched">
+
+                <span *ngIf="formulario.controls.nomeNovo.errors?.required">
+                  <div class="alert alert-danger" role="alert">
+                    O campo nome é um campo obrigatório!
+                  </div>
+                </span>
+                <span *ngIf="formulario.controls.nomeNovo.errors?.minlength">
+                  <div class="alert alert-danger" role="alert">
+                    O campo nome não tem a quantidade mínima de 3 caracteres!
+                  </div>
+                </span>
+                <span *ngIf="formulario.controls.nomeNovo.errors?.maxlength">
+                  <div class="alert alert-danger" role="alert">
+                    O campo nome ultrapassou o limite máximo de 50 caracteres!
+                  </div>
+                </span>
+              </ng-container>
             </div>
         </div>      
         
   
         <div class="divBotao">
-            <button class="btn botao" type="submit">Cadastrar</button>
+            <button class="btn botao" type="submit" [disabled]="!formulario.valid">Cadastrar</button>
         </div>
         
       </form>

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Notas } from 'src/app/models/notas';
@@ -49,8 +49,8 @@ export class AtualizarNotasComponent implements OnInit{
       matriculaAluno: nota.aluno.matricula,
       matriculaNome : nota.aluno.nome,
       materiaNome: nota.materia.nome,
-      materia : nota.materia.id,
-      nota: nota.nota,
+      materia : [nota.materia.id, [Validators.required]],
+      nota: [nota.nota, [Validators.required]],
       trimeste:nota.trimestre,
       turma :nota.turma.numero,
       turmaId : nota.turma.id

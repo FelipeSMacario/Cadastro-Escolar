@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SafeResourceUrl, DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -15,6 +15,7 @@ import { PessoaService } from 'src/app/services/pessoa.service';
 export class AtualizarAlunosComponent implements OnInit{
 
   pessoa : Pessoa = new Pessoa();
+  pessoaLogada : Pessoa;
   formulario : FormGroup;
   matricula : number;
   private readonly cargo : string = "alunos";
@@ -44,6 +45,11 @@ export class AtualizarAlunosComponent implements OnInit{
    this.formularioVazio();
    this. buscarPessoa(this.matricula);
 
+  }
+
+  isReadOnly() : boolean{
+    this.pessoaLogada = JSON.parse(localStorage.getItem("pessoa")!);
+   return this.pessoaLogada.cargo === "Aluno" ? true : false;
   }
 
 
@@ -99,16 +105,16 @@ export class AtualizarAlunosComponent implements OnInit{
        this.pessoa = pessoa;   
        this.formulario = this.fb.group({
         matricula : [pessoa.matricula],
-        cpf : [pessoa.cpf],
-        nome : [pessoa.nome],
-        sobreNome : [pessoa.sobreNome],
-        dataNascimento : [pessoa.dataNascimento],
-        dataCadastro : [pessoa.dataCadastro],
-        cargo : [pessoa.cargo],
-        status : [pessoa.status],
+        cpf : [pessoa.cpf, [Validators.required, Validators.minLength(11), Validators.maxLength(11)]],
+        nome : [pessoa.nome, [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
+        sobreNome : [pessoa.sobreNome, [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
+        dataNascimento : [pessoa.dataNascimento, [Validators.required]],
+        dataCadastro : [pessoa.dataCadastro, [Validators.required]],
+        cargo : [pessoa.cargo, [Validators.required]],
+        status : [pessoa.status, [Validators.required]],
         urlFoto : [pessoa.urlFoto],
-        email : [pessoa.email],
-        ano : [pessoa.ano]
+        email : [pessoa.email, [Validators.required, Validators.email, Validators.maxLength(100)]],
+        ano : [pessoa.ano, [Validators.required, Validators.min(1), Validators.max(3)]]
       });
 
       this.urlFoto = pessoa.urlFoto;

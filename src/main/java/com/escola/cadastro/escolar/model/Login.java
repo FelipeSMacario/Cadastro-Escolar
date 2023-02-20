@@ -8,6 +8,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -23,11 +24,12 @@ public class Login implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true)
+    @Column(name = "usuario", unique = true, nullable = false)
     private String usuario;
-    @Column(name = "senha")
+    @Column(name = "senha", nullable = false)
     private String senha;
-    @OneToOne
+    @OneToOne()
+    @NotNull
     private Pessoa pessoa;
 
     @ManyToMany(fetch=FetchType.EAGER)

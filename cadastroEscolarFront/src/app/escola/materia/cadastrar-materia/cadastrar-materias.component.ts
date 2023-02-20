@@ -19,8 +19,8 @@ export class CadastrarMateriasComponent implements OnInit{
 
   ngOnInit(): void {
     this.formulario = this.fb.group({
-      pessoa : ['', Validators.required],
-      nome: ['', Validators.required],
+      pessoa : [null],
+      nome: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
     });
     this.listarProfessores();
   }

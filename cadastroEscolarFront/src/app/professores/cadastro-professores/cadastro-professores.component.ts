@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { take } from 'rxjs';
@@ -32,12 +32,12 @@ export class CadastroProfessoresComponent  implements OnInit{
 
   formularioVazio(){
     this.formulario = this.fb.group({
-      cpf : [null],
-      dataNascimento : [null],
-      nome : [null],
-      sobreNome : [null],
+      cpf : [null,[Validators.required, Validators.minLength(11), Validators.maxLength(11)]],
+      dataNascimento : [null, [Validators.required]],
+      nome : [null, [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
+      sobreNome : [null, [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
       urlFoto : [null],
-      email : [null],
+      email : [null, [Validators.required, Validators.email, Validators.maxLength(100)]],
       ano : [0]
     })
   }

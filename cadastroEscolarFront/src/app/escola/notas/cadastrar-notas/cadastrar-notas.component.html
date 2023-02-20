@@ -21,6 +21,13 @@
                 {{ mat.nome }}
               </option>
             </select>
+            <ng-container *ngIf="formulario.controls.materia.touched">
+              <span *ngIf="formulario.controls.materia.errors?.required">
+                <div class="alert alert-danger" role="alert">
+                  O campo matéria é um campo obrigatório!
+                </div>
+              </span>
+            </ng-container>
           </div>
         </div>
         <div class="col">
@@ -41,6 +48,13 @@
             <option value="null" selected disabled>Selecione uma turma</option>
             <option *ngFor="let tur of turmas" [ngValue]="tur.id">{{ tur.numero }}</option>
           </select>
+          <ng-container *ngIf="formulario.controls.turma.touched">
+            <span *ngIf="formulario.controls.turma.errors?.required">
+              <div class="alert alert-danger" role="alert">
+                O campo turma é um campo obrigatório!
+              </div>
+            </span>
+          </ng-container>
         </div>
       </div>
 
@@ -59,7 +73,7 @@
                     <input class="input" type="text" readonly formControlName="nome"/>
                   </td>
                   <td>
-                    <input type="number" formControlName="notas" />
+                    <input type="number" formControlName="notas" min="0" max="10" step="0.1" />
                   </td>
               </tr>
             </tbody>
@@ -72,7 +86,7 @@
       </ng-template>  
 
       <div class="divBotao">
-        <button type="button" class="btn botao" (click)="salvarNotas()">
+        <button type="button" class="btn botao" (click)="salvarNotas()" [disabled]="!formulario.valid">
           Cadastrar
         </button>
       </div>

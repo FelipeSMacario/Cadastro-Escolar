@@ -8,6 +8,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Data
@@ -21,7 +24,10 @@ public class Dia {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "nome")
+    @NotNull
+    @NotEmpty
+    @NotBlank
+    @Column(name = "nome", nullable = false)
     @ApiModelProperty(value = "nome do dia da semana", example = "Segunda-Feira", required = true, position = 0)
     private String nome;
 
