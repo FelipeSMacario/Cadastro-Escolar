@@ -24,10 +24,11 @@ public class JWTConfiguracao {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
         http.csrf().disable().authorizeHttpRequests()
+                .antMatchers(HttpMethod.POST, "/login/logar").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .cors()
-               .and()
+                .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
