@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping(value = "materias")
@@ -21,7 +23,7 @@ public class MateriaController implements MateriaApi {
     }
 
     @PostMapping(value = "/cadastrar")
-    public ResponseEntity cadastraMateria(@RequestBody Materia materia) {
+    public ResponseEntity cadastraMateria(@RequestBody @Valid Materia materia) {
         return materiaService.cadastrarMateria(materia);
     }
 
@@ -31,7 +33,7 @@ public class MateriaController implements MateriaApi {
     }
 
     @PutMapping(value = "/atualizar")
-    public ResponseEntity atualizaMateria(@RequestBody Materia materia) {
+    public ResponseEntity atualizaMateria(@RequestBody @Valid Materia materia) {
         return materiaService.atualizarMateria(materia);
     }
 

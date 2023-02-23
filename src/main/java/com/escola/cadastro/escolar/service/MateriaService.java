@@ -1,5 +1,7 @@
 package com.escola.cadastro.escolar.service;
 
+import com.escola.cadastro.escolar.exception.MateriaNotFoundException;
+import com.escola.cadastro.escolar.exception.UserNotFoundException;
 import com.escola.cadastro.escolar.model.Materia;
 import com.escola.cadastro.escolar.model.Pessoa;
 import com.escola.cadastro.escolar.repository.MateriaRepository;
@@ -24,9 +26,9 @@ public class MateriaService {
     }
 
     public ResponseEntity buscarMateriaPorNome(String nome) {
-        return materiaRepository.findByNome(nome)
-                .map(record -> ResponseEntity.ok().body(record))
-                .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+        Materia materia = buscaMateriaPorNome(nome);
+        return ResponseEntity.ok().body(materia);
+
     }
 
     public ResponseEntity cadastrarMateria(Materia materia) {
@@ -39,28 +41,29 @@ public class MateriaService {
     }
 
     public ResponseEntity atualizarMateria(Materia materia) {
-        Optional<Materia> materia1 = materiaRepository.findById(materia.getId());
-
-        return materia1
-                .map(record -> {
-                    Materia materiaAtualizada = materiaRepository.save(
-                            Materia.builder()
-                                    .id(materia.getId())
-                                    .nome(materia.getNome())
-                                    .professor(materia.getProfessor())
-                                    .build()
-                    );
-                    return ResponseEntity.ok().body(materiaAtualizada);
-                }).orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+        Materia materia1 = buscaMateriaPorNome(materia.getNome());
+        Materia materiaAtualizada = materiaRepository.save(
+                Materia.builder()
+                        .id(materia1.getId())
+                        .nome(materia.getNome())
+                        .professor(materia.getProfessor())
+                        .build());
+                return ResponseEntity.ok().body(materiaAtualizada);
     }
 
     public ResponseEntity deletarMateria(Long id) {
-        Optional<Materia> materia = materiaRepository.findById(id);
+        Materia materia = buscaMateriaPorId(id);
+        materiaRepository.deleteById(materia.getId());
 
-        return materia
-                .map(record -> {
-                    materiaRepository.deleteById(materia.get().getId());
-                    return ResponseEntity.status(HttpStatus.OK).body("Matéria deletada com sucesso");
-                }).orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+        return ResponseEntity.ok().body("Matéria deletada com sucesso");
     }
+
+    private Materia buscaMateriaPorNome(String nome) {
+        return materiaRepository.findByNome(nome).orElseThrow(() -> new MateriaNotFoundException(nome));
+    }
+
+    private Materia buscaMateriaPorId(Long id) {
+        return materiaRepository.findById(id).orElseThrow(() -> new MateriaNotFoundException("",id));
+    }
+
 }

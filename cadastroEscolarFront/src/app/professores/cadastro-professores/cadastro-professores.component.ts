@@ -32,7 +32,7 @@ export class CadastroProfessoresComponent  implements OnInit{
 
   formularioVazio(){
     this.formulario = this.fb.group({
-      cpf : [null,[Validators.required, Validators.minLength(11), Validators.maxLength(11)]],
+      cpf : [null],
       dataNascimento : [null, [Validators.required]],
       nome : [null, [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
       sobreNome : [null, [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
@@ -49,7 +49,8 @@ export class CadastroProfessoresComponent  implements OnInit{
         this.formularioVazio();
       },
       
-      error : err => this._snackBar.open(err, "", {duration : 5000})
+     /* error : err => this._snackBar.open(err, "", {duration : 5000})*/
+     error : err =>  console.log(err)
     })
   }
 

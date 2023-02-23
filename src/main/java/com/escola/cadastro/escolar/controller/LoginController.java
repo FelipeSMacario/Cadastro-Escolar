@@ -6,6 +6,8 @@ import com.escola.cadastro.escolar.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping(value = "login")
@@ -13,7 +15,7 @@ public class LoginController {
     @Autowired
     LoginService loginService;
     @PostMapping(value = "/logar")
-    public AuthenticationResponse logar(@RequestBody LoginEntradaDTO entradaDTO){
+    public AuthenticationResponse logar(@RequestBody @Valid LoginEntradaDTO entradaDTO){
         return loginService.loganUsuario(entradaDTO);
     }
 }

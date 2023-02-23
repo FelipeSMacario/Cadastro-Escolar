@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.br.CPF;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -27,7 +28,7 @@ public class Pessoa {
     @NotNull
     @NotEmpty
     @NotBlank
-    //@CPF
+    @CPF
     @Length(min = 11, max = 11)
     @Column(name = "cpf", nullable = false)
     @ApiModelProperty(value = "CPF da pessoa", example = "15152736900", required = true, position = 1)

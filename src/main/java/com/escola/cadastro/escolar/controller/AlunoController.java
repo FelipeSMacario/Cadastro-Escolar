@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping(value = "alunos")
@@ -34,7 +36,7 @@ public class AlunoController implements AlunoApi {
     }
 
     @PostMapping(value = "/cadastrar")
-    public ResponseEntity cadastrarAlunos(@RequestBody Pessoa pessoa) {
+    public ResponseEntity cadastrarAlunos(@RequestBody @Valid  Pessoa pessoa) {
         return alunoService.cadastrar(pessoa, cargo);
     }
 

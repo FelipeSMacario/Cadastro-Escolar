@@ -2,6 +2,7 @@ package com.escola.cadastro.escolar.service;
 
 import com.escola.cadastro.escolar.dto.EntradaDTO;
 import com.escola.cadastro.escolar.enums.RoleName;
+import com.escola.cadastro.escolar.exception.UserNotFoundException;
 import com.escola.cadastro.escolar.model.Login;
 import com.escola.cadastro.escolar.model.Pessoa;
 import com.escola.cadastro.escolar.model.Role;
@@ -91,9 +92,7 @@ public class PessoaService {
     }
 
     public ResponseEntity buscar(Long matricula, String cargo) {
-        return pessoaRepository.findByMatriculaAndCargoAndStatus(matricula, cargo, "Ativo")
-                .map(record -> ResponseEntity.ok().body(record))
-                .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+        return ResponseEntity.ok().body(buscaPessoa(matricula, cargo));
     }
 
     public ResponseEntity cadastrar(Pessoa pessoa, String cargo) {
@@ -134,27 +133,28 @@ public class PessoaService {
     }
 
     public ResponseEntity atualizar(EntradaDTO entradaDTO, String cargo) {
-        Optional<Pessoa> pessoa = pessoaRepository.findByMatriculaAndCargoAndStatus(entradaDTO.getMatricula(), cargo, "Ativo");
+        Pessoa pessoa = buscaPessoa(entradaDTO.getMatricula(), cargo);
+        Pessoa pessoaAtualizada = pessoaRepository.save(Pessoa.builder()
+                .matricula(entradaDTO.getMatricula())
+                .cpf(entradaDTO.getCpf())
+                .nome(entradaDTO.getNome())
+                .sobreNome(entradaDTO.getSobreNome())
+                .email(entradaDTO.getEmail())
+                .dataNascimento(entradaDTO.getDataNascimento())
+                .dataCadastro(pessoa.getDataCadastro())
+                .status(entradaDTO.getStatus())
+                .urlFoto(entradaDTO.getUrlFoto())
+                .cargo(pessoa.getCargo()).build());
 
-        return pessoa
-                .map(record -> {
-                    Pessoa professorAtualizado = pessoaRepository.save(Pessoa.builder()
-                            .matricula(entradaDTO.getMatricula())
-                            .cpf(entradaDTO.getCpf())
-                            .nome(entradaDTO.getNome())
-                            .sobreNome(entradaDTO.getSobreNome())
-                                    .email(entradaDTO.getEmail())
-                            .dataNascimento(entradaDTO.getDataNascimento())
-                            .dataCadastro(pessoa.get().getDataCadastro())
-                            .status(entradaDTO.getStatus())
-                                    .urlFoto(entradaDTO.getUrlFoto())
-                            .cargo(pessoa.get().getCargo()).build());
-                    return ResponseEntity.ok().body(professorAtualizado);
-                }).orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+        return ResponseEntity.ok().body(pessoaAtualizada);
     }
 
     public ResponseEntity buscarPorNome(String nome, String cargo) {
         return ResponseEntity.status(HttpStatus.OK).body(pessoaRepository.findByNomeAndCargoAndStatus(nome, cargo, "Ativo"));
+    }
+
+    private Pessoa buscaPessoa(Long matricula, String cargo){
+        return pessoaRepository.findByMatriculaAndCargoAndStatus(matricula, cargo, "Ativo").orElseThrow(() -> new UserNotFoundException(matricula));
     }
 
 

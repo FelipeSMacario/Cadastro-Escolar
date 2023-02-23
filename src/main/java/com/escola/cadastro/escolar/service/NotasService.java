@@ -4,6 +4,7 @@ import com.escola.cadastro.escolar.dto.NotasDTO;
 import com.escola.cadastro.escolar.dto.NotasPessoaDTO;
 import com.escola.cadastro.escolar.dto.NotasSaidaDTO;
 import com.escola.cadastro.escolar.dto.NotasTrimestreDTO;
+import com.escola.cadastro.escolar.exception.*;
 import com.escola.cadastro.escolar.model.Materia;
 import com.escola.cadastro.escolar.model.Notas;
 import com.escola.cadastro.escolar.model.Pessoa;
@@ -37,19 +38,19 @@ public class NotasService {
     TurmaRepository turmaRepository;
 
     public ResponseEntity cadastrarNotas(NotasDTO notasDTO) {
-        Optional<Pessoa> professor = buscaPessoa(notasDTO.getMatriculaProfessor(), "Professor");
-        Optional<Materia> materia = buscaMateria(notasDTO.getMateria());
-        Optional<Turma> turma = buscaTurma(notasDTO.getTurmaId());
+        Pessoa professor = buscaPessoa(notasDTO.getMatriculaProfessor(), "Professor");
+        Materia materia = buscaMateriaPorNome(notasDTO.getMateria());
+        Turma turma = buscaTurma(notasDTO.getTurmaId());
 
         notasDTO.getMatriculasNotas().forEach(valor -> {
-            Optional<Pessoa> aluno = buscaPessoa(valor.getMatriculaAluno(), "Aluno");
-            validaTrimeste(professor.get().getMatricula(), aluno.get().getMatricula(), materia.get().getId(), buscaTrimeste(), notasDTO.getTurmaId());
+            Pessoa aluno = buscaPessoa(valor.getMatriculaAluno(), "Aluno");
+            validaTrimeste(professor.getMatricula(), aluno.getMatricula(), materia.getId(), buscaTrimeste(), notasDTO.getTurmaId());
             Notas motas = Notas.builder()
                     .nota(valor.getNotas())
-                    .professor(professor.get())
-                    .turma(turma.get())
-                    .aluno(aluno.get())
-                    .materia(materia.get())
+                    .professor(professor)
+                    .turma(turma)
+                    .aluno(aluno)
+                    .materia(materia)
                     .dataInclusao(LocalDate.now())
                     .trimestre(buscaTrimeste()).build();
             notasRepository.save(motas);
@@ -59,32 +60,25 @@ public class NotasService {
     }
 
     public ResponseEntity alterarNotas(NotasTrimestreDTO notasDTO) {
-        Optional<Notas> notas = notasRepository.findById(notasDTO.getNotaId());
+        Notas notas = buscaNotas(notasDTO.getNotaId());
+        Notas notaAtualizada = notasRepository.save(Notas.builder()
+                .id(notas.getId())
+                .professor(notas.getProfessor())
+                .aluno(notas.getAluno())
+                .materia(notas.getMateria())
+                .trimestre(notas.getTrimestre())
+                .turma(notas.getTurma())
+                .dataInclusao(notas.getDataInclusao())
+                .nota(notasDTO.getNota())
+                .build());
 
-        return notas
-                .map(record -> {
-                    Notas notaAtualizada = notasRepository.save(Notas.builder()
-                            .id(notas.get().getId())
-                            .professor(notas.get().getProfessor())
-                            .aluno(notas.get().getAluno())
-                            .materia(notas.get().getMateria())
-                            .trimestre(notas.get().getTrimestre())
-                                    .turma(notas.get().getTurma())
-                            .dataInclusao(notas.get().getDataInclusao())
-                            .nota(notasDTO.getNota())
-                            .build());
-                    return ResponseEntity.ok().body(notaAtualizada);
-                }).orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+        return ResponseEntity.ok().body(notaAtualizada);
     }
 
     public ResponseEntity deletarNotas(NotasTrimestreDTO notasDTO) {
-        Optional<Notas> notas = notasRepository.findById(notasDTO.getNotaId());
-
-        return notas
-                .map(record -> {
-                    notasRepository.deleteById(notas.get().getId());
-                    return ResponseEntity.status(HttpStatus.OK).body("Nota deletada com sucesso");
-                }).orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+        Notas notas = buscaNotas(notasDTO.getNotaId());
+        notasRepository.deleteById(notas.getId());
+        return ResponseEntity.status(HttpStatus.OK).body("Nota deletada com sucesso");
     }
 
     public ResponseEntity listarNotas(NotasPessoaDTO notasPessoaDTO) {
@@ -108,24 +102,19 @@ public class NotasService {
     }
 
     public ResponseEntity buscaNotaPorId(Long id) {
-        Optional<Notas> notas = notasRepository.findById(id);
-        return notas
-                .map(record -> {
-                    return ResponseEntity.ok().body(notas);
-                })
-                .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+        return ResponseEntity.ok().body( buscaNotas(id));
     }
 
     public ResponseEntity buscaNotasPorTurmaAMateria(Long idTurma, Long idMateria) {
-        Optional<Turma> turma = buscaTurma(idTurma);
-        Optional<Materia> materia = buscaMateriaPorId(idMateria);
+        Turma turma = buscaTurma(idTurma);
+        Materia materia = buscaMateriaPorId(idMateria);
 
-        return ResponseEntity.ok().body(notasRepository.findByTurmaIdAndMateriaId(turma.get().getId(), materia.get().getId()));
+        return ResponseEntity.ok().body(notasRepository.findByTurmaIdAndMateriaId(turma.getId(), materia.getId()));
     }
 
     public ResponseEntity buscaPorMatricula(Long matricula) {
-        Optional<Pessoa> aluno = buscaPessoa(matricula, "Aluno");
-        return ResponseEntity.ok().body(notasRepository.findByAlunoMatricula(aluno.get().getMatricula()));
+        Pessoa aluno = buscaPessoa(matricula, "Aluno");
+        return ResponseEntity.ok().body(notasRepository.findByAlunoMatricula(aluno.getMatricula()));
     }
 
     private Integer buscaTrimeste() {
@@ -149,29 +138,23 @@ public class NotasService {
     private void validaTrimeste(Long idProfessor, Long idAluno, Long idMateria, Integer semestre, Long idTurma) {
         Optional<Notas> notas = notasRepository.buscaNotas(idProfessor, idAluno, idMateria, semestre, idTurma);
         if (notas.isPresent())
-            throw new ServiceException("Ja existe nota cadastrada para essa matéria nesse semestre");
+            throw new NotasAlreadyExistsException(notas.get().getId());
     }
 
-    private Optional<Pessoa> buscaPessoa(Long matricula, String cargo) {
-        return Optional.ofNullable(pessoaRepository.findByMatriculaAndCargoAndStatus(matricula, cargo, "Ativo")
-                .orElseThrow(() -> new ServiceException("Nenhum " + cargo + " identificado com essas carecterísticas")));
+    private Turma buscaTurma(Long turmaId) {
+        return turmaRepository.findById(turmaId).orElseThrow(() -> new TurmaNotFound(turmaId));
+    }
+    private Materia buscaMateriaPorId(Long id) {
+        return materiaRepository.findById(id).orElseThrow(() -> new MateriaNotFoundException("",id));
     }
 
-    private Optional<Materia> buscaMateria(String nome) {
-        return Optional.ofNullable(materiaRepository.findByNome(nome))
-                .orElseThrow(() -> new ServiceException("Nenhuma materia identificado com essas carecterísticas"));
+    private Pessoa buscaPessoa(Long matricula, String cargo){
+        return pessoaRepository.findByMatriculaAndCargoAndStatus(matricula, cargo, "Ativo").orElseThrow(() -> new UserNotFoundException(matricula));
     }
-
-    private Optional<Turma> buscaTurma(Long turmaId) {
-        return Optional.ofNullable(turmaRepository.findById(turmaId))
-                .orElseThrow(() -> new ServiceException("Nenhuma turma identificado com essas carecterísticas"));
+    private Materia buscaMateriaPorNome(String nome) {
+        return materiaRepository.findByNome(nome).orElseThrow(() -> new MateriaNotFoundException(nome));
     }
-
-    private Optional<Materia> buscaMateriaPorId(Long id) {
-        return Optional.ofNullable(materiaRepository.findById(id))
-                .orElseThrow(() -> new ServiceException("Nenhuma materia identificado com essas carecterísticas"));
+    private Notas buscaNotas(Long id){
+        return notasRepository.findById(id).orElseThrow(() -> new NotasNotFoundException(id));
     }
-
-
-
 }
