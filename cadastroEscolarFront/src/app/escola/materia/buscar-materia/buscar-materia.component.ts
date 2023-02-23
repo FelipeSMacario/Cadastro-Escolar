@@ -43,10 +43,15 @@ export class BuscarMateriaComponent implements OnInit{
     if (this.formulario.controls["valor"].value == 1){
       this.materiaService.buscarMateriaPorNome(this.formulario.controls["filtro"].value).subscribe({
         next : mat => {
-          this.materias = this.removerTodos();
-          this.materias.push(mat);
-        },
-        error : err => console.log("Error", err)
+          this.resposta = mat;
+
+          if(this.resposta.success){
+            this.materias = this.removerTodos();
+            this.materias.push(this.resposta.data);
+          }else {
+            console.log("Error", this.resposta.messagem)
+          }
+        }
       })
     } 
     if (this.formulario.controls["valor"].value == 2){

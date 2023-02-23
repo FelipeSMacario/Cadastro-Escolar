@@ -2,6 +2,7 @@ package com.escola.cadastro.escolar.controller;
 
 import com.escola.cadastro.escolar.controller.api.MateriaApi;
 import com.escola.cadastro.escolar.model.Materia;
+import com.escola.cadastro.escolar.model.response.DefaultResponse;
 import com.escola.cadastro.escolar.service.MateriaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -23,22 +24,22 @@ public class MateriaController implements MateriaApi {
     }
 
     @PostMapping(value = "/cadastrar")
-    public ResponseEntity cadastraMateria(@RequestBody @Valid Materia materia) {
+    public ResponseEntity<DefaultResponse> cadastraMateria(@RequestBody @Valid Materia materia) {
         return materiaService.cadastrarMateria(materia);
     }
 
     @GetMapping(value = "/buscar/{nome}")
-    public ResponseEntity buscarMateria(@PathVariable String nome) {
+    public ResponseEntity<DefaultResponse> buscarMateria(@PathVariable String nome) {
         return materiaService.buscarMateriaPorNome(nome);
     }
 
     @PutMapping(value = "/atualizar")
-    public ResponseEntity atualizaMateria(@RequestBody @Valid Materia materia) {
+    public ResponseEntity<DefaultResponse> atualizaMateria(@RequestBody @Valid Materia materia) {
         return materiaService.atualizarMateria(materia);
     }
 
     @DeleteMapping(value = "deletar/{id}")
-    public ResponseEntity deletarMateria(@PathVariable Long id) {
+    public ResponseEntity<DefaultResponse> deletarMateria(@PathVariable Long id) {
         return materiaService.deletarMateria(id);
     }
 }

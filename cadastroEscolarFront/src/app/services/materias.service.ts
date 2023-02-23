@@ -25,12 +25,12 @@ export class MateriasService {
     return this.httpClient.post<DefaultResponse>(this.url + "/cadastrar", materia);
   }
 
-  buscarMateriaPorNome(nome : string) : Observable<Materia>{
-    return this.httpClient.get<Materia>(this.url + "/buscar/" + nome);
+  buscarMateriaPorNome(nome : string) : Observable<DefaultResponse>{
+    return this.httpClient.get<DefaultResponse>(this.url + "/buscar/" + nome);
   }
 
-  atualizarMateria(materia : Materia) : Observable<Object>{
-    return this.httpClient.put(this.url + "/atualizar", materia);
+  atualizarMateria(materia : Materia) : Observable<DefaultResponse>{
+    return this.httpClient.put<DefaultResponse>(this.url + "/atualizar", materia);
   }
 
   deletarMateria(id : number) : Observable<DefaultResponse> {

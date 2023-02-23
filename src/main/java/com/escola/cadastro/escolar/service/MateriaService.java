@@ -27,9 +27,14 @@ public class MateriaService {
         return ResponseEntity.status(HttpStatus.OK).body(materiaRepository.findAll());
     }
 
-    public ResponseEntity buscarMateriaPorNome(String nome) {
+    public ResponseEntity<DefaultResponse> buscarMateriaPorNome(String nome) {
         Materia materia = buscaMateriaPorNome(nome);
-        return ResponseEntity.ok().body(materia);
+
+        return ResponseEntity.ok().body(DefaultResponse.builder()
+                .success(true)
+                .status(HttpStatus.OK)
+                .data(materia)
+                .build());
 
     }
 
@@ -46,15 +51,21 @@ public class MateriaService {
                 .build());
     }
 
-    public ResponseEntity atualizarMateria(Materia materia) {
-        Materia materia1 = buscaMateriaPorNome(materia.getNome());
+    public ResponseEntity<DefaultResponse> atualizarMateria(Materia materia) {
+        Materia materia1 = buscaMateriaPorId(materia.getId());
         Materia materiaAtualizada = materiaRepository.save(
                 Materia.builder()
                         .id(materia1.getId())
                         .nome(materia.getNome())
                         .professor(materia.getProfessor())
                         .build());
-                return ResponseEntity.ok().body(materiaAtualizada);
+
+        return ResponseEntity.ok().body(DefaultResponse.builder()
+                .success(true)
+                .messagem("Matéria atualizada com sucesso")
+                .status(HttpStatus.OK)
+                .data(materiaAtualizada)
+                .build());
     }
 
     public ResponseEntity<DefaultResponse> deletarMateria(Long id) {

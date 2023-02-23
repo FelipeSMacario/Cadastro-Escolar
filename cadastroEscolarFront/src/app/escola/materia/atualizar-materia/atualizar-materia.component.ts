@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Materia } from 'src/app/models/materia';
+import { DefaultResponse } from 'src/app/models/Response/defaultResponse';
 import { MateriasService } from 'src/app/services/materias.service';
 
 @Component({
@@ -14,6 +15,7 @@ export class AtualizarMateriaComponent implements OnInit{
   nome : string;
   formulario : FormGroup;
   materia : Materia = new Materia();
+  resposta : DefaultResponse;
 
   constructor(
     private fb : FormBuilder,
@@ -27,9 +29,12 @@ export class AtualizarMateriaComponent implements OnInit{
   
       this.materiaService.buscarMateriaPorNome(this.nome).subscribe({
         next: mat => {
-         this.materia = mat;    
-        },
-        error : err => console.log("Error", err)
+          this.resposta = mat;
+          if(this.resposta.success){
+            this.materia = this.resposta.data;
+          }else {
+            console.log("Error", this.resposta.messagem);
+        }}
       });
   
       this.formulario = this.fb.group({
@@ -42,7 +47,10 @@ export class AtualizarMateriaComponent implements OnInit{
     salvarMateria(){
       this.materia.nome = this.formulario.controls["nomeNovo"].value;
         this.materiaService.atualizarMateria(this.materia).subscribe({
-          next : mat => console.log("Matéria atualizada"),
+          next : mat => {
+            this.resposta = mat;
+
+            console.log(this.resposta.messagem)},
           error : err => console.log(err)
         })
     }

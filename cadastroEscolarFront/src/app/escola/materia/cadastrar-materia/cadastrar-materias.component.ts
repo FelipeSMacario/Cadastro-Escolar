@@ -45,7 +45,7 @@ export class CadastrarMateriasComponent implements OnInit{
   defineMateria() : Materia {
 
     const newPessoa = new Pessoa();
-    newPessoa.matricula = 458;
+    newPessoa.matricula = this.formulario.value.pessoa;
     this.materia.nome = this.formulario.value.nome;
     this.materia.professor = newPessoa;
 
