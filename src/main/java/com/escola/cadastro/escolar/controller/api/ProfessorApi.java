@@ -2,6 +2,7 @@ package com.escola.cadastro.escolar.controller.api;
 
 import com.escola.cadastro.escolar.dto.EntradaDTO;
 import com.escola.cadastro.escolar.model.Pessoa;
+import com.escola.cadastro.escolar.model.response.DefaultResponse;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.ResponseEntity;
@@ -16,12 +17,14 @@ public interface ProfessorApi {
     public ResponseEntity listarProfessores();
 
     @ApiOperation("Buscar um professor")
-    public ResponseEntity buscarProfessor(@PathVariable Long matricula);
+    public ResponseEntity<DefaultResponse> buscarProfessor(@PathVariable Long matricula);
+
+    public ResponseEntity buscarAlunoPorNome(@PathVariable String nome);
 
     @ApiOperation("Cadastrar um novo professor")
-    public ResponseEntity cadastrarProfessor(@RequestBody @Valid Pessoa pessoa);
+    public ResponseEntity<DefaultResponse> cadastrarProfessor(@RequestBody @Valid Pessoa pessoa);
 
     @ApiOperation("Atualizado dados do professor")
-    public ResponseEntity atualizarProfessor(@RequestBody EntradaDTO entradaDTO);
+    public ResponseEntity<DefaultResponse> atualizarProfessor(@RequestBody EntradaDTO entradaDTO);
 
 }

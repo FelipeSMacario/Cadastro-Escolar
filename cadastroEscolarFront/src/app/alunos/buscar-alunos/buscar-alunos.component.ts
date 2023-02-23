@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Pessoa } from 'src/app/models/pessoa';
+import { DefaultResponse } from 'src/app/models/Response/defaultResponse';
 import { PessoaService } from 'src/app/services/pessoa.service';
 
 @Component({
@@ -12,7 +13,7 @@ import { PessoaService } from 'src/app/services/pessoa.service';
 export class BuscarAlunosComponent implements OnInit{
 
   pessoas : Pessoa[] = [];
-  
+  resposta : DefaultResponse;
   formulario : FormGroup;
 
   private readonly cargo : string = "alunos";
@@ -44,10 +45,15 @@ export class BuscarAlunosComponent implements OnInit{
     if (this.formulario.controls["valor"].value == 2) {
       this.alunoService.findAlunosByMatricula(this.cargo, this.formulario.controls["filtro"].value).subscribe({
         next: pessoa => {
-          this.pessoas = this.removeTodos();
-          this.pessoas.push(pessoa);
-        },
-        error : err => console.log("Error", err)
+          this.resposta = pessoa;
+
+          if(this.resposta.success){
+            this.pessoas = this.removeTodos();
+            this.pessoas.push(this.resposta.data);
+          }else {
+            console.log("Error", this.resposta.messagem)
+          }
+        }
       }) 
     }
 

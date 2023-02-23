@@ -3,6 +3,7 @@ package com.escola.cadastro.escolar.service;
 import com.escola.cadastro.escolar.dto.EntradaQuadroAtualizarDTO;
 import com.escola.cadastro.escolar.dto.EntradaQuadroHorarioDTO;
 import com.escola.cadastro.escolar.dto.SaidaTurmaHorarioDTO;
+import com.escola.cadastro.escolar.exception.QuadroHorarioNotFound;
 import com.escola.cadastro.escolar.model.*;
 import com.escola.cadastro.escolar.repository.*;
 import org.hibernate.service.spi.ServiceException;
@@ -60,29 +61,24 @@ public class QuadroHorarioService {
     public ResponseEntity atualizarQuadro(EntradaQuadroAtualizarDTO entrada) {
         validacoes(new EntradaQuadroHorarioDTO(entrada.getIdDia(), entrada.getIdHora(), entrada.getIdTurma(), entrada.getIdMateria(), entrada.getIdSala()));
 
-        Optional<QuadroHorario> quadroHorario = quadroHorarioRepository.findById(entrada.getIdQuadro());
+        QuadroHorario quadroHorario = buscaQuadroHorario(entrada.getIdQuadro());
+        quadroHorarioRepository.atualizarQuadro(
+                entrada.getIdQuadro(),
+                entrada.getIdTurma(),
+                entrada.getIdMateria(),
+                entrada.getIdHora(),
+                entrada.getIdDia(),
+                entrada.getIdSala()
+        );
 
-        return quadroHorario
-                .map(record -> {
-                    quadroHorarioRepository.atualizarQuadro(
-                            entrada.getIdQuadro(),
-                            entrada.getIdTurma(),
-                            entrada.getIdMateria(),
-                            entrada.getIdHora(),
-                            entrada.getIdDia(),
-                            entrada.getIdSala()
-                    );
-                    return ResponseEntity.ok().body("QUadro atualizado com sucesso");
-                }).orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+        return ResponseEntity.ok().body("QUadro atualizado com sucesso");
     }
 
     public ResponseEntity deletarQuadro(Long id) {
-        Optional<QuadroHorario> quadroHorario = quadroHorarioRepository.findById(id);
-        return quadroHorario
-                .map(record -> {
-                    quadroHorarioRepository.deletarQuadro(id);
-                    return ResponseEntity.ok().body("Quadro deletado com sucesso!");
-                }).orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+        QuadroHorario quadroHorario = buscaQuadroHorario(id);
+        quadroHorarioRepository.deletarQuadro(quadroHorario.getId());
+
+        return ResponseEntity.ok().body("Quadro deletado com sucesso!");
     }
 
     public ResponseEntity buscarHorarioPorTurma(Long turma) {
@@ -148,4 +144,10 @@ public class QuadroHorarioService {
         if (quadroHorarioRepository.validaMateriaDisponivel(entrada.getIdDia(), entrada.getIdHora(), entrada.getIdMateria()) >= 1)
             throw new ServiceException("Hora já matéria já cadastrada para esse horário");
     }
+
+    private QuadroHorario buscaQuadroHorario(Long id){
+        return quadroHorarioRepository.findById(id).orElseThrow(() -> new QuadroHorarioNotFound(id));
+    }
 }
+
+

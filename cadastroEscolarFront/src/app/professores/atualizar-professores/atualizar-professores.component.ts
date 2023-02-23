@@ -5,6 +5,7 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { take } from 'rxjs';
 import { Pessoa } from 'src/app/models/pessoa';
+import { DefaultResponse } from 'src/app/models/Response/defaultResponse';
 import { PessoaService } from 'src/app/services/pessoa.service';
 
 @Component({
@@ -22,6 +23,7 @@ export class AtualizarProfessoresComponent  implements OnInit{
   urlFoto : SafeResourceUrl;
   imagem2 : any;
   titulo : string;
+  resposta : DefaultResponse;
 
   constructor(
     private fb : FormBuilder,
@@ -40,8 +42,15 @@ export class AtualizarProfessoresComponent  implements OnInit{
       if(this.matricula){
         this.titulo = "Atualizar professores";
         this.professorService.findAlunosByMatricula(this.cargo, this.matricula).subscribe({
-          next : alu => this.formularioPreenchido(alu),
-          error : err => console.log(err)
+          next : alu => {
+            this.resposta = alu;
+
+            if(this.resposta.success){
+              this.formularioPreenchido(this.resposta.data);
+            } else {
+              console.log(this.resposta.messagem);
+            }
+            }
         })
       } else {
         this.titulo = "Meus dados";

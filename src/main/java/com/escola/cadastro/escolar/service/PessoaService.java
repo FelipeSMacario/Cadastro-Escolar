@@ -6,6 +6,7 @@ import com.escola.cadastro.escolar.exception.UserNotFoundException;
 import com.escola.cadastro.escolar.model.Login;
 import com.escola.cadastro.escolar.model.Pessoa;
 import com.escola.cadastro.escolar.model.Role;
+import com.escola.cadastro.escolar.model.response.DefaultResponse;
 import com.escola.cadastro.escolar.repository.LoginRepository;
 import com.escola.cadastro.escolar.repository.PessoaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,6 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import com.sendgrid.*;
 import com.sendgrid.helpers.mail.Mail;
 import com.sendgrid.helpers.mail.objects.Content;
@@ -95,7 +95,7 @@ public class PessoaService {
         return ResponseEntity.ok().body(buscaPessoa(matricula, cargo));
     }
 
-    public ResponseEntity cadastrar(Pessoa pessoa, String cargo) {
+    public ResponseEntity<DefaultResponse> cadastrar(Pessoa pessoa, String cargo) {
         Pessoa pessoa1 = Pessoa.builder()
                 .cpf(pessoa.getCpf())
                 .nome(pessoa.getNome())
@@ -114,12 +114,12 @@ public class PessoaService {
         Role role = pessoa1.getCargo().equals("Professor") ? new Role(2L, RoleName.ROLE_PROFESSOR) : new Role(3L, RoleName.ROLE_ALUNO);
         roles.add(role);
 
-        try {
-            sendEmailToUser(pessoa.getEmail(), pessoa.getNome(), pessoa1.getCpf());
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+//        try {
+//            sendEmailToUser(pessoa.getEmail(), pessoa.getNome(), pessoa1.getCpf());
+//        } catch (IOException e) {
+//            // TODO Auto-generated catch block
+//            e.printStackTrace();
+//        }
 
         Login login = Login.builder()
                 .usuario(pessoa1.getEmail())
@@ -129,10 +129,15 @@ public class PessoaService {
                 .build();
         loginRepository.save(login);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(pessoa1);
+        return ResponseEntity.ok().body(DefaultResponse.builder()
+                        .success(true)
+                        .status(HttpStatus.CREATED)
+                        .messagem(cargo + " cadastrado com sucesso!")
+                        .data(pessoa1)
+                .build());
     }
 
-    public ResponseEntity atualizar(EntradaDTO entradaDTO, String cargo) {
+    public ResponseEntity<DefaultResponse> atualizar(EntradaDTO entradaDTO, String cargo) {
         Pessoa pessoa = buscaPessoa(entradaDTO.getMatricula(), cargo);
         Pessoa pessoaAtualizada = pessoaRepository.save(Pessoa.builder()
                 .matricula(entradaDTO.getMatricula())
@@ -146,7 +151,11 @@ public class PessoaService {
                 .urlFoto(entradaDTO.getUrlFoto())
                 .cargo(pessoa.getCargo()).build());
 
-        return ResponseEntity.ok().body(pessoaAtualizada);
+        return ResponseEntity.ok().body(DefaultResponse.builder()
+                .success(true)
+                .status(HttpStatus.ACCEPTED)
+                .data(pessoaAtualizada)
+                .build());
     }
 
     public ResponseEntity buscarPorNome(String nome, String cargo) {

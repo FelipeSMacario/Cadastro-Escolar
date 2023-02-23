@@ -20,12 +20,15 @@ public class ControllerException {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public List<ErrorHandle> handle(MethodArgumentNotValidException exception){
+    public ResponseEntity<DefaultResponse> handle(MethodArgumentNotValidException exception){
         List<FieldError> fieldErrorList = exception.getBindingResult().getFieldErrors();
-        List<ErrorHandle> errorHandles = new ArrayList<>();
 
-        fieldErrorList.forEach(error -> errorHandles.add(new ErrorHandle(error.getField(), error.getDefaultMessage())));
-        return errorHandles;
+        return ResponseEntity.ok().body(DefaultResponse.builder()
+                .success(false)
+                .timestamp(LocalDate.now())
+                .status(HttpStatus.BAD_REQUEST)
+                .messagem("Um ou mais campos estão invalidos: " + fieldErrorList.get(0).getField())
+                .build());
     }
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
@@ -90,6 +93,27 @@ public class ControllerException {
                 .success(false)
                 .timestamp(LocalDate.now())
                 .status(HttpStatus.CONFLICT)
+                .messagem(exception.getMessage())
+                .build();
+    }
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(QuadroHorarioNotFound.class)
+    public ErroResponse handleQuadroNotFound(QuadroHorarioNotFound exception){
+        return ErroResponse.builder()
+                .success(false)
+                .timestamp(LocalDate.now())
+                .status(HttpStatus.NOT_FOUND)
+                .messagem(exception.getMessage())
+                .build();
+    }
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(TurmaNotFoundException.class)
+    public ErroResponse handleTurmaNotFound(TurmaNotFoundException exception){
+        return ErroResponse.builder()
+                .success(false)
+                .timestamp(LocalDate.now())
+                .status(HttpStatus.NOT_FOUND)
                 .messagem(exception.getMessage())
                 .build();
     }

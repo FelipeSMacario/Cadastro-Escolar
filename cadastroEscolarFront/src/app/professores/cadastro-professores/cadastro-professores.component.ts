@@ -4,6 +4,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { take } from 'rxjs';
 import { Pessoa } from 'src/app/models/pessoa';
+import { DefaultResponse } from 'src/app/models/Response/defaultResponse';
 import { PessoaService } from 'src/app/services/pessoa.service';
 
 @Component({
@@ -18,6 +19,7 @@ export class CadastroProfessoresComponent  implements OnInit{
   private readonly cargo : string = "professor";
   urlFoto : SafeResourceUrl;
   imagem2 : any;
+  resposta : DefaultResponse;
 
   constructor(
     private fb : FormBuilder,
@@ -36,7 +38,7 @@ export class CadastroProfessoresComponent  implements OnInit{
       dataNascimento : [null, [Validators.required]],
       nome : [null, [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
       sobreNome : [null, [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
-      urlFoto : [null],
+      urlFoto : [null, [Validators.required, Validators.minLength(11), Validators.maxLength(11)]],
       email : [null, [Validators.required, Validators.email, Validators.maxLength(100)]],
       ano : [0]
     })
@@ -45,12 +47,16 @@ export class CadastroProfessoresComponent  implements OnInit{
   salvarAluno(){
     this.alunoService.salvarAluno(this.cargo, this.formulario.value).pipe(take(1)).subscribe({
       next : user => {
-        this._snackBar.open("Professor cadastrado com sucesso", "", {duration : 5000});
-        this.formularioVazio();
-        console.log(user)
-      },
-      
-     error : err => this._snackBar.open(err, "", {duration : 5000})
+        this.resposta = user;
+
+        if(this.resposta.success){
+          this._snackBar.open("Professor cadastrado com sucesso", "", {duration : 5000});
+          this.formularioVazio();
+        }else{
+          this._snackBar.open(this.resposta.messagem, "", {duration : 5000})
+        }
+       
+      }      
     })
   }
 
