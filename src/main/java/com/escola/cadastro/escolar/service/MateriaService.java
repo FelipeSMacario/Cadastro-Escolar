@@ -4,6 +4,7 @@ import com.escola.cadastro.escolar.exception.MateriaNotFoundException;
 import com.escola.cadastro.escolar.exception.UserNotFoundException;
 import com.escola.cadastro.escolar.model.Materia;
 import com.escola.cadastro.escolar.model.Pessoa;
+import com.escola.cadastro.escolar.model.response.DefaultResponse;
 import com.escola.cadastro.escolar.repository.MateriaRepository;
 import com.escola.cadastro.escolar.repository.PessoaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.Optional;
 
 @Service
@@ -31,13 +33,17 @@ public class MateriaService {
 
     }
 
-    public ResponseEntity cadastrarMateria(Materia materia) {
-        return pessoaRepository.findByMatriculaAndCargoAndStatus(materia.getProfessor().getMatricula(), "Professor", "Ativo")
-                .map( record -> {
-                    materiaRepository.save(materia);
-                   return ResponseEntity.status(HttpStatus.CREATED).body("Matéria cadastrada com sucesso");
-                }).orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+    public ResponseEntity<DefaultResponse> cadastrarMateria(Materia materia) {
+        Pessoa pessoa = buscaPessoa(materia.getProfessor().getMatricula(), "Professor");
 
+        Materia materiaValidada =  materiaRepository.save(new Materia(null, materia.getNome(), pessoa, null));
+
+        return ResponseEntity.ok().body(DefaultResponse.builder()
+                        .success(true)
+                        .messagem("Matéria cadastrada com sucesso")
+                        .status(HttpStatus.CREATED)
+                        .data(materiaValidada)
+                .build());
     }
 
     public ResponseEntity atualizarMateria(Materia materia) {
@@ -51,11 +57,15 @@ public class MateriaService {
                 return ResponseEntity.ok().body(materiaAtualizada);
     }
 
-    public ResponseEntity deletarMateria(Long id) {
+    public ResponseEntity<DefaultResponse> deletarMateria(Long id) {
         Materia materia = buscaMateriaPorId(id);
         materiaRepository.deleteById(materia.getId());
 
-        return ResponseEntity.ok().body("Matéria deletada com sucesso");
+        return ResponseEntity.ok().body(DefaultResponse.builder()
+                                        .success(true)
+                        .messagem("Matéria deletada com sucesso")
+                        .status(HttpStatus.OK)
+                .build());
     }
 
     private Materia buscaMateriaPorNome(String nome) {
@@ -64,6 +74,10 @@ public class MateriaService {
 
     private Materia buscaMateriaPorId(Long id) {
         return materiaRepository.findById(id).orElseThrow(() -> new MateriaNotFoundException("",id));
+    }
+
+    private Pessoa buscaPessoa(Long matricula, String cargo){
+        return pessoaRepository.findByMatriculaAndCargoAndStatus(matricula, cargo, "Ativo").orElseThrow(() -> new UserNotFoundException(matricula));
     }
 
 }

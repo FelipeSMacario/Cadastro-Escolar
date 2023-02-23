@@ -4,6 +4,8 @@ import { ProfessorService } from 'src/app/services/professor.service';
 import { Pessoa } from 'src/app/models/pessoa';
 import { MateriasService } from 'src/app/services/materias.service';
 import { Materia } from 'src/app/models/materia';
+import { DefaultResponse } from 'src/app/models/Response/defaultResponse';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 
 @Component({
@@ -16,6 +18,7 @@ export class CadastrarMateriasComponent implements OnInit{
   submitted = false;
   pessoa : Pessoa[] = [];
   materia : Materia = new Materia();
+  resposta : DefaultResponse;
 
   ngOnInit(): void {
     this.formulario = this.fb.group({
@@ -28,6 +31,7 @@ export class CadastrarMateriasComponent implements OnInit{
     private professorService : ProfessorService,
     private fb : FormBuilder,
     private materiaService: MateriasService,
+    private _snackBar: MatSnackBar,
   ){}
 
   listarProfessores(){
@@ -41,7 +45,7 @@ export class CadastrarMateriasComponent implements OnInit{
   defineMateria() : Materia {
 
     const newPessoa = new Pessoa();
-    newPessoa.matricula = this.formulario.value.pessoa;
+    newPessoa.matricula = 458;
     this.materia.nome = this.formulario.value.nome;
     this.materia.professor = newPessoa;
 
@@ -51,8 +55,9 @@ export class CadastrarMateriasComponent implements OnInit{
   cadastrar(){
     this.materiaService.cadastrarMateria(this.defineMateria()).subscribe({
       next : quad => {
-        console.log("Cadastrado com sucesso! " + quad);
-      }, error : err => console.log(err)
+        this.resposta = quad;
+          this._snackBar.open(this.resposta.messagem, "", {duration : 3000})
+      }
     })
   }
 

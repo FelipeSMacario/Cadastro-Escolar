@@ -1,7 +1,9 @@
 package com.escola.cadastro.escolar.exceptionHandler;
 
 import com.escola.cadastro.escolar.exception.*;
+import com.escola.cadastro.escolar.model.response.DefaultResponse;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -28,35 +30,36 @@ public class ControllerException {
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(UserNotFoundException.class)
-    public ErroResponse handleUserNotFound(UserNotFoundException exception){
-        return ErroResponse.builder()
+    public ResponseEntity<DefaultResponse> handleUserNotFound(UserNotFoundException exception){
+        return ResponseEntity.ok().body(DefaultResponse.builder()
                 .success(false)
                 .timestamp(LocalDate.now())
                 .status(HttpStatus.NOT_FOUND)
                 .messagem(exception.getMessage())
-                .build();
+                .build());
     }
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(MateriaNotFoundException.class)
-    public ErroResponse handleMateriaNotFound(MateriaNotFoundException exception){
-        return ErroResponse.builder()
+    public ResponseEntity<DefaultResponse> handleMateriaNotFound(MateriaNotFoundException exception){
+        return ResponseEntity.ok().body(DefaultResponse.builder()
                 .success(false)
                 .timestamp(LocalDate.now())
                 .status(HttpStatus.NOT_FOUND)
                 .messagem(exception.getMessage())
-                .build();
+                .build());
     }
 
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ExceptionHandler(AuthenticationException.class)
-    public ErroResponse handleErrorLogin(){
-        return ErroResponse.builder()
+    public  ResponseEntity<DefaultResponse> handleErrorLogin(){
+        return ResponseEntity.ok().body(DefaultResponse.builder()
                 .success(false)
                 .timestamp(LocalDate.now())
                 .status(HttpStatus.UNAUTHORIZED)
                 .messagem("Usuário ou senha invalído")
-                .build();
+                .build());
     }
+
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(TurmaNotFound.class)

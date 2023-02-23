@@ -47,10 +47,10 @@ export class CadastroProfessoresComponent  implements OnInit{
       next : user => {
         this._snackBar.open("Professor cadastrado com sucesso", "", {duration : 5000});
         this.formularioVazio();
+        console.log(user)
       },
       
-     /* error : err => this._snackBar.open(err, "", {duration : 5000})*/
-     error : err =>  console.log(err)
+     error : err => this._snackBar.open(err, "", {duration : 5000})
     })
   }
 

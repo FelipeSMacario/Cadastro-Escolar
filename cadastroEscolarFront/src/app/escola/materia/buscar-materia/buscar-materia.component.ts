@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { take } from 'rxjs';
 import { ModalConfirmacaoComponent } from 'src/app/modal/modal-confirmacao/modal-confirmacao.component';
 import { Materia } from 'src/app/models/materia';
+import { DefaultResponse } from 'src/app/models/Response/defaultResponse';
 import { MateriasService } from 'src/app/services/materias.service';
 
 @Component({
@@ -20,6 +21,8 @@ export class BuscarMateriaComponent implements OnInit{
   materias : Materia[] = [];
   
   materia : Materia = new Materia();
+
+  resposta : DefaultResponse;
 
   constructor(
     private fb : FormBuilder,
@@ -82,10 +85,15 @@ export class BuscarMateriaComponent implements OnInit{
   deletarMateria(id : number){
     this.materiaService.deletarMateria(id).subscribe({
       next : mat =>  {
-        this._snackBar.open("Deletado com sucesso", "", {duration : 3000})
-        this.listarTodos()
-      },
-      error : err =>  this._snackBar.open(err, "", {duration : 3000})
+         this.resposta = mat;
+         
+         if(this.resposta.success){
+          this._snackBar.open(this.resposta.messagem, "", {duration : 3000})
+          this.listarTodos()
+         } else {
+          this._snackBar.open(this.resposta.messagem, "", {duration : 3000})
+         }
+      }
     })
   }
   editarMateria(nome : string){

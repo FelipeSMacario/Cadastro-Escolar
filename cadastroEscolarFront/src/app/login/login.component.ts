@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { DefaultResponse } from '../models/Response/defaultResponse';
 import { LoginService } from '../services/login.service';
 
 @Component({
@@ -11,11 +13,13 @@ import { LoginService } from '../services/login.service';
 export class LoginComponent implements OnInit{
 
   formulario : FormGroup;
+  resposta : DefaultResponse;
 
   constructor(
     private fb : FormBuilder,
     private router: Router,
-    private loginService : LoginService
+    private loginService : LoginService,
+    private _snackBar: MatSnackBar,
   ) { }
 
   ngOnInit(): void {
@@ -24,17 +28,21 @@ export class LoginComponent implements OnInit{
       senha : [null]
     })
   }
-  /** [Validators.required, Validators.minLength(11), Validators.maxLength(11)] */
 
   logar(){
     this.loginService.logar(this.formulario.value).subscribe({
       next : log => {
-        localStorage.setItem("token", log.token)
-        localStorage.setItem("pessoa", JSON.stringify(log.pessoa))
+        this.resposta = log;
+
+        if(this.resposta.success){
+        localStorage.setItem("token", this.resposta.data.token)
+        localStorage.setItem("pessoa", JSON.stringify(this.resposta.data.pessoa))
         localStorage.setItem("mostrarMenu", JSON.stringify(true))
         this.router.navigate(['/']).then(() => window.location.reload())
-      },
-      error : err => console.log(err)
+      } else {
+        this._snackBar.open(this.resposta.messagem, "", {duration : 3000})
+      }
+      }
     })
   }
 
