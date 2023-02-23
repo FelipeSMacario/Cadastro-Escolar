@@ -92,7 +92,11 @@ public class PessoaService {
     }
 
     public ResponseEntity buscar(Long matricula, String cargo) {
-        return ResponseEntity.ok().body(buscaPessoa(matricula, cargo));
+        return ResponseEntity.ok().body(DefaultResponse.builder()
+                .success(true)
+                .status(HttpStatus.OK)
+                .data(buscaPessoa(matricula, cargo))
+                .build());
     }
 
     public ResponseEntity<DefaultResponse> cadastrar(Pessoa pessoa, String cargo) {

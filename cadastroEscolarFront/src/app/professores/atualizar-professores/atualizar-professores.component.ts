@@ -44,9 +44,8 @@ export class AtualizarProfessoresComponent  implements OnInit{
         this.professorService.findAlunosByMatricula(this.cargo, this.matricula).subscribe({
           next : alu => {
             this.resposta = alu;
-
-            if(this.resposta.success){
-              this.formularioPreenchido(this.resposta.data);
+            if(this.resposta.success){              
+              this.formularioPreenchido(this.resposta.data );
             } else {
               console.log(this.resposta.messagem);
             }
