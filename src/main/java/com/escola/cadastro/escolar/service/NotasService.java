@@ -100,7 +100,7 @@ public class NotasService {
         notasDTO.getMatriculasNotas().forEach(valor -> {
             Pessoa aluno = buscaPessoa(valor.getMatriculaAluno(), "Aluno");
             validaTrimeste(professor.getMatricula(), aluno.getMatricula(), materia.getId(), buscaTrimeste(), notasDTO.getTurmaId());
-            Notas motas = Notas.builder()
+            Notas notas = Notas.builder()
                     .nota(valor.getNotas())
                     .professor(professor)
                     .turma(turma)
@@ -111,7 +111,7 @@ public class NotasService {
             notasRepository.save(notas);
 
             try {
-                sendEmailNotasToUser(aluno.get().getEmail(), aluno.get().getNome(), valor.getNotas().toString(), materia.get().getNome());
+                sendEmailNotasToUser(aluno.getEmail(), aluno.getNome(), valor.getNotas().toString(), materia.getNome());
             } catch (java.io.IOException e) {
                 e.printStackTrace();
             }
