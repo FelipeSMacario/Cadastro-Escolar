@@ -24,5 +24,14 @@
     padding: 40px;
 }
 .imagem{
-    height: 100%;
+    height: 70%;
+}
+.divCards{
+    display: flex;
+    justify-content: center;
+
+}
+.colHover{
+    max-width: 30%;
+    height: 320px;
 }

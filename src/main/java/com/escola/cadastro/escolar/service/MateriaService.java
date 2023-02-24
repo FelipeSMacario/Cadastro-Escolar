@@ -41,7 +41,7 @@ public class MateriaService {
     public ResponseEntity<DefaultResponse> cadastrarMateria(Materia materia) {
         Pessoa pessoa = buscaPessoa(materia.getProfessor().getMatricula(), "Professor");
 
-        Materia materiaValidada =  materiaRepository.save(new Materia(null, materia.getNome(), pessoa, null));
+        Materia materiaValidada =  materiaRepository.save(new Materia(null, materia.getNome(), pessoa));
 
         return ResponseEntity.ok().body(DefaultResponse.builder()
                         .success(true)

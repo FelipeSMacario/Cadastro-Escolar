@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { QuadroDTO } from '../models/DTO/quadroDTO';
 import { Horas } from '../models/horas';
 import { QuadroHorario } from '../models/quadroHorario';
+import { DefaultResponse } from '../models/Response/defaultResponse';
 
 @Injectable({
   providedIn: 'root'
@@ -26,8 +27,8 @@ export class QuadroHorariosService {
     return this.httpClient.get<Horas[]>(this.url + "buscar/horasPorDia/" + diaId + "/" + salaId);
   }
 
-  saveHorasLivres(quadro : QuadroDTO) : Observable<Object>{
-    return this.httpClient.post(this.url + "cadastrar", quadro);
+  saveHorasLivres(quadro : QuadroDTO) : Observable<DefaultResponse>{
+    return this.httpClient.post<DefaultResponse>(this.url + "cadastrar", quadro);
   }
 
   findById(id : number) : Observable<QuadroHorario>{

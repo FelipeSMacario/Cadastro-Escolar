@@ -6,6 +6,7 @@ import { QuadroDTO } from 'src/app/models/DTO/quadroDTO';
 import { Horas } from 'src/app/models/horas';
 import { Materia } from 'src/app/models/materia';
 import { QuadroHorario } from 'src/app/models/quadroHorario';
+import { DefaultResponse } from 'src/app/models/Response/defaultResponse';
 import { Sala } from 'src/app/models/sala';
 import { Turma } from 'src/app/models/turma';
 import { DiaService } from 'src/app/services/dia.service';
@@ -30,6 +31,7 @@ export class CadastrarAulasComponent implements OnInit{
   horas : Horas[] = [];
   quadro : QuadroDTO = new QuadroDTO();
   quadroHorario : QuadroHorario = new QuadroHorario();
+  resposta : DefaultResponse;
 
   ngOnInit(): void {
     this.formularioVazio();
@@ -107,10 +109,12 @@ export class CadastrarAulasComponent implements OnInit{
   cadastrar(){   
     this.quadroHorarioService.saveHorasLivres(this.defineQuadro()).subscribe({
       next : quad => {
-        this._snackBar.open("Aula cadastrada com sucesso", "", {duration : 5000});
-        this.formularioVazio();
-      }, 
-      error : err => this._snackBar.open(err, "", {duration : 5000})
+        this.resposta = quad;
+        this._snackBar.open(this.resposta.messagem, "", {duration : 5000});
+        if(this.resposta.success){
+          this.formularioVazio();
+        }
+      },
     })
   }
 

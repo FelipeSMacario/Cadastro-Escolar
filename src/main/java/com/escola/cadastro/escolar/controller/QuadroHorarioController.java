@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping(value = "quadroHorario")
@@ -17,7 +19,7 @@ public class QuadroHorarioController implements QuadroHorarioApi {
     QuadroHorarioService quadroHorarioService;
 
     @PostMapping(value = "/cadastrar")
-    public ResponseEntity cadastrarHorario(@RequestBody EntradaQuadroHorarioDTO entrada){
+    public ResponseEntity cadastrarHorario(@RequestBody @Valid EntradaQuadroHorarioDTO entrada){
         return quadroHorarioService.cadastrarSala(entrada);
     }
 

@@ -22,8 +22,4 @@ public class Sala {
     @Column(name = "numero", nullable = false)
     private int numero;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name="sala_id")
-    @JsonIgnore
-    private List<QuadroHorario> sala;
 }

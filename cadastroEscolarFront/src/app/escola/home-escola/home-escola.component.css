@@ -23,6 +23,10 @@
     width: 100%;
 }
 .colHover{
-    width: 50%;
+    width: 35%;
+}
+.divCards{
+    display: flex;
+    justify-content: center ;
 }
 

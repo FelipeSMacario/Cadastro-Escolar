@@ -30,8 +30,4 @@ public class Horas {
     @Column(name = "hora", nullable = false)
     private LocalTime hora;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name="hora_id")
-    @JsonIgnore
-    private List<QuadroHorario> sala;
 }

@@ -20,4 +20,19 @@ public class QuadroHorario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ManyToOne
+    Turma turma;
+
+    @ManyToOne
+    Sala sala;
+
+    @ManyToOne
+    Materia materia;
+
+    @ManyToOne
+    Horas horas;
+
+    @ManyToOne
+    Dia dia;
+
 }

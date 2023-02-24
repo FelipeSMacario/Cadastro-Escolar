@@ -34,8 +34,4 @@ public class Materia implements Serializable {
     @ManyToOne
     private Pessoa professor;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name="materia_id")
-    @JsonIgnore
-    private List<QuadroHorario> sala;
 }

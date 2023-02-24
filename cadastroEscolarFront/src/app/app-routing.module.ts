@@ -53,7 +53,7 @@ const routes: Routes = [
   {path: "escola/aulas/minhasAulas", component: MinhasAulasComponent, canActivate: [AuthGuard]},
   {path: "escola/aulas/buscar", component: BuscarAulasComponent, canActivate: [AuthGuard, AlunoGuard]},
   {path: "aula/atualizar/:id", component: AtualizarAulasComponent, canActivate: [AuthGuard, AlunoGuard, , ProfessorGuard]},
-  {path: "escola/aulas/cadastrar", component: CadastrarAulasComponent, canActivate: [AuthGuard, AlunoGuard, , ProfessorGuard]},
+  {path: "escola/aulas/cadastrar", component: CadastrarAulasComponent, canActivate: [AuthGuard, AlunoGuard, ProfessorGuard]},
   {path: "escola/notas", component: HomeNotasComponent, canActivate: [AuthGuard]},
   {path: "escola/notas/cadastrar", component: CadastrarNotasComponent, canActivate: [AuthGuard, AlunoGuard]},
   {path: "escola/notas/buscar", component: BuscarNotasComponent, canActivate: [AuthGuard, AlunoGuard]},
