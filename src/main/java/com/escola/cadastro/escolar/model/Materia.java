@@ -11,6 +11,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.List;
 
 @Data
@@ -19,7 +20,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "Materia")
-public class Materia {
+public class Materia implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -33,8 +34,4 @@ public class Materia {
     @ManyToOne
     private Pessoa professor;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name="materia_id")
-    @JsonIgnore
-    private List<QuadroHorario> sala;
 }

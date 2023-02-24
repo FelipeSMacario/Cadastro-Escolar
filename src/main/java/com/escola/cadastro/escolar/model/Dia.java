@@ -31,10 +31,5 @@ public class Dia {
     @ApiModelProperty(value = "nome do dia da semana", example = "Segunda-Feira", required = true, position = 0)
     private String nome;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name="dia_id")
-    @JsonIgnore
-    private List<QuadroHorario> sala;
-
 
 }

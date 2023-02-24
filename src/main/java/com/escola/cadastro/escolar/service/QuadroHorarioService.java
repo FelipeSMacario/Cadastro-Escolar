@@ -3,7 +3,9 @@ package com.escola.cadastro.escolar.service;
 import com.escola.cadastro.escolar.dto.EntradaQuadroAtualizarDTO;
 import com.escola.cadastro.escolar.dto.EntradaQuadroHorarioDTO;
 import com.escola.cadastro.escolar.dto.SaidaTurmaHorarioDTO;
+import com.escola.cadastro.escolar.exception.QuadroHorarioNotFound;
 import com.escola.cadastro.escolar.model.*;
+import com.escola.cadastro.escolar.model.response.DefaultResponse;
 import com.escola.cadastro.escolar.repository.*;
 import org.hibernate.service.spi.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +35,7 @@ public class QuadroHorarioService {
     SalaRepository salaRepository;
 
 
-    public ResponseEntity cadastrarSala(EntradaQuadroHorarioDTO entrada) {
+    public ResponseEntity<DefaultResponse> cadastrarSala(EntradaQuadroHorarioDTO entrada) {
 
         validacoes(entrada);
 
@@ -42,8 +44,12 @@ public class QuadroHorarioService {
                 entrada.getIdMateria(),
                 entrada.getIdHora(), entrada.getIdDia(), entrada.getIdSala());
 
-
-        return ResponseEntity.ok().body(entrada);
+        return ResponseEntity.ok().body(DefaultResponse.builder()
+                .success(true)
+                .status(HttpStatus.CREATED)
+                .messagem("Aula adastrada com sucesso!")
+                .data(entrada)
+                .build());
     }
 
     public ResponseEntity buscarHorasPorDia(Long dia, Long sala) {
@@ -57,32 +63,36 @@ public class QuadroHorarioService {
         return ResponseEntity.ok().body(horasTotais);
     }
 
-    public ResponseEntity atualizarQuadro(EntradaQuadroAtualizarDTO entrada) {
+    public ResponseEntity<DefaultResponse> atualizarQuadro(EntradaQuadroAtualizarDTO entrada) {
         validacoes(new EntradaQuadroHorarioDTO(entrada.getIdDia(), entrada.getIdHora(), entrada.getIdTurma(), entrada.getIdMateria(), entrada.getIdSala()));
 
-        Optional<QuadroHorario> quadroHorario = quadroHorarioRepository.findById(entrada.getIdQuadro());
+        QuadroHorario quadroHorario = buscaQuadroHorario(entrada.getIdQuadro());
+        quadroHorarioRepository.atualizarQuadro(
+                quadroHorario.getId(),
+                entrada.getIdTurma(),
+                entrada.getIdMateria(),
+                entrada.getIdHora(),
+                entrada.getIdDia(),
+                entrada.getIdSala()
+        );
 
-        return quadroHorario
-                .map(record -> {
-                    quadroHorarioRepository.atualizarQuadro(
-                            entrada.getIdQuadro(),
-                            entrada.getIdTurma(),
-                            entrada.getIdMateria(),
-                            entrada.getIdHora(),
-                            entrada.getIdDia(),
-                            entrada.getIdSala()
-                    );
-                    return ResponseEntity.ok().body("QUadro atualizado com sucesso");
-                }).orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+        return ResponseEntity.ok().body(DefaultResponse.builder()
+                .success(true)
+                .status(HttpStatus.OK)
+                .messagem("Aula atualizada com sucesso!")
+                .data(entrada)
+                .build());
     }
 
-    public ResponseEntity deletarQuadro(Long id) {
-        Optional<QuadroHorario> quadroHorario = quadroHorarioRepository.findById(id);
-        return quadroHorario
-                .map(record -> {
-                    quadroHorarioRepository.deletarQuadro(id);
-                    return ResponseEntity.ok().body("Quadro deletado com sucesso!");
-                }).orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+    public ResponseEntity<DefaultResponse> deletarQuadro(Long id) {
+        QuadroHorario quadroHorario = buscaQuadroHorario(id);
+        quadroHorarioRepository.deletarQuadro(quadroHorario.getId());
+
+        return ResponseEntity.ok().body(DefaultResponse.builder()
+                .success(true)
+                .status(HttpStatus.OK)
+                .messagem("Aula deletada com sucesso!")
+                .build());
     }
 
     public ResponseEntity buscarHorarioPorTurma(Long turma) {
@@ -146,6 +156,12 @@ public class QuadroHorarioService {
             throw new ServiceException("Hora já cadastrada");
 
         if (quadroHorarioRepository.validaMateriaDisponivel(entrada.getIdDia(), entrada.getIdHora(), entrada.getIdMateria()) >= 1)
-            throw new ServiceException("Hora já matéria já cadastrada para esse horário");
+            throw new ServiceException("Matéria já cadastrada para esse horário");
+    }
+
+    private QuadroHorario buscaQuadroHorario(Long id){
+        return quadroHorarioRepository.findById(id).orElseThrow(() -> new QuadroHorarioNotFound(id));
     }
 }
+
+

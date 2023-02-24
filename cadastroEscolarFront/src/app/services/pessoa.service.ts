@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Pessoa } from '../models/pessoa';
+import { DefaultResponse } from '../models/Response/defaultResponse';
 
 @Injectable({
   providedIn: 'root'
@@ -20,16 +21,16 @@ export class PessoaService {
     return this.httpClient.get<Pessoa[]>(`${this.url}${cargo}/buscar/porNome/${nome}`);
   }
 
-  findAlunosByMatricula(cargo : string, matricula : number) : Observable<Pessoa>{
-    return this.httpClient.get<Pessoa>(`${this.url}${cargo}/buscar/${matricula}`);
+  findAlunosByMatricula(cargo : string, matricula : number) : Observable<DefaultResponse>{
+    return this.httpClient.get<DefaultResponse>(`${this.url}${cargo}/buscar/${matricula}`);
   }
 
-  salvarAluno(cargo : string, pessoa : Pessoa) : Observable<Object> {
-    return this.httpClient.post(this.url + cargo + "/cadastrar", pessoa);
+  salvarAluno(cargo : string, pessoa : Pessoa) : Observable<DefaultResponse> {
+    return this.httpClient.post<DefaultResponse>(this.url + cargo + "/cadastrar", pessoa);
   }
 
-  updateAlunos(cargo : string, pessoa : Pessoa) : Observable<Object> {
-    return this.httpClient.put(this.url + cargo +  "/atualizar", pessoa);
+  updateAlunos(cargo : string, pessoa : Pessoa) : Observable<DefaultResponse> {
+    return this.httpClient.put<DefaultResponse>(this.url + cargo +  "/atualizar", pessoa);
   }
 
 }

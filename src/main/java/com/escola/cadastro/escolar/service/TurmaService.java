@@ -4,6 +4,7 @@ import com.escola.cadastro.escolar.dto.EntradaTurmaAlunoDTO;
 import com.escola.cadastro.escolar.dto.PessoaEntradaDTO;
 import com.escola.cadastro.escolar.dto.SaidaAlunoTurmaDTO;
 import com.escola.cadastro.escolar.dto.SaidaTurmaAlunoDTO;
+import com.escola.cadastro.escolar.exception.TurmaNotFoundException;
 import com.escola.cadastro.escolar.model.Pessoa;
 import com.escola.cadastro.escolar.model.Turma;
 import com.escola.cadastro.escolar.repository.PessoaRepository;
@@ -28,11 +29,11 @@ public class TurmaService {
 
 
     public ResponseEntity cadastrarAlunoTurma(EntradaTurmaAlunoDTO entrada) {
-        Optional<Turma> turma = Optional.ofNullable(turmaRepository.findById(entrada.getTurmaId())).orElseThrow(() -> new ServiceException("Nenhuma turma identificada"));
+        Turma turma = buscaTurma(entrada.getTurmaId());
 
-        List<Pessoa> pessoas = validaPessoa(turma.get().getAno(), entrada.getPessoas());
+        List<Pessoa> pessoas = validaPessoa(turma.getAno(), entrada.getPessoas());
 
-        cadastraAlunos(pessoas, turma.get().getId());
+        cadastraAlunos(pessoas, turma.getId());
 
 
         return ResponseEntity.status(HttpStatus.CREATED).body("Cadastro realizado com sucesso!");
@@ -55,18 +56,14 @@ public class TurmaService {
     }
 
     public ResponseEntity atualizaTurma(Turma turma) {
-        Optional<Turma> turmaAntiga = turmaRepository.findById(turma.getId());
+        Turma turmaAntiga = buscaTurma(turma.getId());
+        Turma turmaAtualizada = turmaRepository.save(Turma.builder()
+                .id(turmaAntiga.getId())
+                .numero(turma.getNumero())
+                .ano(turma.getAno())
+                .build());
 
-        return turmaAntiga
-                .map(record -> {
-                    Turma turmaAtualizada = turmaRepository.save(Turma.builder()
-                            .id(turma.getId())
-                            .numero(turma.getNumero())
-                            .ano(turma.getAno())
-                            .build()
-                    );
-                    return ResponseEntity.ok().body(turmaAtualizada);
-                }).orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+        return ResponseEntity.ok().body(turmaAtualizada);
     }
 
     public ResponseEntity buscaPorAno(int ano) {
@@ -136,6 +133,10 @@ public class TurmaService {
 
         });
         return ResponseEntity.ok().body(pessoasFiltradas);
+    }
+
+    private Turma buscaTurma(Long id){
+        return turmaRepository.findById(id).orElseThrow(() -> new TurmaNotFoundException(id));
     }
 }
 

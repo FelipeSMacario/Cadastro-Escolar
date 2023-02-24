@@ -27,12 +27,12 @@ public class TurmaController implements TurmaApi {
     }
 
     @GetMapping(value = "/buscar/porNumero/{numero}")
-    public ResponseEntity buscarCursoPorNumero(@PathVariable int numero){
+    public ResponseEntity buscarTurmaPorNumero(@PathVariable int numero){
         return turmaService.buscaPorNumero(numero);
     }
 
     @GetMapping(value = "/buscar/porAno/{ano}")
-    public ResponseEntity buscarCursoPorAno(@PathVariable int ano){
+    public ResponseEntity buscarTurmaPorAno(@PathVariable int ano){
         return turmaService.buscaPorAno(ano);
     }
 

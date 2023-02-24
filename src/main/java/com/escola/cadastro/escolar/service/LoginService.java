@@ -2,9 +2,12 @@ package com.escola.cadastro.escolar.service;
 
 import com.escola.cadastro.escolar.dto.LoginEntradaDTO;
 import com.escola.cadastro.escolar.model.response.AuthenticationResponse;
+import com.escola.cadastro.escolar.model.response.DefaultResponse;
 import com.escola.cadastro.escolar.repository.LoginRepository;
 import org.hibernate.service.spi.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
@@ -20,7 +23,7 @@ public class LoginService {
     @Autowired
     AuthenticationManager authenticationManager;
 
-    public AuthenticationResponse loganUsuario(LoginEntradaDTO entradaDTO){
+    public ResponseEntity<DefaultResponse> loganUsuario(LoginEntradaDTO entradaDTO){
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         entradaDTO.getUsuario(),
@@ -30,10 +33,16 @@ public class LoginService {
         var user = loginRepository.findByUsuario(entradaDTO.getUsuario()).orElseThrow(() -> new ServiceException("Usuário não identificado"));
 
         var jwtToken = jwtService.generateToken(user);
-        return AuthenticationResponse.builder()
+        AuthenticationResponse response = AuthenticationResponse.builder()
                 .pessoa(user.getPessoa())
                 .token(jwtToken)
                 .build();
+        return ResponseEntity.ok().body(DefaultResponse.builder()
+                        .success(true)
+                        .messagem("Autenticado com sucesso!")
+                        .status(HttpStatus.ACCEPTED)
+                        .data(response)
+                .build());
     }
 
 }

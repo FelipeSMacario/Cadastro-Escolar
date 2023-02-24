@@ -11,9 +11,9 @@ public interface TurmaApi {
     public ResponseEntity cadastrarTurma(@RequestBody Turma turma);
 
     public ResponseEntity listarTurmas();
-    public ResponseEntity buscarCursoPorNumero(@PathVariable int numero);
+    public ResponseEntity buscarTurmaPorNumero(@PathVariable int numero);
 
-    public ResponseEntity buscarCursoPorAno(@PathVariable int ano);
+    public ResponseEntity buscarTurmaPorAno(@PathVariable int ano);
 
     public ResponseEntity atualizaTurma(@RequestBody Turma turma);
 }

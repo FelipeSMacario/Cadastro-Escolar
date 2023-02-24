@@ -7,9 +7,11 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.br.CPF;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -19,7 +21,7 @@ import java.util.List;
 @Builder
 @Entity
 @Table(name = "Pessoa")
-public class Pessoa {
+public class Pessoa implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long matricula;
@@ -27,7 +29,7 @@ public class Pessoa {
     @NotNull
     @NotEmpty
     @NotBlank
-    //@CPF
+//    @CPF
     @Length(min = 11, max = 11)
     @Column(name = "cpf", nullable = false)
     @ApiModelProperty(value = "CPF da pessoa", example = "15152736900", required = true, position = 1)
