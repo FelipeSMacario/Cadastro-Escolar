@@ -7,13 +7,12 @@ import { QuadroDTO } from 'src/app/models/DTO/quadroDTO';
 import { Horas } from 'src/app/models/horas';
 import { Materia } from 'src/app/models/materia';
 import { QuadroHorario } from 'src/app/models/quadroHorario';
-import { Sala } from 'src/app/models/sala';
+import { DefaultResponse } from 'src/app/models/Response/defaultResponse';
 import { Turma } from 'src/app/models/turma';
 import { DiaService } from 'src/app/services/dia.service';
 import { HorasService } from 'src/app/services/horas.service';
 import { MateriasService } from 'src/app/services/materias.service';
 import { QuadroHorariosService } from 'src/app/services/quadro-horarios.service';
-import { SalaService } from 'src/app/services/sala.service';
 import { TurmaService } from 'src/app/services/turma.service';
 
 @Component({
@@ -25,13 +24,13 @@ export class AtualizarAulasComponent  implements OnInit{
 
   formulario : FormGroup;
   turma : Turma[] = [];
-  sala : Sala[] = [];
   materias : Materia[] = [];
   dias : Dia[] = [];
   horas : Horas[] = [];
   quadro : QuadroDTO = new QuadroDTO();
   quadroHorario : QuadroHorario = new QuadroHorario();
   id : number;
+  resposta : DefaultResponse;
 
 
   ngOnInit(): void {
@@ -43,7 +42,6 @@ export class AtualizarAulasComponent  implements OnInit{
   constructor(
     private quadroHorarioService : QuadroHorariosService,
     private turmaService : TurmaService,
-    private salaService : SalaService,
     private materiaService : MateriasService,
     private router: Router,
     private diaService : DiaService,
@@ -56,16 +54,22 @@ export class AtualizarAulasComponent  implements OnInit{
   defineQuadro(id : number) : QuadroHorario{
     this.quadroHorarioService.findById(id).subscribe({
       next : qua => {
-        this.quadroHorario = qua;
-        this.formulario = this.fb.group({
-          turma : [qua.turma.id, [Validators.required]],
-          sala :[qua.sala.id, [Validators.required]],
-          materia : [qua.materia.id, [Validators.required]],
-          dia : [qua.dia.id, [Validators.required]],
-          hora : [qua.horas.id, [Validators.required]],
-        })
-      },
-      error : err => console.log(err)
+        this.resposta = qua;
+
+        if(this.resposta.success){
+          this.quadroHorario = this.resposta.data;
+          this.formulario = this.fb.group({
+            turma : [this.quadroHorario.turma.id, [Validators.required]],
+            materia : [this.quadroHorario.materia.id, [Validators.required]],
+            dia : [this.quadroHorario.dia.id, [Validators.required]],
+            hora : [this.quadroHorario.horas.id, [Validators.required]],
+          })
+        } else {
+          console.log(this.resposta.messagem)
+        }
+       
+
+      }
     })
     return this.quadroHorario
   }
@@ -80,7 +84,6 @@ export class AtualizarAulasComponent  implements OnInit{
     })
 
     this.listarTurma();
-    this.listarSalas();
     this.listarMaterias();
     this.listarDias();
     this.listarHoras();
@@ -94,14 +97,6 @@ export class AtualizarAulasComponent  implements OnInit{
     });
   }
 
-  
-  listarSalas(){
-    this.salaService.findAll().subscribe({
-      next : sal => {
-        this.sala = sal;
-      }, error : err => console.log(err)
-    });
-  }
 
   listarMaterias(){
     this.materiaService.listarMateria().subscribe({

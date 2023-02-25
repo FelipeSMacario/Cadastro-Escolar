@@ -32,6 +32,9 @@ public class Turma {
     @Column(name = "ano", nullable = false)
     private int ano;
 
+    @OneToOne
+    private Sala sala;
+
     @ManyToMany(cascade = CascadeType.MERGE)
     @JoinTable(name = "TurmaAluno",
             joinColumns = @JoinColumn(name = "turma_id"),

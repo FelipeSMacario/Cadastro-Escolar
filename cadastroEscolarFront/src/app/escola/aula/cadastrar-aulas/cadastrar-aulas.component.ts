@@ -7,13 +7,10 @@ import { Horas } from 'src/app/models/horas';
 import { Materia } from 'src/app/models/materia';
 import { QuadroHorario } from 'src/app/models/quadroHorario';
 import { DefaultResponse } from 'src/app/models/Response/defaultResponse';
-import { Sala } from 'src/app/models/sala';
 import { Turma } from 'src/app/models/turma';
 import { DiaService } from 'src/app/services/dia.service';
-import { HorasService } from 'src/app/services/horas.service';
 import { MateriasService } from 'src/app/services/materias.service';
 import { QuadroHorariosService } from 'src/app/services/quadro-horarios.service';
-import { SalaService } from 'src/app/services/sala.service';
 import { TurmaService } from 'src/app/services/turma.service';
 
 @Component({
@@ -25,7 +22,6 @@ export class CadastrarAulasComponent implements OnInit{
 
   formulario : FormGroup;
   turma : Turma[] = [];
-  sala : Sala[] = [];
   materias : Materia[] = [];
   dias : Dia[] = [];
   horas : Horas[] = [];
@@ -36,7 +32,6 @@ export class CadastrarAulasComponent implements OnInit{
   ngOnInit(): void {
     this.formularioVazio();
     this.listarTurma();
-    this.listarSalas();
     this.listarMaterias();
     this.listarDias();
   }
@@ -44,7 +39,6 @@ export class CadastrarAulasComponent implements OnInit{
   constructor(
     private quadroHorarioService : QuadroHorariosService,
     private turmaService : TurmaService,
-    private salaService : SalaService,
     private materiaService : MateriasService,
     private diaService : DiaService,
     private fb : FormBuilder,
@@ -54,7 +48,6 @@ export class CadastrarAulasComponent implements OnInit{
   formularioVazio(){
     this.formulario = this.fb.group({
       turma : [null, [Validators.required]],
-      sala :[null, [Validators.required]],
       materia : [null, [Validators.required]],
       dia : [null, [Validators.required]],
       hora : [null, [Validators.required]],
@@ -71,13 +64,7 @@ export class CadastrarAulasComponent implements OnInit{
   }
 
   
-  listarSalas(){
-    this.salaService.findAll().subscribe({
-      next : sal => {
-        this.sala = sal;
-      }, error : err => console.log(err)
-    });
-  }
+
 
   listarMaterias(){
     this.materiaService.listarMateria().subscribe({
@@ -95,11 +82,14 @@ export class CadastrarAulasComponent implements OnInit{
   } 
 
 
-  atualizar(dia : number, sala : number){
-    this.quadroHorarioService.findHorasLivres(dia, sala).subscribe({
+  atualizar(dia : number, turma : number){
+    if(dia && turma){
+      console.log("passei")
+    this.quadroHorarioService.findHorasLivres(dia, turma).subscribe({
       next : hor => this.horas = hor,
       error : err => console.log(err)
     })
+  }
   }
 
   resetaDia(){
@@ -127,5 +117,18 @@ export class CadastrarAulasComponent implements OnInit{
 
     return this.quadro;
   }
+
+  filtrarMateria(dia : number, hora : number){
+    if(dia && hora){
+    this.quadroHorarioService.filtrarMaterias(dia, hora).subscribe({
+      next : mat => {
+        console.log(mat)
+        this.materias = mat;
+        this.formulario.controls['materia'].setValue(null);
+      }, 
+      error : err => console.log(err)
+    })
+  }
+}
 
 }

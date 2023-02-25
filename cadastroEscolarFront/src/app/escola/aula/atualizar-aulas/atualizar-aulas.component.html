@@ -20,36 +20,21 @@
             </ng-container>
           </div>
           <div class="col">
-            <label class="label labelNome">Sala</label>
-            <select class="form-select" aria-label="Default select example" formControlName = "sala" (change)="resetaDia()">
-              <option value="null" selected disabled>Selecione uma sala</option>
-              <option *ngFor="let sal of sala" [ngValue]="sal.id">{{ sal.numero }}</option>
+            <label class="label labelNome">Matéria</label>
+            <select class="form-select" aria-label="Default select example" formControlName = "materia">
+              <option value="null" selected disabled>Selecione uma matéria</option>
+              <option *ngFor="let mat of materias"  [ngValue]="mat.id">{{ mat.nome }}</option>
             </select>
-            <ng-container *ngIf="formulario.controls.sala.touched">
-              <span *ngIf="formulario.controls.sala.errors?.required">
+            <ng-container *ngIf="formulario.controls.materia.touched">
+              <span *ngIf="formulario.controls.materia.errors?.required">
                 <div class="alert alert-danger" role="alert">
-                  O campo sala é um campo obrigatório!
+                  O campo materia é um campo obrigatório!
                 </div>
               </span>
             </ng-container>
-          </div>
         </div>
-        <div class="row">
-          <div class="col">
-              <label class="label labelNome">Matéria</label>
-              <select class="form-select" aria-label="Default select example" formControlName = "materia">
-                <option value="null" selected disabled>Selecione uma matéria</option>
-                <option *ngFor="let mat of materias"  [ngValue]="mat.id">{{ mat.nome }}</option>
-              </select>
-              <ng-container *ngIf="formulario.controls.materia.touched">
-                <span *ngIf="formulario.controls.materia.errors?.required">
-                  <div class="alert alert-danger" role="alert">
-                    O campo materia é um campo obrigatório!
-                  </div>
-                </span>
-              </ng-container>
-          </div>
-  
+        </div>
+        <div class="row">  
           <div class="col">
               <label class="label labelNome">Dia</label>
               <select class="form-select" [disabled]= "!formulario.valid" aria-label="Default select example" formControlName = "dia" (change)="atualizar(this.formulario.value.dia, this.formulario.value.sala)">
@@ -64,22 +49,20 @@
                 </span>
               </ng-container>
           </div>
-        </div>
-        <div class="row">
           <div class="col">
-              <label class="label labelNome">Hora</label>
-              <select class="form-select" aria-label="Default select example" formControlName = "hora">
-                <option value="null" selected disabled>Selecione uma hora</option>
-                <option *ngFor="let hora of horas" [ngValue]="hora.id">{{ hora.hora }}</option>
-              </select>
-              <ng-container *ngIf="formulario.controls.hora.touched">
-                <span *ngIf="formulario.controls.hora.errors?.required">
-                  <div class="alert alert-danger" role="alert">
-                    O campo hora é um campo obrigatório!
-                  </div>
-                </span>
-              </ng-container>
-          </div>
+            <label class="label labelNome">Hora</label>
+            <select class="form-select" aria-label="Default select example" formControlName = "hora">
+              <option value="null" selected disabled>Selecione uma hora</option>
+              <option *ngFor="let hora of horas" [ngValue]="hora.id">{{ hora.hora }}</option>
+            </select>
+            <ng-container *ngIf="formulario.controls.hora.touched">
+              <span *ngIf="formulario.controls.hora.errors?.required">
+                <div class="alert alert-danger" role="alert">
+                  O campo hora é um campo obrigatório!
+                </div>
+              </span>
+            </ng-container>
+        </div>
         </div>
   
         <div class="divBotao">

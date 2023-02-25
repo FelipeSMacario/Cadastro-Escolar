@@ -1,49 +1,44 @@
-<div class="container margin">
-  <div class="row row-cols-1 row-cols-md-3 g-4">
+<div class="container divContainer">
+  <div class="row row-cols-1 row-cols-md-3 g-4 divCards">
+    
     <div class="col colHover" *ngIf="pessoa.cargo === 'Professor' || pessoa.cargo === 'Admin'" >
-      <div class="card h-100 btn" [routerLink]="['/professores']">
+      <div class="card h-100 btn divBtn" [routerLink]="['/professores']">
         <img
           src="../../assets/images/professor.jpg"
-          class="card-img-top"
+          class="card-img-top imagem"
           alt="..."
         />
         <div class="card-body cards">
-          <h5 class="card-title texto">Professores</h5>
-          <p class="card-text">
-           Gerenciamento de professores
-          </p>
+          <h5 class="card-title texto">Gerenciamento de professores</h5>
         </div>
       </div>
     </div>
+
     <div class="col colHover" *ngIf="pessoa.cargo === 'Aluno' || pessoa.cargo === 'Admin'">
-      <div class="card h-100 btn"  [routerLink]="['/alunos']" >
+      <div class="card h-100 btn divBtn"  [routerLink]="['/alunos']" >
         <img
           src="../../assets/images/alunos.jpg"
-          class="card-img-top"
+          class="card-img-top imagem"
           alt="..."
         />
         <div class="card-body cards">
-          <h5 class="card-title texto">Alunos</h5>
-          <p class="card-text">
-            Gerenciamento de alunos
-          </p>
+          <h5 class="card-title texto"> Gerenciamento de alunos</h5>
         </div>
       </div>
     </div>
+
     <div class="col colHover">
-      <div class="card h-100 btn"  [routerLink]="['/escola']">
+      <div class="card h-100 btn divBtn"  [routerLink]="['/escola']">
         <img
           src="../../assets/images/escola.jpg"
-          class="card-img-top"
+          class="card-img-top imagem"
           alt="..."
         />
         <div class="card-body cards">
-          <h5 class="card-title texto">Escola</h5>
-          <p class="card-text">
-            Gerenciamento das aulas
-          </p>
+          <h5 class="card-title texto">Gerenciamento das aulas</h5>
         </div>
       </div>
     </div>
+
   </div>
 </div>

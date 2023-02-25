@@ -9,7 +9,7 @@ import java.io.Serializable;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class EntradaQuadroHorarioDTO implements Serializable {
+public class EntradaQuadroHorarioDTO implements Serializable{
     private Long idDia;
     private Long idHora;
 

@@ -3,7 +3,7 @@ package com.escola.cadastro.escolar.service;
 import com.escola.cadastro.escolar.dto.EntradaQuadroAtualizarDTO;
 import com.escola.cadastro.escolar.dto.EntradaQuadroHorarioDTO;
 import com.escola.cadastro.escolar.dto.SaidaTurmaHorarioDTO;
-import com.escola.cadastro.escolar.exception.QuadroHorarioNotFound;
+import com.escola.cadastro.escolar.exception.*;
 import com.escola.cadastro.escolar.model.*;
 import com.escola.cadastro.escolar.model.response.DefaultResponse;
 import com.escola.cadastro.escolar.repository.*;
@@ -17,7 +17,6 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class QuadroHorarioService {
@@ -26,67 +25,77 @@ public class QuadroHorarioService {
     @Autowired
     HoraRepository horaRepository;
     @Autowired
-    private TurmaRepository turmaRepository;
+    TurmaRepository turmaRepository;
     @Autowired
-    private MateriaRepository materiaRepository;
+    MateriaRepository materiaRepository;
     @Autowired
-    private DiasRepositry diasRepositry;
+    DiasRepositry diasRepositry;
     @Autowired
-    SalaRepository salaRepository;
+    PessoaRepository pessoaRepository;
 
 
     public ResponseEntity<DefaultResponse> cadastrarSala(EntradaQuadroHorarioDTO entrada) {
+        QuadroHorario quadroHorario = quadroHorarioRepository.save(new QuadroHorario(
+                        null,
+                        buscaTurma(entrada.getIdTurma()),
+                        buscaMateriaPorId(entrada.getIdMateria()),
+                        buscaHora(entrada.getIdHora()),
+                        buscaDia(entrada.getIdDia())
+                )
 
-        validacoes(entrada);
-
-        quadroHorarioRepository.cadastrarSala(quadroHorarioRepository.buscaIdMaximo(),
-                entrada.getIdTurma(),
-                entrada.getIdMateria(),
-                entrada.getIdHora(), entrada.getIdDia(), entrada.getIdSala());
+        );
 
         return ResponseEntity.ok().body(DefaultResponse.builder()
                 .success(true)
                 .status(HttpStatus.CREATED)
                 .messagem("Aula adastrada com sucesso!")
-                .data(entrada)
+                .data(quadroHorario)
                 .build());
     }
 
-    public ResponseEntity buscarHorasPorDia(Long dia, Long sala) {
-        List<Long> horasCadastradas = quadroHorarioRepository.listarHoras(dia, sala);
+    public ResponseEntity buscarHorasPorDia(Long dia, Long turma) {
+        List<QuadroHorario> quadroHorarios = quadroHorarioRepository.findByDiaIdAndTurmaId(dia, turma);
+        List<Horas> horas = horaRepository.findAll();
 
-        List<Horas> horasTotais = horaRepository.findAll();
+        quadroHorarios.forEach(quad -> {
+            horas.stream().filter(h -> h.getId().equals(quad.getHoras().getId())).findFirst().ifPresent(horas::remove);
+        });
 
-        horasCadastradas.forEach(valor ->
-            horasTotais.stream().filter(hora -> hora.getId().equals(valor)).findFirst().ifPresent(horasTotais::remove));
+        return ResponseEntity.ok().body(horas);
+    }
 
-        return ResponseEntity.ok().body(horasTotais);
+    public ResponseEntity filtrarMaterias(Long dia, Long hora) {
+        List<Materia> materias = materiaRepository.findAll();
+
+        List<QuadroHorario> quadroHorarios = quadroHorarioRepository.findByDiaIdAndHorasId(dia, hora);
+
+        quadroHorarios.forEach(quad -> {
+            materias.stream().filter(mat -> mat.getId().equals(quad.getMateria().getId())).findFirst().ifPresent(materias::remove);
+        });
+
+        return ResponseEntity.ok().body(materias);
     }
 
     public ResponseEntity<DefaultResponse> atualizarQuadro(EntradaQuadroAtualizarDTO entrada) {
-        validacoes(new EntradaQuadroHorarioDTO(entrada.getIdDia(), entrada.getIdHora(), entrada.getIdTurma(), entrada.getIdMateria(), entrada.getIdSala()));
-
-        QuadroHorario quadroHorario = buscaQuadroHorario(entrada.getIdQuadro());
-        quadroHorarioRepository.atualizarQuadro(
-                quadroHorario.getId(),
-                entrada.getIdTurma(),
-                entrada.getIdMateria(),
-                entrada.getIdHora(),
-                entrada.getIdDia(),
-                entrada.getIdSala()
-        );
+        QuadroHorario quadroAtualizado = quadroHorarioRepository.save(new QuadroHorario(
+                buscaQuadroHorario(entrada.getIdQuadro()).getId(),
+                buscaTurma(entrada.getIdTurma()),
+                buscaMateriaPorId(entrada.getIdMateria()),
+                buscaHora(entrada.getIdHora()),
+                buscaDia(entrada.getIdDia())
+        ));
 
         return ResponseEntity.ok().body(DefaultResponse.builder()
                 .success(true)
                 .status(HttpStatus.OK)
                 .messagem("Aula atualizada com sucesso!")
-                .data(entrada)
+                .data(quadroAtualizado)
                 .build());
     }
 
     public ResponseEntity<DefaultResponse> deletarQuadro(Long id) {
         QuadroHorario quadroHorario = buscaQuadroHorario(id);
-        quadroHorarioRepository.deletarQuadro(quadroHorario.getId());
+        quadroHorarioRepository.deleteById(quadroHorario.getId());
 
         return ResponseEntity.ok().body(DefaultResponse.builder()
                 .success(true)
@@ -96,71 +105,48 @@ public class QuadroHorarioService {
     }
 
     public ResponseEntity buscarHorarioPorTurma(Long turma) {
-        List<SaidaTurmaHorarioDTO> saida = definaTurmaHorario(turma);
-        return ResponseEntity.ok().body(saida);
+        List<QuadroHorario> quadroHorarios = quadroHorarioRepository.findByTurmaId(turma);
+        return ResponseEntity.ok().body(quadroHorarios);
     }
 
     public ResponseEntity buscarHorarioPorMatricula(Long matricula) {
-        Optional<Turma> turma = turmaRepository.findByAlunosMatricula(matricula);
-    return turma
-            .map(record -> {
-                List<SaidaTurmaHorarioDTO> saida = definaTurmaHorario(turma.get().getId());
-               return ResponseEntity.ok().body(saida);
-            }).orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+        Pessoa aluno = buscaPessoa(matricula, "Aluno");
+        Optional<Turma> turma = turmaRepository.findByAlunosMatricula(aluno.getMatricula());
+
+        List<QuadroHorario> quadroHorarios = quadroHorarioRepository.findByTurmaId(turma.get().getId());
+        return ResponseEntity.ok().body(quadroHorarios);
 
     }
 
-    public ResponseEntity buscaHorarioPorId(Long idHorario){
-        return ResponseEntity.ok().body(defineHorario(idHorario));
+    public ResponseEntity<DefaultResponse> buscaHorarioPorId(Long idHorario) {
+        return ResponseEntity.ok().body(DefaultResponse.builder()
+                .success(true)
+                .status(HttpStatus.OK)
+                .data(buscaQuadroHorario(idHorario))
+                .build());
     }
 
-    private List<SaidaTurmaHorarioDTO> definaTurmaHorario(Long turma) {
-        List<SaidaTurmaHorarioDTO> saida = new ArrayList<>();
-        List<Object[]> horarios = quadroHorarioRepository.listarTurmas(turma);
-        horarios.forEach(h -> {
-            Long id = Long.parseLong(h[0] + "");
-            Optional<Turma> turma1 = turmaRepository.findById(Long.parseLong(h[1] + ""));
-            Optional<Materia> materia = materiaRepository.findById(Long.parseLong(h[2] + ""));
-            Optional<Horas> horas = horaRepository.findById(Long.parseLong(h[3] + ""));
-            Optional<Dia> dia = diasRepositry.findById(Long.parseLong(h[4] + ""));
-            Optional<Sala> sala = salaRepository.findById(Long.parseLong(h[5] + ""));
-           saida.add(new SaidaTurmaHorarioDTO(id, turma1.get(), materia.get(), horas.get(), dia.get(), sala.get()));
-        });
-
-       saida.sort(Comparator.comparingLong(c -> c.getDia().getId()));
-        saida.sort(Comparator.comparingLong(c -> c.getHoras().getId()));
-
-        return saida;
-    }
-
-    private SaidaTurmaHorarioDTO defineHorario(Long idHorario){
-        List<SaidaTurmaHorarioDTO> saida = new ArrayList<>();
-        List<Object[]> horarioObjeto = quadroHorarioRepository.filtraHorarioPorId(idHorario);
-
-        horarioObjeto.forEach(h -> {
-            Long id = Long.parseLong(h[0] + "");
-            Optional<Turma> turma1 = turmaRepository.findById(Long.parseLong(h[1] + ""));
-            Optional<Materia> materia = materiaRepository.findById(Long.parseLong(h[2] + ""));
-            Optional<Horas> horas = horaRepository.findById(Long.parseLong(h[3] + ""));
-            Optional<Dia> dia = diasRepositry.findById(Long.parseLong(h[4] + ""));
-            Optional<Sala> sala = salaRepository.findById(Long.parseLong(h[5] + ""));
-            saida.add(new SaidaTurmaHorarioDTO(id, turma1.get(), materia.get(), horas.get(), dia.get(), sala.get()));
-        });
-
-        return saida.stream().findFirst().get();
-    }
-
-
-    private void validacoes(EntradaQuadroHorarioDTO entrada) {
-        if (quadroHorarioRepository.validaDiasDisponivel(entrada.getIdDia(), entrada.getIdHora(), entrada.getIdSala()) >= 1)
-            throw new ServiceException("Hora já cadastrada");
-
-        if (quadroHorarioRepository.validaMateriaDisponivel(entrada.getIdDia(), entrada.getIdHora(), entrada.getIdMateria()) >= 1)
-            throw new ServiceException("Matéria já cadastrada para esse horário");
-    }
-
-    private QuadroHorario buscaQuadroHorario(Long id){
+    private QuadroHorario buscaQuadroHorario(Long id) {
         return quadroHorarioRepository.findById(id).orElseThrow(() -> new QuadroHorarioNotFound(id));
+    }
+
+    private Turma buscaTurma(Long id) {
+        return turmaRepository.findById(id).orElseThrow(() -> new TurmaNotFoundException(id));
+    }
+
+    private Materia buscaMateriaPorId(Long id) {
+        return materiaRepository.findById(id).orElseThrow(() -> new MateriaNotFoundException("", id));
+    }
+
+    private Dia buscaDia(Long id) {
+        return diasRepositry.findById(id).orElseThrow(() -> new DiaNotFoundException(id));
+    }
+
+    private Horas buscaHora(Long id) {
+        return horaRepository.findById(id).orElseThrow(() -> new HoraNotFoundException(id));
+    }
+    private Pessoa buscaPessoa(Long matricula, String cargo){
+        return pessoaRepository.findByMatriculaAndCargoAndStatus(matricula, cargo, "Ativo").orElseThrow(() -> new UserNotFoundException(matricula));
     }
 }
 

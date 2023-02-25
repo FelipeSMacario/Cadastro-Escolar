@@ -117,5 +117,35 @@ public class ControllerException {
                 .messagem(exception.getMessage())
                 .build();
     }
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(HoraNotFoundException.class)
+    public ErroResponse handleHoraNotFound(HoraNotFoundException exception){
+        return ErroResponse.builder()
+                .success(false)
+                .timestamp(LocalDate.now())
+                .status(HttpStatus.NOT_FOUND)
+                .messagem(exception.getMessage())
+                .build();
+    }
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(SalaNotFoundException.class)
+    public ErroResponse handleSalaNotFound(SalaNotFoundException exception){
+        return ErroResponse.builder()
+                .success(false)
+                .timestamp(LocalDate.now())
+                .status(HttpStatus.NOT_FOUND)
+                .messagem(exception.getMessage())
+                .build();
+    }
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(DiaNotFoundException.class)
+    public ErroResponse handleDiaNotFound(DiaNotFoundException exception){
+        return ErroResponse.builder()
+                .success(false)
+                .timestamp(LocalDate.now())
+                .status(HttpStatus.NOT_FOUND)
+                .messagem(exception.getMessage())
+                .build();
+    }
 
 }

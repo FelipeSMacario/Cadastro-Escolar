@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { QuadroDTO } from '../models/DTO/quadroDTO';
 import { Horas } from '../models/horas';
+import { Materia } from '../models/materia';
 import { QuadroHorario } from '../models/quadroHorario';
 import { DefaultResponse } from '../models/Response/defaultResponse';
 
@@ -31,11 +32,14 @@ export class QuadroHorariosService {
     return this.httpClient.post<DefaultResponse>(this.url + "cadastrar", quadro);
   }
 
-  findById(id : number) : Observable<QuadroHorario>{
-    return this.httpClient.get<QuadroHorario>(this.url + "busca/HorarioPorId/" + id);
+  findById(id : number) : Observable<DefaultResponse>{
+    return this.httpClient.get<DefaultResponse>(this.url + "busca/HorarioPorId/" + id);
   }
   updateQuadro(quadro : QuadroDTO) : Observable<Object>{
     return this.httpClient.put(this.url + "atualizar", quadro);
+  }
+  filtrarMaterias(dia: number, hora : number) : Observable<Materia[]>{
+    return this.httpClient.get<Materia[]>(this.url + "busca/MateriaUsada/" + dia + "/" + hora);
   }
 }
 

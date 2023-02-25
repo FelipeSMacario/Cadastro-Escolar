@@ -31,7 +31,7 @@ public class Materia implements Serializable {
     @Column(unique = true, nullable = false)
     private String nome;
 
-    @ManyToOne
+    @OneToOne
     private Pessoa professor;
 
 }

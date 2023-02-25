@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 @Data
@@ -14,7 +15,7 @@ import java.util.List;
 @Builder
 @Entity
 @Table(name = "QuadroHorario")
-public class QuadroHorario {
+public class QuadroHorario implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,10 +23,6 @@ public class QuadroHorario {
 
     @ManyToOne
     Turma turma;
-
-    @ManyToOne
-    Sala sala;
-
     @ManyToOne
     Materia materia;
 

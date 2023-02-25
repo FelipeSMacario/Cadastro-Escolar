@@ -1,26 +1,31 @@
-.margin{
-    margin-top: 50px;
-    margin-bottom: 150px;
+.divContainer{
+    height: 80vh;
+    padding: 2%;
 }
+.divCards{
+    height: auto;
+    margin-top: 8%;
+    color: black;
+    display: flex;
+    justify-content: center;
 
-.texto{
-    text-align: center;
 }
-
+.colHover{
+    padding: 1%;
+    min-height: 30%;
+    width: 30%;
+}
+.imagem{
+    height:80%;
+}
+.divBtn{
+    height: 100%;
+}
 .cards{
     background-color: #27376a;
     color: white;
 }
-
-.colHover{
-    padding: 20px;
-}
-.colHover:hover{
+.colHover:hover{    
     background-color: #ADD8E6;
     transition: 1s;
-}
-
-img, svg {
-    vertical-align: middle;
-    height: 80%;
 }

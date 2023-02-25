@@ -1,3 +1,5 @@
+import { Sala } from "./sala";
+
 export class Turma {
 
     id : number;
@@ -6,4 +8,5 @@ export class Turma {
 
     ano : number;
 
+    sala : Sala
 }

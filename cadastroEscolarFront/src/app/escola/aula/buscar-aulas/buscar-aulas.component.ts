@@ -54,6 +54,7 @@ export class BuscarAulasComponent implements OnInit{
   }
 
   editaAula(id : number){
+    console.log(this.quadroHorario)
     this.router.navigate(['aula/atualizar', id])
   }
 }
