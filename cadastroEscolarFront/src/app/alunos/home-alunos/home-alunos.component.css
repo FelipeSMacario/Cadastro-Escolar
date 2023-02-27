@@ -1,6 +1,11 @@
-.margin{
-    margin-top: 50px;
-    margin-bottom: 150px;
+.divContainer{
+    margin-top: 5%;
+    margin-bottom: 5%;
+}
+.divCards{
+    padding: 1%;
+    display: flex;
+    justify-content: center;
 }
 
 .texto{
@@ -11,18 +16,15 @@
     background-color: #27376a;
     color: white;
 }
+.colHover{
+    height: 100%;
+    margin-right: 1%;
+    width: 25%;
+}
 .colHover:hover{
     background-color: #ADD8E6;
     transition: 1s;
 }
-.altura{
-    height: 25%;
-    width: 20%;
-    margin-right: 200px;
-}
-.divContainer{
-    padding: 40px;
-}
 .imagem{
-    height: 100%;
+    height: 250px;
 }
