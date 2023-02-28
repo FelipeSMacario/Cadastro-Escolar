@@ -14,7 +14,7 @@ export class BuscarProfessoresComponent implements OnInit {
 
   private readonly cargo : string = "professor";
 
-  pessoas : Pessoa[] = [];
+  pessoas : Pessoa[];
   resposta : DefaultResponse;
   formulario : FormGroup;
 

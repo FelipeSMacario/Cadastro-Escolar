@@ -3,13 +3,18 @@
     border: #27376a;
     border: 1px solid #27376a;
 }
+.divContainer{
+    height: 75vh;
+    padding: 1%;
+}
 .tabela th{
     background-color: #27376a;
     color: white;
     padding: 10px;    
 }
 .formulario{
-    margin-top: 20px;
+    padding: 1%;
+    justify-content: center;
 }
 .tabela{
     margin-top: 20px;

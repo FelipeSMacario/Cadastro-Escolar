@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container divContainer">
     <form class="row g-3 formulario" [formGroup]="formulario">
       <div class="col-auto">
         <input
@@ -21,8 +21,8 @@
           <button class="button" type="button" (click)="buscar()">Buscar</button>
         </div>
     </form>
-  
-    <table class="table tabela flex">
+
+    <table class="table tabela flex" *ngIf="pessoas">
       <tr>
           <th>Matricula</th>
           <th>Nome</th>

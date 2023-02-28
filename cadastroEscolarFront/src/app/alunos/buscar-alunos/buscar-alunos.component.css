@@ -1,5 +1,10 @@
 .formulario{
-    margin-top: 20px;
+    padding: 1%;
+    justify-content: center;
+}
+.divContainer{
+    height: 75vh;
+    padding: 1%;
 }
 .tabela{
     margin-top: 20px;

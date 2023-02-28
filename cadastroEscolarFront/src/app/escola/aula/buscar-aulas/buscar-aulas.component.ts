@@ -12,7 +12,7 @@ import { QuadroHorariosService } from 'src/app/services/quadro-horarios.service'
 export class BuscarAulasComponent implements OnInit{
 
   formulario : FormGroup;
-  quadroHorario : QuadroHorario [] = [];
+  quadroHorario : QuadroHorario [];
 
   ngOnInit(): void {
     this.formulario = this.fb.group({

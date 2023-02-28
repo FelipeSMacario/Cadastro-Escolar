@@ -3,7 +3,6 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { take } from 'rxjs';
 import { ModalConfirmacaoComponent } from 'src/app/modal/modal-confirmacao/modal-confirmacao.component';
 import { Materia } from 'src/app/models/materia';
 import { DefaultResponse } from 'src/app/models/Response/defaultResponse';
@@ -18,7 +17,7 @@ export class BuscarMateriaComponent implements OnInit{
 
   formulario : FormGroup;
 
-  materias : Materia[] = [];
+  materias : Materia[];
   
   materia : Materia = new Materia();
 

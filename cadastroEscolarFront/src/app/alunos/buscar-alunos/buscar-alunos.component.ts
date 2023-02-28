@@ -12,7 +12,7 @@ import { PessoaService } from 'src/app/services/pessoa.service';
 })
 export class BuscarAlunosComponent implements OnInit{
 
-  pessoas : Pessoa[] = [];
+  pessoas : Pessoa[];
   resposta : DefaultResponse;
   formulario : FormGroup;
 

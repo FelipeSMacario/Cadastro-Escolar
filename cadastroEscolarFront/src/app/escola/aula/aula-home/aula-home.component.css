@@ -21,7 +21,7 @@
     margin-right: 200px;
 }
 .divContainer{
-    padding: 40px;
+    height: 75vh;
     display: flex;
     justify-content: center;
 }
@@ -31,5 +31,10 @@
 .colHover{
     max-width: 70%;
     height: 400px;
+}
+.divCards{
+    padding-top: 8%;
+    display: flex;
+    justify-content: center;
 }
 

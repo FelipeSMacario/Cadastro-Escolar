@@ -1,5 +1,8 @@
+.divForm{
+    padding-top: 7%;
+    height: 70vh;
+}
 .formulario{
-    margin-top: 50px;
     background-color: #27376a;
     padding: 20px;
 }

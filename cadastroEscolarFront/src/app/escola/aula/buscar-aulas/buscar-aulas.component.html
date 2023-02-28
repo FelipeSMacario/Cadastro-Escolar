@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container divContainer">
     <form class="row g-3 formulario"[formGroup]="formulario" >
       <div class="col-auto">
         <input
@@ -21,7 +21,7 @@
         </div>
     </form>
   
-    <table class="table table-striped tabela flex">
+    <table class="table table-striped tabela flex" *ngIf="quadroHorario">
       <thead>
         <tr>
           <th scope="col">Turma</th>
