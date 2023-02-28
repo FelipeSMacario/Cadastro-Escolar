@@ -8,5 +8,14 @@ footer{
     text-align: center;
 }
 .imagem{
-    height: 30px;
+    height: 20px;
+}
+.logo{
+    background-color: yellow;
+    display: inline-block;
+}
+.divSociaMedia{
+    color: white;
+    float: right;
+    display: block;
 }
