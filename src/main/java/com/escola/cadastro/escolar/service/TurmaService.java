@@ -242,7 +242,7 @@ public class TurmaService {
         turmaRepository.atualizaAlunoTurma(entradaTurmaAlunoDTO.getId(), entradaTurmaAlunoDTO.getTurma().getId());
          return ResponseEntity.ok().body(DefaultResponse.builder()
                 .success(true)
-                .messagem("Atualização realizada com sucesso!")
+                .messagem("Atuali zação realizada com sucesso!")
                 .status(HttpStatus.OK)
                 .build());
     }
