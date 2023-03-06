@@ -1,44 +1,60 @@
 <div class="container divContainer">
-    <form class="row g-3 formulario" [formGroup]="formulario">
-      <div class="col-auto">
-        <input
-          type="text"
-          class="form-control"
-          id="inputPassword2"
-          placeholder="Filtro"
-          formControlName = "filtro"
-        />
-      </div>
-      <div class="col-auto">
-        <select class="form-select" aria-label="Default select example" formControlName = "valor">
-          <option value="0" selected disabled>Pelo que deseja filtrar</option>
-          <option value="1">Nome</option>
-          <option value="2">Matricula</option>
-          <option value="3">Todos</option>
-        </select>
-      </div>
-      <div class="col-auto">
-          <button class="button" type="button" (click)="buscar()">Buscar</button>
-        </div>
-    </form>
+  <form class="row g-3 formulario" [formGroup]="formulario">
+    <div class="col-auto">
+      <input
+        type="text"
+        class="form-control"
+        id="inputPassword2"
+        placeholder="Filtro"
+        formControlName="filtro"
+      />
+    </div>
+    <div class="col-auto">
+      <select
+        class="form-select"
+        aria-label="Default select example"
+        formControlName="valor"
+      >
+        <option value="0" selected disabled>Pelo que deseja filtrar</option>
+        <option value="1">Nome</option>
+        <option value="2">Matricula</option>
+        <option value="3">Todos</option>
+      </select>
+    </div>
+    <div class="col-auto">
+      <button class="button" type="button" (click)="buscar()">Buscar</button>
+    </div>
+  </form>
 
-    <table class="table tabela flex" *ngIf="pessoas">
-      <tr>
-          <th>Matricula</th>
-          <th>Nome</th>
-          <th>Sobrenome</th>
-          <th>Data Nascimento</th>
-          <th>Data Cadastro</th>
-          <th>Gerenciamento</th>
-      </tr>
-      <tr *ngFor="let pessoa of pessoas">
-          <td>{{pessoa.matricula}}</td>
-          <td>{{pessoa.nome}}</td>
-          <td>{{pessoa.sobreNome}}</td>
-          <td>{{pessoa.dataNascimento | date: 'dd/MM/yyyy'}}</td>
-          <td>{{pessoa.dataCadastro | date: 'dd/MM/yyyy'}}</td>
-          <td><img src="../../../assets/images/editar.jpg" height="40" class="btn" (click)="atualizar(pessoa.matricula)"></td>
-      </tr>
-    </table>
-  </div>
-  
+  <table class="table tabela flex" *ngIf="pessoas">
+    <tr>
+      <th>Matricula</th>
+      <th>Nome</th>
+      <th>Sobrenome</th>
+      <th>Data Nascimento</th>
+      <th>Data Cadastro</th>
+      <th>Gerenciamento</th>
+    </tr>
+    <tr *ngFor="let pessoa of pessoas">
+      <td>{{ pessoa.matricula }}</td>
+      <td>{{ pessoa.nome }}</td>
+      <td>{{ pessoa.sobreNome }}</td>
+      <td>{{ pessoa.dataNascimento | date : "dd/MM/yyyy" }}</td>
+      <td>{{ pessoa.dataCadastro | date : "dd/MM/yyyy" }}</td>
+      <td>
+        <img
+          src="../../../assets/images/editar.jpg"
+          height="40"
+          class="btn"
+          (click)="atualizar(pessoa.matricula)"
+        />
+      </td>
+    </tr>
+  </table>
+
+  <mat-paginator [length]="pessoas.length"
+              [pageSize]="5"
+              [pageSizeOptions]="[1, 5, 10]"
+              aria-label="Select page" *ngIf="pessoas">
+</mat-paginator>
+</div>

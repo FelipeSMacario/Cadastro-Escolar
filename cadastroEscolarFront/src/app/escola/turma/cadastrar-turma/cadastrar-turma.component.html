@@ -1,0 +1,63 @@
+<div class="container divForm">
+  <div class="formulario">
+    <div class="titulo">
+      <h1>Cadastro de turmas</h1>
+    </div>
+
+    <form class="form form-group" [formGroup]="formulario">
+      <div class="row">
+        <label class="label labelNome">Turma</label>
+        <select
+          class="form-select"
+          aria-label="Default select example"
+          formControlName="turma"
+          (change)="atualizaAlunos(this.formulario.value.turma)"
+        >
+          <option value="null" selected disabled>Selecione uma matéria</option>
+          <option *ngFor="let turma of turmas" [ngValue]="turma.id">
+            {{ turma.numero }}
+          </option>
+        </select>
+      </div>
+      <div class="row">
+      
+        <div *ngIf="alunos; else loading">
+            <div class="divTabela">
+              <table class="table flex tabela" formArrayName="matriculasTurmas">
+                <thead>
+                  <tr>
+                    <th scope="col">Aluno</th>
+                    <th scope="col">Incluir</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr
+                    *ngFor="let item of matriculasTurmas.controls; let i = index"
+                    [formGroupName]="i"
+                  >
+                    <td>
+                      <input
+                        class="input"
+                        type="text"
+                        readonly
+                        formControlName="nome"
+                      />
+                    </td>
+                    <td>
+                        <input class="form-check-input" type="checkbox" id="inlineCheckbox1"  formControlName="notas">
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+    
+          <ng-template #loading let-user> </ng-template>
+
+      </div>
+      <div class="divBotao">
+        <button type="button" class="btn botao" (click)="teste()">Cadastrar</button>
+      </div>
+    </form>
+  </div>
+</div>

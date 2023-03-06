@@ -8,7 +8,6 @@ import { Pessoa } from 'src/app/models/pessoa';
 import { Turma } from 'src/app/models/turma';
 import { MateriasService } from 'src/app/services/materias.service';
 import { NotasService } from 'src/app/services/notas.service';
-import { PessoaService } from 'src/app/services/pessoa.service';
 import { TurmaService } from 'src/app/services/turma.service';
 
 @Component({

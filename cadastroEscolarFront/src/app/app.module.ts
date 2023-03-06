@@ -42,6 +42,10 @@ import { TokenInterceptorService } from './services/token-interceptor.service';
 import { MinhasNotasComponent } from './escola/notas/minhas-notas/minhas-notas.component';
 import { AuthGuard } from './guards/auth.guard';
 import { PageNotFoundComponent } from './shared/page-not-found/page-not-found.component';
+import {MatPaginatorModule} from '@angular/material/paginator';
+import { HomeTurmaComponent } from './escola/turma/home-turma/home-turma.component';
+import { FiltrarTurmaComponent } from './escola/turma/filtrar-turma/filtrar-turma.component';
+import { CadastrarTurmaComponent } from './escola/turma/cadastrar-turma/cadastrar-turma.component';
 
 @NgModule({
   declarations: [
@@ -77,6 +81,9 @@ import { PageNotFoundComponent } from './shared/page-not-found/page-not-found.co
     AtualizarNotasComponent,
     MinhasNotasComponent,
     PageNotFoundComponent,
+    HomeTurmaComponent,
+    FiltrarTurmaComponent,
+    CadastrarTurmaComponent,
     
   ],
   imports: [
@@ -89,7 +96,8 @@ import { PageNotFoundComponent } from './shared/page-not-found/page-not-found.co
     MatDialogModule,
     MatSnackBarModule,
     MatIconModule,
-    MatMenuModule
+    MatMenuModule,
+    MatPaginatorModule
   ],
   providers: [PessoaService, ModalInformacaoComponent, AuthGuard,  {
     provide: HTTP_INTERCEPTORS,

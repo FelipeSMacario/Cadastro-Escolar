@@ -20,6 +20,11 @@ public class TurmaAlunoController implements TurmaAlunos {
         return turmaService.cadastrarAlunoTurma(entrada);
     }
 
+    @GetMapping(value = "buscarTurma/porNumero/{numero}")
+    public ResponseEntity listarAlunosPorNumero(@PathVariable int numero){
+        return turmaService.buscaAlunoPorNumero(numero);
+    }
+
     @GetMapping(value = "/buscarTurma/{id}")
     public ResponseEntity listarTurmasAlunosPorId(@PathVariable Long id){
         return turmaService.listarTurmasAlunosPorId(id);

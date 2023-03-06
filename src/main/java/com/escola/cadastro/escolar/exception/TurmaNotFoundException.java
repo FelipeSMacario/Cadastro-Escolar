@@ -8,4 +8,7 @@ public class TurmaNotFoundException extends RuntimeException{
     public TurmaNotFoundException(Long id){
         super("Nenhuma turma identificada com esse id: " + id);
     }
+    public TurmaNotFoundException(int numero){
+        super("Nenhuma turma identificada com esse número: " + numero);
+    }
 }

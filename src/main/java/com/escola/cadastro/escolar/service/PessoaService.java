@@ -118,12 +118,12 @@ public class PessoaService {
         Role role = pessoa1.getCargo().equals("Professor") ? new Role(2L, RoleName.ROLE_PROFESSOR) : new Role(3L, RoleName.ROLE_ALUNO);
         roles.add(role);
 
-//        try {
-//            sendEmailToUser(pessoa.getEmail(), pessoa.getNome(), pessoa1.getCpf());
-//        } catch (IOException e) {
-//            // TODO Auto-generated catch block
-//            e.printStackTrace();
-//        }
+        try {
+            sendEmailToUser(pessoa.getEmail(), pessoa.getNome(), pessoa1.getCpf());
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
 
         Login login = Login.builder()
                 .usuario(pessoa1.getEmail())

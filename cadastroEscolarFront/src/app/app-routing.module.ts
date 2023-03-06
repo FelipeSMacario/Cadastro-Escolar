@@ -29,6 +29,9 @@ import { AuthGuard } from './guards/auth.guard';
 import { PageNotFoundComponent } from './shared/page-not-found/page-not-found.component';
 import { AlunoGuard } from './guards/aluno.guard';
 import { ProfessorGuard } from './guards/professor.guard';
+import { HomeTurmaComponent } from './escola/turma/home-turma/home-turma.component';
+import { CadastrarTurmaComponent } from './escola/turma/cadastrar-turma/cadastrar-turma.component';
+import { FiltrarTurmaComponent } from './escola/turma/filtrar-turma/filtrar-turma.component';
 
 const routes: Routes = [
   {path: '',  redirectTo: 'home',  pathMatch: 'full'},  
@@ -59,6 +62,9 @@ const routes: Routes = [
   {path: "escola/notas/buscar", component: BuscarNotasComponent, canActivate: [AuthGuard, AlunoGuard]},
   {path: "notas/atualizar/:id", component: AtualizarNotasComponent, canActivate: [AuthGuard, AlunoGuard]},
   {path: "escola/notas/minhasNotas", component: MinhasNotasComponent, canActivate: [AuthGuard]},
+  {path: "escola/turmas", component: HomeTurmaComponent},
+  {path: "escola/turmas/cadastrar", component: CadastrarTurmaComponent},
+  {path: "escola/turmas/buscar", component: FiltrarTurmaComponent},
   {path: '**',  component: PageNotFoundComponent}
   
  

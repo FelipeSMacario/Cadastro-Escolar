@@ -7,6 +7,7 @@ import com.escola.cadastro.escolar.dto.SaidaTurmaAlunoDTO;
 import com.escola.cadastro.escolar.exception.TurmaNotFoundException;
 import com.escola.cadastro.escolar.model.Pessoa;
 import com.escola.cadastro.escolar.model.Turma;
+import com.escola.cadastro.escolar.model.response.DefaultResponse;
 import com.escola.cadastro.escolar.repository.PessoaRepository;
 import com.escola.cadastro.escolar.repository.TurmaRepository;
 import org.hibernate.service.spi.ServiceException;
@@ -27,16 +28,28 @@ public class TurmaService {
     @Autowired
     PessoaRepository pessoaRepository;
 
+    @Autowired
+    ValidacoesService validacoesService;
 
-    public ResponseEntity cadastrarAlunoTurma(EntradaTurmaAlunoDTO entrada) {
+
+    public ResponseEntity<DefaultResponse> cadastrarAlunoTurma(EntradaTurmaAlunoDTO entrada) {
         Turma turma = buscaTurma(entrada.getTurmaId());
 
-        List<Pessoa> pessoas = validaPessoa(turma.getAno(), entrada.getPessoas());
+        List<Long> matricula = new ArrayList<>();
+
+        entrada.getPessoas().forEach(v -> matricula.add(v.getMatricula()));
+
+
+        List<Pessoa> pessoas = validaPessoa(matricula);
 
         cadastraAlunos(pessoas, turma.getId());
 
-
-        return ResponseEntity.status(HttpStatus.CREATED).body("Cadastro realizado com sucesso!");
+        return ResponseEntity.ok().body(DefaultResponse.builder()
+                .success(true)
+                .messagem("Cadastro realizado com sucesso!")
+                .status(HttpStatus.CREATED)
+                .data("Cadastro realizado com sucesso!")
+                .build());
     }
 
     private void cadastraAlunos(List<Pessoa> pessoas, Long turmaId) {
@@ -70,13 +83,11 @@ public class TurmaService {
         return ResponseEntity.ok().body(turmaRepository.findByAno(ano));
     }
 
-    private List<Pessoa> validaPessoa(Integer ano, List<PessoaEntradaDTO> matricula) {
+    private List<Pessoa> validaPessoa(List<Long> matricula) {
         List<Pessoa> pessoas = new ArrayList<>();
 
         matricula.forEach(valor -> {
-            Pessoa pessoa = pessoaRepository.findByMatriculaAndCargoAndStatus(valor.getMatricula(), "Aluno", "Ativo").get();
-
-            if (!pessoa.getAno().equals(ano)) throw new ServiceException("Ano incompativel entre a turma e o aluno");
+            Pessoa pessoa = validacoesService.buscaPessoa(valor, "Aluno");
 
             pessoas.add(pessoa);
         });
@@ -137,6 +148,15 @@ public class TurmaService {
 
     private Turma buscaTurma(Long id){
         return turmaRepository.findById(id).orElseThrow(() -> new TurmaNotFoundException(id));
+    }
+
+    public ResponseEntity buscaAlunoPorNumero(int numero) {
+        Turma turma = validacoesService.buscaTurmaPorNumero(numero);
+        List<Long> matriculas = turmaRepository.buscaAlunosPorTurma(turma.getId());
+
+        List<Pessoa> alunos = validaPessoa(matriculas);
+
+        return  ResponseEntity.ok().body(alunos);
     }
 }
 

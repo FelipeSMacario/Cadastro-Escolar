@@ -3,7 +3,6 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Materia } from 'src/app/models/materia';
 import { Notas } from 'src/app/models/notas';
-import { Pessoa } from 'src/app/models/pessoa';
 import { Turma } from 'src/app/models/turma';
 import { MateriasService } from 'src/app/services/materias.service';
 import { NotasService } from 'src/app/services/notas.service';
