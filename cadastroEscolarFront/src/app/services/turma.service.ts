@@ -65,5 +65,9 @@ export class TurmaService {
   findAlunoTurmaById(id : number) : Observable<DefaultResponse>{
     return this.httpClient.get<DefaultResponse>(this.urlTurmaALuno + "buscarTurma/" + id);
   }
+
+  updateAlunoTurma(saida : AlunoTurmaDTO) : Observable<DefaultResponse>{
+    return this.httpClient.put<DefaultResponse>(this.urlTurmaALuno + "atualizarAlunoTurma", saida);
+  }
 }
 

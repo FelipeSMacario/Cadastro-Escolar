@@ -50,4 +50,9 @@ public interface TurmaRepository extends JpaRepository<Turma, Long> {
 
     @Query(value = "SELECT * FROM sistemaescolar.turma_aluno WHERE id = :id", nativeQuery = true)
     List<Object[]> definaAlunoTurmaPorId(@Param("id" ) Long id);
+
+    @Transactional
+    @Modifying
+    @Query(value = "UPDATE sistemaescolar.turma_aluno SET turma_id = :idTurma WHERE id = :id ", nativeQuery = true)
+    void atualizaAlunoTurma(@Param("id") Long id, @Param("idTurma") Long idTurma);
 }

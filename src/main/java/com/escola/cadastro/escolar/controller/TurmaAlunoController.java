@@ -1,6 +1,7 @@
 package com.escola.cadastro.escolar.controller;
 
 import com.escola.cadastro.escolar.controller.api.TurmaAlunos;
+import com.escola.cadastro.escolar.dto.AlunoTurmaDTO;
 import com.escola.cadastro.escolar.dto.EntradaTurmaAlunoDTO;
 import com.escola.cadastro.escolar.service.TurmaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,7 +67,7 @@ public class TurmaAlunoController implements TurmaAlunos {
     }
 
     @PutMapping(value = "/atualizarAlunoTurma")
-    public ResponseEntity atualizarAlunoTurma(@RequestBody EntradaTurmaAlunoDTO entradaTurmaAlunoDTO){
+    public ResponseEntity atualizarAlunoTurma(@RequestBody AlunoTurmaDTO entradaTurmaAlunoDTO){
         return turmaService.atualizarAlunoTurma(entradaTurmaAlunoDTO);
     }
 }

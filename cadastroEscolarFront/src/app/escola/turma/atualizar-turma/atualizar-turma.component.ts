@@ -75,7 +75,15 @@ export class AtualizarTurmaComponent implements OnInit{
 
 
   atualizar(){
-    console.log(this.montaSaida())
+    this.turmaService.updateAlunoTurma(this.montaSaida()).subscribe({
+      next : resp => {
+        this.resposta = resp;
+
+        if(this.resposta.success){
+          console.log(this.resposta.messagem)
+        }
+      }
+    })
   }
 
   filtrarTurmasPorAno(ano : number){

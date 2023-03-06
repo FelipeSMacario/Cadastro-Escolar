@@ -238,8 +238,13 @@ public class TurmaService {
         return alunoTurmaDTO;
     }
 
-    public ResponseEntity atualizarAlunoTurma(EntradaTurmaAlunoDTO entradaTurmaAlunoDTO) {
-        return null;
+    public ResponseEntity<DefaultResponse> atualizarAlunoTurma(AlunoTurmaDTO entradaTurmaAlunoDTO) {
+        turmaRepository.atualizaAlunoTurma(entradaTurmaAlunoDTO.getId(), entradaTurmaAlunoDTO.getTurma().getId());
+         return ResponseEntity.ok().body(DefaultResponse.builder()
+                .success(true)
+                .messagem("Atualização realizada com sucesso!")
+                .status(HttpStatus.OK)
+                .build());
     }
 }
 
