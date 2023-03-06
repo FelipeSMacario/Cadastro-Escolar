@@ -1,5 +1,6 @@
 package com.escola.cadastro.escolar.service;
 
+import com.escola.cadastro.escolar.exception.AlunoNoRegisterException;
 import com.escola.cadastro.escolar.exception.TurmaNotFoundException;
 import com.escola.cadastro.escolar.exception.UserNotFoundException;
 import com.escola.cadastro.escolar.model.Pessoa;
@@ -24,5 +25,13 @@ public class ValidacoesService {
 
     Turma buscaTurmaPorNumero(int numero){
         return turmaRepository.findByNumero(numero).orElseThrow(() -> new TurmaNotFoundException(numero));
+    }
+
+    Turma buscaTurma(Long id){
+        return turmaRepository.findById(id).orElseThrow(() -> new TurmaNotFoundException(id));
+    }
+
+    Long buscaTurmaPorMatricula(Long matricula){
+        return turmaRepository.buscaTurmaPorMatricula(matricula).orElseThrow(() -> new AlunoNoRegisterException(matricula));
     }
 }

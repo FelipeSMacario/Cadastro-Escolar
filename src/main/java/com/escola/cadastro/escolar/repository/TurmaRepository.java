@@ -22,8 +22,8 @@ public interface TurmaRepository extends JpaRepository<Turma, Long> {
 
     @Transactional
     @Modifying
-    @Query(value = "DELETE FROM sistemaescolar.turma_aluno WHERE aluno_id = :matricula", nativeQuery = true)
-    void deletaAluno(@Param("matricula" )Long matricula);
+    @Query(value = "DELETE FROM sistemaescolar.turma_aluno WHERE aluno_id = :matricula AND turma_id = :turma", nativeQuery = true)
+    void deletaAluno(@Param("matricula" )Long matricula, @Param("turma" )Long turma);
 
     @Query(value = "SELECT ifnull(max(id), 0) + 1 FROM sistemaescolar.turma_aluno", nativeQuery = true)
     Long buscaIdMaximo();
@@ -38,4 +38,10 @@ public interface TurmaRepository extends JpaRepository<Turma, Long> {
 
     @Query(value = "SELECT aluno_id FROM sistemaescolar.turma_aluno WHERE turma_id = :turma", nativeQuery = true)
     List<Long> buscaAlunosPorTurma(@Param("turma") Long turma);
+
+    @Query(value = "SELECT turma_id FROM sistemaescolar.turma_aluno WHERE aluno_id  = :matricula", nativeQuery = true)
+    Optional<Long> buscaTurmaPorMatricula(@Param("matricula") Long matricula);
+
+    @Query(value = "SELECT * FROM sistemaescolar.turma_aluno", nativeQuery = true)
+    List<Object[]> buscaAlunoTurma();
 }

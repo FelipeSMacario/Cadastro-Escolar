@@ -1,9 +1,7 @@
 package com.escola.cadastro.escolar.service;
 
-import com.escola.cadastro.escolar.dto.EntradaTurmaAlunoDTO;
-import com.escola.cadastro.escolar.dto.PessoaEntradaDTO;
-import com.escola.cadastro.escolar.dto.SaidaAlunoTurmaDTO;
-import com.escola.cadastro.escolar.dto.SaidaTurmaAlunoDTO;
+import com.escola.cadastro.escolar.dto.*;
+import com.escola.cadastro.escolar.exception.AlunoNoRegisterException;
 import com.escola.cadastro.escolar.exception.TurmaNotFoundException;
 import com.escola.cadastro.escolar.model.Pessoa;
 import com.escola.cadastro.escolar.model.Turma;
@@ -18,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -31,9 +30,11 @@ public class TurmaService {
     @Autowired
     ValidacoesService validacoesService;
 
+    private final String cargo = "Aluno";
+
 
     public ResponseEntity<DefaultResponse> cadastrarAlunoTurma(EntradaTurmaAlunoDTO entrada) {
-        Turma turma = buscaTurma(entrada.getTurmaId());
+        Turma turma = validacoesService.buscaTurma(entrada.getTurmaId());
 
         List<Long> matricula = new ArrayList<>();
 
@@ -69,7 +70,7 @@ public class TurmaService {
     }
 
     public ResponseEntity atualizaTurma(Turma turma) {
-        Turma turmaAntiga = buscaTurma(turma.getId());
+        Turma turmaAntiga = validacoesService.buscaTurma(turma.getId());
         Turma turmaAtualizada = turmaRepository.save(Turma.builder()
                 .id(turmaAntiga.getId())
                 .numero(turma.getNumero())
@@ -116,7 +117,7 @@ public class TurmaService {
     }
 
     public ResponseEntity listarTurmaPorMatricula(Long matricula) {
-        Optional<Pessoa> pessoa = pessoaRepository.findByMatriculaAndCargoAndStatus(matricula, "Aluno", "Ativo");
+        Optional<Pessoa> pessoa = pessoaRepository.findByMatriculaAndCargoAndStatus(matricula, cargo, "Ativo");
         Turma turma = pessoa.get().getTurmas().stream().findFirst().orElse(new Turma());
         return pessoa
                 .map(record -> {
@@ -125,18 +126,21 @@ public class TurmaService {
                 }).orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
-    public ResponseEntity removerAlunoTurma(Long matricula, Long id) {
-        Optional<Turma> turma = turmaRepository.findById(id);
-        Optional<Pessoa> pessoa = turma.get().getAlunos().stream().filter(v -> v.getMatricula().equals(matricula)).findFirst();
-        return pessoa
-                .map(record -> {
-                    turmaRepository.deletaAluno(pessoa.get().getMatricula());
-                    return ResponseEntity.status(HttpStatus.OK).body(turma.get());
-                }).orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+    public ResponseEntity<DefaultResponse> removerAlunoTurma(Long matricula, Long id) {
+        Turma turma = validacoesService.buscaTurma(id);
+        Pessoa aluno = validacoesService.buscaPessoa(matricula, cargo);
+
+        turmaRepository.deletaAluno(aluno.getMatricula(), turma.getId());
+
+        return ResponseEntity.ok().body(DefaultResponse.builder()
+                .success(true)
+                .messagem("Aluno removido da turma!")
+                .status(HttpStatus.OK)
+                .build());
     }
 
     public ResponseEntity listarAlunosPorAno(Integer ano) {
-        List<Pessoa> pessoas = pessoaRepository.findByCargoAndStatusAndAno("Aluno", "Ativo", ano);
+        List<Pessoa> pessoas = pessoaRepository.findByCargoAndStatusAndAno(cargo, "Ativo", ano);
         List<Pessoa> pessoasFiltradas = new ArrayList<>();
         pessoas.forEach(p -> {
 
@@ -146,9 +150,7 @@ public class TurmaService {
         return ResponseEntity.ok().body(pessoasFiltradas);
     }
 
-    private Turma buscaTurma(Long id){
-        return turmaRepository.findById(id).orElseThrow(() -> new TurmaNotFoundException(id));
-    }
+
 
     public ResponseEntity buscaAlunoPorNumero(int numero) {
         Turma turma = validacoesService.buscaTurmaPorNumero(numero);
@@ -156,7 +158,52 @@ public class TurmaService {
 
         List<Pessoa> alunos = validaPessoa(matriculas);
 
-        return  ResponseEntity.ok().body(alunos);
+        List<AlunoTurmaDTO> turmaAluno = new ArrayList<>();
+
+        alunos.forEach(v -> turmaAluno.add(new AlunoTurmaDTO(v, turma)));
+
+        return  ResponseEntity.ok().body(turmaAluno);
+    }
+
+    public ResponseEntity<DefaultResponse> buscaTurmaPorMatricula(Long matricula) {
+        Pessoa aluno = validacoesService.buscaPessoa(matricula, cargo);
+        Long turmaId = validacoesService.buscaTurmaPorMatricula(aluno.getMatricula());
+
+        Turma turma = validacoesService.buscaTurma(turmaId);
+
+        return ResponseEntity.ok().body(DefaultResponse.builder()
+                .success(true)
+                .messagem(null)
+                .status(HttpStatus.CREATED)
+                .data(new AlunoTurmaDTO(aluno, turma))
+                .build());
+    }
+
+    public ResponseEntity listarAlunosTurma() {
+        return  ResponseEntity.ok().body(listarAlunoTurma());
+    }
+
+    private List<AlunoTurmaDTO> listarAlunoTurma(){
+        List<Object[]> listaAlunoTurma = turmaRepository.buscaAlunoTurma();
+        List<AlunoTurmaDTO> turmaAluno = new ArrayList<>();
+
+        listaAlunoTurma.forEach(v -> {
+            turmaAluno.add(new AlunoTurmaDTO(validacoesService.buscaPessoa(Long.parseLong(v[2] + ""), cargo), validacoesService.buscaTurma(Long.parseLong(v[1] + ""))));
+        });
+
+            return turmaAluno;
+    }
+
+    public ResponseEntity listarturmaAlunoPorNome(String nome) {
+        List<Pessoa> alunos = pessoaRepository.findByNomeAndCargoAndStatus(nome, cargo, "Ativo");
+        List<AlunoTurmaDTO> turmaAluno = new ArrayList<>();
+
+        alunos.forEach(v -> {
+            Turma turma = validacoesService.buscaTurma(validacoesService.buscaTurmaPorMatricula(v.getMatricula()));
+            turmaAluno.add(new AlunoTurmaDTO(v, turma));
+        });
+
+        return ResponseEntity.ok().body(turmaAluno);
     }
 }
 

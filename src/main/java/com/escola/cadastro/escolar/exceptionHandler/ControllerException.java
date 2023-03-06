@@ -147,5 +147,15 @@ public class ControllerException {
                 .messagem(exception.getMessage())
                 .build();
     }
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(AlunoNoRegisterException.class)
+    public ErroResponse handleAlunonoRegister(AlunoNoRegisterException exception){
+        return ErroResponse.builder()
+                .success(false)
+                .timestamp(LocalDate.now())
+                .status(HttpStatus.NOT_FOUND)
+                .messagem(exception.getMessage())
+                .build();
+    }
 
 }

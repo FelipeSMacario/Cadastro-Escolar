@@ -27,29 +27,30 @@
       </div>
     </form>
     
-    <table class="table tabela flex" *ngIf="pessoas">
+    <table class="table tabela flex" *ngIf="turmaAluno">
         <tr>
-          <th>Matricula</th>
+          <th>turma</th>
           <th>Nome</th>
           <th>Sobrenome</th>
           <th>Data Nascimento</th>
           <th>Data Cadastro</th>
           <th>Gerenciamento</th>
         </tr>
-        <tr *ngFor="let pessoa of pessoas">
-          <td>{{ pessoa.matricula }}</td>
-          <td>{{ pessoa.nome }}</td>
-          <td>{{ pessoa.sobreNome }}</td>
-          <td>{{ pessoa.dataNascimento | date : "dd/MM/yyyy" }}</td>
-          <td>{{ pessoa.dataCadastro | date : "dd/MM/yyyy" }}</td>
+        <tr *ngFor="let pessoa of turmaAluno">
+            <td>{{ pessoa.turma.numero }}</td>
+            <td>{{ pessoa.aluno.nome }}</td>
+            <td>{{ pessoa.aluno.sobreNome }}</td>
+            <td>{{ pessoa.aluno.dataNascimento | date : "dd/MM/yyyy" }}</td>
+            <td>{{ pessoa.aluno.dataCadastro | date : "dd/MM/yyyy" }}</td>
+
           <td>
             <img
               src="../../../assets/images/editar.jpg"
               height="40"
               class="btn"
-              (click)="atualizar(pessoa.matricula)"
+              (click)="atualizar(pessoa.aluno.matricula)"
             />
-            <img src="../../../assets/images/delete.png" height="40" width="40" class="btn" >
+            <img src="../../../assets/images/delete.png" height="40" width="40" class="btn" (click)="modalDeletar(pessoa.aluno.matricula, pessoa.turma.id)" >
           </td>
         </tr>
       </table>

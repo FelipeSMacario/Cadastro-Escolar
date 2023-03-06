@@ -20,9 +20,19 @@ public class TurmaAlunoController implements TurmaAlunos {
         return turmaService.cadastrarAlunoTurma(entrada);
     }
 
+    @GetMapping()
+    public ResponseEntity listarAlunosTurma(){
+        return turmaService.listarAlunosTurma();
+    }
+
     @GetMapping(value = "buscarTurma/porNumero/{numero}")
     public ResponseEntity listarAlunosPorNumero(@PathVariable int numero){
         return turmaService.buscaAlunoPorNumero(numero);
+    }
+
+    @GetMapping(value = "buscarTurma/porNome/{nome}")
+    public ResponseEntity listarturmaAlunoPorNome(@PathVariable String nome){
+        return turmaService.listarturmaAlunoPorNome(nome);
     }
 
     @GetMapping(value = "/buscarTurma/{id}")
@@ -38,6 +48,11 @@ public class TurmaAlunoController implements TurmaAlunos {
     @GetMapping(value = "/buscarAluno/porAno/{ano}")
     public ResponseEntity listarAlunosPorAno(@PathVariable Integer ano){
         return turmaService.listarAlunosPorAno(ano);
+    }
+
+    @GetMapping(value = "/buscarTurma/porMatricula/{matricula}")
+    public ResponseEntity buscaTurmaPorMatricula(@PathVariable Long matricula){
+        return turmaService.buscaTurmaPorMatricula(matricula);
     }
 
     @DeleteMapping(value = "/removerAluno/{matricula}/{id}")
