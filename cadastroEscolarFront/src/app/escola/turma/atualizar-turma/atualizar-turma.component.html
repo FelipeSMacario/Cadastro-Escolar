@@ -1,0 +1,29 @@
+<div class="container divContainer">
+    <div class="formulario">
+      <div class="titulo">
+        <h1>Alteraração de turma e aluno</h1>
+      </div>
+      <form [formGroup]="formulario" class="form form-group" >
+        <div class="row">
+          <div class="col">
+            <label class="label labelNome">Turma</label>
+            <select class="form-select"  aria-label="Default select example" formControlName = "turmaId">
+              <option *ngFor="let tur of turmas"  [ngValue]="tur.id">{{ tur.numero }}</option>
+            </select>
+          </div>
+          <div class="col">
+            <label class="label labelNome">Nome Aluno</label>
+              <input type="text"  readonly class="form-control" placeholder="Nome aluno" formControlName = "alunoMatricula"/>
+
+            </div>
+        </div>      
+        
+  
+        <div class="divBotao">
+            <button class="btn botao"  (click)="atualizar()">Atualizar</button>
+        </div>
+        
+      </form>
+    </div>
+  </div>
+  

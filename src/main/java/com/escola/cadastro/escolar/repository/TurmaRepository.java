@@ -44,4 +44,10 @@ public interface TurmaRepository extends JpaRepository<Turma, Long> {
 
     @Query(value = "SELECT * FROM sistemaescolar.turma_aluno", nativeQuery = true)
     List<Object[]> buscaAlunoTurma();
+
+    @Query(value = "SELECT * FROM sistemaescolar.turma_aluno WHERE aluno_id = :matricula AND turma_id = :turma", nativeQuery = true)
+    List<Object[]> definaAlunoTurma(@Param("matricula" )Long matricula, @Param("turma" )Long turma);
+
+    @Query(value = "SELECT * FROM sistemaescolar.turma_aluno WHERE id = :id", nativeQuery = true)
+    List<Object[]> definaAlunoTurmaPorId(@Param("id" ) Long id);
 }

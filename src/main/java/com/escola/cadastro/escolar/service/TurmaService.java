@@ -107,13 +107,12 @@ public class TurmaService {
     }
 
 
-    public ResponseEntity listarTurmasAlunosPorId(Long id) {
-        Optional<Turma> turma = turmaRepository.findById(id);
-        return turma
-                .map(record -> {
-                    SaidaTurmaAlunoDTO saida = new SaidaTurmaAlunoDTO(turma.get(), turma.get().getAlunos());
-                    return ResponseEntity.ok().body(saida);
-                }).orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+    public ResponseEntity<DefaultResponse> listarTurmasAlunosPorId(Long id) {
+        return ResponseEntity.ok().body(DefaultResponse.builder()
+                .success(true)
+                 .data(buscaAlunoTurmaPorId(id))
+                .status(HttpStatus.OK)
+                .build());
     }
 
     public ResponseEntity listarTurmaPorMatricula(Long matricula) {
@@ -160,7 +159,7 @@ public class TurmaService {
 
         List<AlunoTurmaDTO> turmaAluno = new ArrayList<>();
 
-        alunos.forEach(v -> turmaAluno.add(new AlunoTurmaDTO(v, turma)));
+        alunos.forEach(v -> turmaAluno.add(new AlunoTurmaDTO(null, v, turma)));
 
         return  ResponseEntity.ok().body(turmaAluno);
     }
@@ -175,7 +174,7 @@ public class TurmaService {
                 .success(true)
                 .messagem(null)
                 .status(HttpStatus.CREATED)
-                .data(new AlunoTurmaDTO(aluno, turma))
+                .data(new AlunoTurmaDTO(null, aluno, turma))
                 .build());
     }
 
@@ -188,7 +187,7 @@ public class TurmaService {
         List<AlunoTurmaDTO> turmaAluno = new ArrayList<>();
 
         listaAlunoTurma.forEach(v -> {
-            turmaAluno.add(new AlunoTurmaDTO(validacoesService.buscaPessoa(Long.parseLong(v[2] + ""), cargo), validacoesService.buscaTurma(Long.parseLong(v[1] + ""))));
+            turmaAluno.add(new AlunoTurmaDTO(null, validacoesService.buscaPessoa(Long.parseLong(v[2] + ""), cargo), validacoesService.buscaTurma(Long.parseLong(v[1] + ""))));
         });
 
             return turmaAluno;
@@ -200,10 +199,47 @@ public class TurmaService {
 
         alunos.forEach(v -> {
             Turma turma = validacoesService.buscaTurma(validacoesService.buscaTurmaPorMatricula(v.getMatricula()));
-            turmaAluno.add(new AlunoTurmaDTO(v, turma));
+            turmaAluno.add(new AlunoTurmaDTO(null, v, turma));
         });
 
         return ResponseEntity.ok().body(turmaAluno);
+    }
+
+    public ResponseEntity<DefaultResponse> buscaTurmaAluno(Long matricula, Long turma) {
+
+        return ResponseEntity.ok().body(DefaultResponse.builder()
+                .success(true)
+                .status(HttpStatus.OK)
+                .data(buscaAlunoTurma(matricula,turma))
+                .build());
+    }
+
+    AlunoTurmaDTO buscaAlunoTurma(Long matricula, Long turma){
+        AlunoTurmaDTO alunoTurmaDTO = new AlunoTurmaDTO();
+        List<Object[]> lista = turmaRepository.definaAlunoTurma(matricula, turma);
+
+        lista.forEach(v -> {
+            alunoTurmaDTO.setId(Long.parseLong(v[0] + ""));
+            alunoTurmaDTO.setTurma(validacoesService.buscaTurma(Long.parseLong(v[1] + "")));
+            alunoTurmaDTO.setAluno(validacoesService.buscaPessoa(Long.parseLong(v[2] + ""), cargo));
+        });
+        return alunoTurmaDTO;
+    }
+
+    AlunoTurmaDTO buscaAlunoTurmaPorId(Long id){
+        AlunoTurmaDTO alunoTurmaDTO = new AlunoTurmaDTO();
+        List<Object[]> lista = turmaRepository.definaAlunoTurmaPorId(id);
+
+        lista.forEach(v -> {
+            alunoTurmaDTO.setId(Long.parseLong(v[0] + ""));
+            alunoTurmaDTO.setTurma(validacoesService.buscaTurma(Long.parseLong(v[1] + "")));
+            alunoTurmaDTO.setAluno(validacoesService.buscaPessoa(Long.parseLong(v[2] + ""), cargo));
+        });
+        return alunoTurmaDTO;
+    }
+
+    public ResponseEntity atualizarAlunoTurma(EntradaTurmaAlunoDTO entradaTurmaAlunoDTO) {
+        return null;
     }
 }
 

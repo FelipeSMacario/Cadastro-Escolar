@@ -7,7 +7,6 @@ import { ModalConfirmacaoComponent } from 'src/app/modal/modal-confirmacao/modal
 import { AlunoTurmaDTO } from 'src/app/models/DTO/alunoTurmaDTO';
 import { Pessoa } from 'src/app/models/pessoa';
 import { DefaultResponse } from 'src/app/models/Response/defaultResponse';
-import { PessoaService } from 'src/app/services/pessoa.service';
 import { TurmaService } from 'src/app/services/turma.service';
 
 @Component({
@@ -22,9 +21,9 @@ export class FiltrarTurmaComponent  implements OnInit{
   pessoas : Pessoa[];
   resposta : DefaultResponse;
   turmaAluno : AlunoTurmaDTO[];
+  objetoTurmaAluno : AlunoTurmaDTO;
 
   constructor(
-    private alunoService : PessoaService,
     private fb : FormBuilder,
     private router: Router,
     private turmaService : TurmaService,
@@ -43,8 +42,19 @@ export class FiltrarTurmaComponent  implements OnInit{
     })  
   }
 
-  atualizar(matricula : number){
-    this.router.navigate(['turmas/atualizar', matricula])
+  atualizar(matricula : number, turma : number){
+    this.turmaAluno = this.removeTodos();
+    this.turmaService.findTurmaAluno(matricula, turma).subscribe({
+      next : res => {
+        this.resposta = res;
+        if(this.resposta.success){
+          this.objetoTurmaAluno  = this.resposta.data;
+          this.router.navigate(['turmas/atualizar', this.objetoTurmaAluno.id])
+        }else {
+          console.log(this.resposta.messagem + " erro")
+      }
+    }
+    })
   }
 
   buscar(){

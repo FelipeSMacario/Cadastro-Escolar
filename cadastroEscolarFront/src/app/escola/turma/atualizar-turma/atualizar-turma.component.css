@@ -1,0 +1,35 @@
+.divContainer{
+    padding-top: 7%;
+    height: 70vh;
+}
+.formulario{
+    background-color: #27376a;
+    padding: 20px;
+}
+.row{
+    margin-top: 50px;
+}
+.divBotao{
+    margin-top: 20px;
+    text-align: center;
+}
+.botao{
+    margin-top: 20px;
+    background-color: #27376a;
+    color: white;
+    border: 1px solid white;
+}
+
+.botao:hover{
+    background-color: white;
+    color: #27376a;
+}
+.labelNome{
+    color: white;
+    font-size: 19px;
+    margin-bottom: 5px;
+}
+.titulo{
+    text-align: center;
+    color: white;
+}

@@ -32,6 +32,7 @@ import { ProfessorGuard } from './guards/professor.guard';
 import { HomeTurmaComponent } from './escola/turma/home-turma/home-turma.component';
 import { CadastrarTurmaComponent } from './escola/turma/cadastrar-turma/cadastrar-turma.component';
 import { FiltrarTurmaComponent } from './escola/turma/filtrar-turma/filtrar-turma.component';
+import { AtualizarTurmaComponent } from './escola/turma/atualizar-turma/atualizar-turma.component';
 
 const routes: Routes = [
   {path: '',  redirectTo: 'home',  pathMatch: 'full'},  
@@ -65,6 +66,7 @@ const routes: Routes = [
   {path: "escola/turmas", component: HomeTurmaComponent},
   {path: "escola/turmas/cadastrar", component: CadastrarTurmaComponent},
   {path: "escola/turmas/buscar", component: FiltrarTurmaComponent},
+  {path: "turmas/atualizar/:id", component: AtualizarTurmaComponent},
   {path: '**',  component: PageNotFoundComponent}
   
  

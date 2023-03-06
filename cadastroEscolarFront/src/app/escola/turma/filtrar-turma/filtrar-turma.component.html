@@ -48,7 +48,7 @@
               src="../../../assets/images/editar.jpg"
               height="40"
               class="btn"
-              (click)="atualizar(pessoa.aluno.matricula)"
+              (click)="atualizar(pessoa.aluno.matricula, pessoa.turma.id)"
             />
             <img src="../../../assets/images/delete.png" height="40" width="40" class="btn" (click)="modalDeletar(pessoa.aluno.matricula, pessoa.turma.id)" >
           </td>

@@ -12,6 +12,8 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AlunoTurmaDTO implements Serializable {
+
+    private Long id;
     private Pessoa aluno;
     private Turma turma;
 }

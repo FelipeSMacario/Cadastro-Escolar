@@ -55,8 +55,18 @@ public class TurmaAlunoController implements TurmaAlunos {
         return turmaService.buscaTurmaPorMatricula(matricula);
     }
 
+    @GetMapping(value = "/buscaTurma/porMatricula/porTurma/{matricula}/{turma}")
+    public ResponseEntity buscaTurmaAlunoPorMatriculaRTurma(@PathVariable Long matricula, @PathVariable Long turma){
+        return turmaService.buscaTurmaAluno(matricula, turma);
+    }
+
     @DeleteMapping(value = "/removerAluno/{matricula}/{id}")
     public ResponseEntity deletarAlunoTurma(@PathVariable Long matricula, @PathVariable Long id){
         return turmaService.removerAlunoTurma(matricula, id);
+    }
+
+    @PutMapping(value = "/atualizarAlunoTurma")
+    public ResponseEntity atualizarAlunoTurma(@RequestBody EntradaTurmaAlunoDTO entradaTurmaAlunoDTO){
+        return turmaService.atualizarAlunoTurma(entradaTurmaAlunoDTO);
     }
 }

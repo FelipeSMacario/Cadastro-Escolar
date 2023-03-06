@@ -101,7 +101,7 @@ export class CadastrarTurmaComponent implements OnInit{
 
     return new EntradaTurmaAlunoDTO(this.formulario.value.turma, this.pessoa);
   }
-  teste(){
+  cadastrar(){
     this.turmaService.saveTurma(this.montaTurmaAlunoSaida()).subscribe({
       next : res => {
         this.resposta = res;

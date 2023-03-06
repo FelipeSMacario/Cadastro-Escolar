@@ -53,5 +53,17 @@ export class TurmaService {
   deleteTurmaAluno(matricula : number, turma : number) : Observable<DefaultResponse>{
     return this.httpClient.delete<DefaultResponse>(this.urlTurmaALuno + "removerAluno/" + matricula + "/" + turma);
   }
+
+  findTurmaAluno(matricula : number, turma : number) : Observable<DefaultResponse>{
+    return this.httpClient.get<DefaultResponse>(this.urlTurmaALuno + "buscaTurma/porMatricula/porTurma/" + matricula + "/" + turma);
+  }
+
+  findTurmaPorANo(ano : number) : Observable<Turma[]>{
+    return this.httpClient.get<Turma[]>(this.url + "buscar/porAno/" + ano)
+  }
+
+  findAlunoTurmaById(id : number) : Observable<DefaultResponse>{
+    return this.httpClient.get<DefaultResponse>(this.urlTurmaALuno + "buscarTurma/" + id);
+  }
 }
 

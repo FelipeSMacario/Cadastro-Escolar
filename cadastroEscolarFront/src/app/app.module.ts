@@ -46,6 +46,7 @@ import {MatPaginatorModule} from '@angular/material/paginator';
 import { HomeTurmaComponent } from './escola/turma/home-turma/home-turma.component';
 import { FiltrarTurmaComponent } from './escola/turma/filtrar-turma/filtrar-turma.component';
 import { CadastrarTurmaComponent } from './escola/turma/cadastrar-turma/cadastrar-turma.component';
+import { AtualizarTurmaComponent } from './escola/turma/atualizar-turma/atualizar-turma.component';
 
 @NgModule({
   declarations: [
@@ -84,6 +85,7 @@ import { CadastrarTurmaComponent } from './escola/turma/cadastrar-turma/cadastra
     HomeTurmaComponent,
     FiltrarTurmaComponent,
     CadastrarTurmaComponent,
+    AtualizarTurmaComponent,
     
   ],
   imports: [
