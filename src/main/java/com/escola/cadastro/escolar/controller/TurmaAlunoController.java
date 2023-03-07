@@ -70,4 +70,9 @@ public class TurmaAlunoController implements TurmaAlunos {
     public ResponseEntity atualizarAlunoTurma(@RequestBody AlunoTurmaDTO entradaTurmaAlunoDTO){
         return turmaService.atualizarAlunoTurma(entradaTurmaAlunoDTO);
     }
+
+    @GetMapping(value = "/buscaAluno/porTurma/{id}")
+    public ResponseEntity buscaAlunoPorTurma(@PathVariable Long id){
+        return turmaService.buscaAlunoPorTurma(id);
+    }
 }

@@ -49,7 +49,6 @@ public class TurmaService {
                 .success(true)
                 .messagem("Cadastro realizado com sucesso!")
                 .status(HttpStatus.CREATED)
-                .data("Cadastro realizado com sucesso!")
                 .build());
     }
 
@@ -245,6 +244,10 @@ public class TurmaService {
                 .messagem("Atuali zação realizada com sucesso!")
                 .status(HttpStatus.OK)
                 .build());
+    }
+
+    public ResponseEntity buscaAlunoPorTurma(Long id) {
+        return ResponseEntity.ok().body(validaPessoa(turmaRepository.buscaAlunosPorTurma(id)));
     }
 }
 

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Materia } from 'src/app/models/materia';
 import { Notas } from 'src/app/models/notas';
@@ -35,8 +35,8 @@ export class BuscarNotasComponent implements OnInit{
 
   formularioVazio(){
     this.formulario = this.fb.group({
-      materia : [null],
-      turma : [null],
+      materia : [null, [Validators.required]],
+      turma : [null, [Validators.required]],
       nome : [null]
     });
   }

@@ -38,10 +38,6 @@ export class TurmaService {
     return this.httpClient.get<DefaultResponse>(this.urlTurmaALuno + "buscarTurma/porMatricula/" + matricula)
   }
 
-  findByTurma(id : number) : Observable<SaidaTurmaAlunoDTO>{
-    return this.httpClient.get<SaidaTurmaAlunoDTO>(this.urlTurmaALuno + "buscarTurma/" + id);
-  }
-
   findAlunoByAno(ano : number) : Observable<Pessoa[]>{
     return this.httpClient.get<Pessoa[]>(this.urlTurmaALuno + "buscarAluno/porAno/" + ano)
   }
@@ -68,6 +64,10 @@ export class TurmaService {
 
   updateAlunoTurma(saida : AlunoTurmaDTO) : Observable<DefaultResponse>{
     return this.httpClient.put<DefaultResponse>(this.urlTurmaALuno + "atualizarAlunoTurma", saida);
+  }
+  
+  findAlunoPorTurma(id : number) : Observable<Pessoa[]>{
+    return this.httpClient.get<Pessoa[]>(this.urlTurmaALuno + "buscaAluno/porTurma/" + id)
   }
 }
 

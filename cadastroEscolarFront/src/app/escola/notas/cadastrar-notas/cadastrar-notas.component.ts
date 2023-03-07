@@ -94,12 +94,10 @@ export class CadastrarNotasComponent implements OnInit{
   }
 
 
-  buscaAlunos(id : number){
-    console.log(id)
-    
-    this.turmaService.findByTurma(id).subscribe({
-      next : alu => {
-        this.alunos = alu.alunos;
+  buscaAlunos(id : number){    
+    this.turmaService.findAlunoPorTurma(id).subscribe({
+      next : alu => {        
+        this.alunos = alu;
         this.buildFormAluno(this.alunos);
       },
       error : err => console.log(err)

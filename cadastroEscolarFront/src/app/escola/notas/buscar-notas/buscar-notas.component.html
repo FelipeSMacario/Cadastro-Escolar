@@ -69,7 +69,7 @@
         </ng-template>  
   
         <div class="divBotao">
-          <button type="button" class="btn botao" (click)="buscarNotas()">Buscar</button>
+          <button type="button" class="btn botao" [disabled]="!formulario.valid" (click)="buscarNotas()">Buscar</button>
         </div>
       </form>
     </div>
