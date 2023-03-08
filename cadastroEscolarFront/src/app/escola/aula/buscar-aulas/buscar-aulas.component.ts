@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { QuadroHorario } from 'src/app/models/quadroHorario';
 import { QuadroHorariosService } from 'src/app/services/quadro-horarios.service';
@@ -16,8 +16,8 @@ export class BuscarAulasComponent implements OnInit{
 
   ngOnInit(): void {
     this.formulario = this.fb.group({
-      filtro : [null],
-      valor : [0]
+      filtro : [null, [Validators.required]],
+      valor : [0, [Validators.required, Validators.min(1), Validators.max(2)]]
     });
   }
 

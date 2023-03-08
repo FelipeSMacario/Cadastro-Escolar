@@ -1,3 +1,7 @@
+.divContainer{
+    padding: 40px;
+    height: 75vh;
+}
 .margin{
     margin-top: 50px;
     margin-bottom: 150px;
@@ -20,21 +24,16 @@
     width: 20%;
     margin-right: 200px;
 }
-.divContainer{
-    height: 75vh;
-    display: flex;
-    justify-content: center;
-}
+
 .imagem{
     height: 70%;
 }
-.colHover{
-    max-width: 70%;
-    height: 400px;
-}
 .divCards{
-    padding-top: 8%;
     display: flex;
     justify-content: center;
+    margin-top: 8%;
 }
-
+.colHover{
+    max-width: 30%;
+    height: 320px;
+}

@@ -2,19 +2,15 @@ package com.escola.cadastro.escolar.service;
 
 import com.escola.cadastro.escolar.dto.EntradaQuadroAtualizarDTO;
 import com.escola.cadastro.escolar.dto.EntradaQuadroHorarioDTO;
-import com.escola.cadastro.escolar.dto.SaidaTurmaHorarioDTO;
 import com.escola.cadastro.escolar.exception.*;
 import com.escola.cadastro.escolar.model.*;
 import com.escola.cadastro.escolar.model.response.DefaultResponse;
 import com.escola.cadastro.escolar.repository.*;
-import org.hibernate.service.spi.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,6 +28,9 @@ public class QuadroHorarioService {
     DiasRepositry diasRepositry;
     @Autowired
     PessoaRepository pessoaRepository;
+
+    @Autowired
+    ValidacoesService validacoesService;
 
 
     public ResponseEntity<DefaultResponse> cadastrarSala(EntradaQuadroHorarioDTO entrada) {
@@ -110,10 +109,11 @@ public class QuadroHorarioService {
     }
 
     public ResponseEntity buscarHorarioPorMatricula(Long matricula) {
-        Pessoa aluno = buscaPessoa(matricula, "Aluno");
-        Optional<Turma> turma = turmaRepository.findByAlunosMatricula(aluno.getMatricula());
+        Pessoa aluno = validacoesService.buscaPessoa(matricula, "Aluno");
+        Long idTurma = validacoesService.buscaTurmaPorMatricula(aluno.getMatricula());
+        Turma turma = validacoesService.buscaTurma(idTurma);
 
-        List<QuadroHorario> quadroHorarios = quadroHorarioRepository.findByTurmaId(turma.get().getId());
+        List<QuadroHorario> quadroHorarios = quadroHorarioRepository.findByTurmaId(turma.getId());
         return ResponseEntity.ok().body(quadroHorarios);
 
     }

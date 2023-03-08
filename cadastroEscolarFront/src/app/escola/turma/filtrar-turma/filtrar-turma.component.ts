@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
@@ -37,8 +37,8 @@ export class FiltrarTurmaComponent  implements OnInit{
 
   formularioVazio(){
     this.formulario = this.fb.group({
-      valor : [0],
-      filtro : [null]
+      valor : [0, [Validators.required, Validators.min(1), Validators.max(4)]],
+      filtro : [null, [Validators.required]]
     })  
   }
 

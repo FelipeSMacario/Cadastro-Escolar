@@ -17,7 +17,7 @@
         </select>
       </div>
       <div class="col-auto">
-          <button class="button" type="button" (click)="filtrar()">Buscar</button>
+          <button class="btn button" type="button" (click)="filtrar()" [disabled]="!formulario.valid">Buscar</button>
         </div>
     </form>
   

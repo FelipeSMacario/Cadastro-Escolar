@@ -15,7 +15,12 @@
     padding: 10px;   
 }
 .divContainer{
-    display: flex;
+    padding: 40px;
+    height: 75vh;
+   
+}
+.divTabela{
     justify-content: center;
-    
+    display: flex;
+   
 }

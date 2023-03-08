@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
@@ -33,8 +33,8 @@ export class BuscarMateriaComponent implements OnInit{
 
   ngOnInit(): void {  
     this.formulario = this.fb.group({
-      valor : [0],
-      filtro : [null]
+      valor : [0,[Validators.min(1), Validators.max(2)]],
+      filtro : [null, [Validators.required]]
     })  
   }
 

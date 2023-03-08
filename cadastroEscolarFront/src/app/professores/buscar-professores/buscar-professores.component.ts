@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Pessoa } from 'src/app/models/pessoa';
 import { DefaultResponse } from 'src/app/models/Response/defaultResponse';
@@ -25,8 +25,8 @@ export class BuscarProfessoresComponent implements OnInit {
 
     ngOnInit(): void {  
       this.formulario = this.fb.group({
-        valor : [0],
-        filtro : [null]
+        valor : [0, [Validators.required, Validators.min(1), Validators.max(3)]],
+        filtro : [null, [Validators.required]]
       })  
     }
 

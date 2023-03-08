@@ -63,10 +63,10 @@ const routes: Routes = [
   {path: "escola/notas/buscar", component: BuscarNotasComponent, canActivate: [AuthGuard, AlunoGuard]},
   {path: "notas/atualizar/:id", component: AtualizarNotasComponent, canActivate: [AuthGuard, AlunoGuard]},
   {path: "escola/notas/minhasNotas", component: MinhasNotasComponent, canActivate: [AuthGuard]},
-  {path: "escola/turmas", component: HomeTurmaComponent},
-  {path: "escola/turmas/cadastrar", component: CadastrarTurmaComponent},
-  {path: "escola/turmas/buscar", component: FiltrarTurmaComponent},
-  {path: "turmas/atualizar/:id", component: AtualizarTurmaComponent},
+  {path: "escola/turmas", component: HomeTurmaComponent, canActivate: [AuthGuard, AlunoGuard, ProfessorGuard]},
+  {path: "escola/turmas/cadastrar", component: CadastrarTurmaComponent, canActivate: [AuthGuard, AlunoGuard, ProfessorGuard]},
+  {path: "escola/turmas/buscar", component: FiltrarTurmaComponent, canActivate: [AuthGuard, AlunoGuard, ProfessorGuard]},
+  {path: "turmas/atualizar/:id", component: AtualizarTurmaComponent, canActivate: [AuthGuard, AlunoGuard, ProfessorGuard]},
   {path: '**',  component: PageNotFoundComponent}
   
  
