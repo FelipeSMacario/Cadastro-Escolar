@@ -7,6 +7,7 @@ import com.escola.cadastro.escolar.model.Login;
 import com.escola.cadastro.escolar.model.Pessoa;
 import com.escola.cadastro.escolar.model.Role;
 import com.escola.cadastro.escolar.model.response.DefaultResponse;
+import com.escola.cadastro.escolar.model.response.ResponseFiltroPessoaNome;
 import com.escola.cadastro.escolar.repository.LoginRepository;
 import com.escola.cadastro.escolar.repository.PessoaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +38,9 @@ public class PessoaService {
     PasswordEncoder encoder;
     @Autowired
     LoginRepository loginRepository;
+
+    @Autowired
+    ValidacoesService validacoesService;
 
     public void sendEmailToUser(String email, String name, String password) throws IOException {
 
@@ -87,15 +91,30 @@ public class PessoaService {
     }
 
 
-    public ResponseEntity listar(String cargo) {
-        return ResponseEntity.status(HttpStatus.OK).body(pessoaRepository.findByCargoAndStatus(cargo, "Ativo"));
-    }
+    public ResponseEntity<DefaultResponse> listar(String cargo) {
+        List<Pessoa> pessoaList = new ArrayList<>();
+        try {
+            pessoaList = pessoaRepository.findByCargoAndStatus(cargo, "Ativo");
+        }catch (Exception e){
+            return ResponseEntity.ok().body(DefaultResponse.builder()
+                    .success(false)
+                    .status(HttpStatus.NOT_FOUND)
+                    .messagem(e.getMessage())
+                    .build());
+        }
 
-    public ResponseEntity buscar(Long matricula, String cargo) {
         return ResponseEntity.ok().body(DefaultResponse.builder()
                 .success(true)
                 .status(HttpStatus.OK)
-                .data(buscaPessoa(matricula, cargo))
+                .data(new ResponseFiltroPessoaNome(pessoaList))
+                .build());
+    }
+
+    public ResponseEntity<DefaultResponse> buscar(Long matricula, String cargo) {
+        return ResponseEntity.ok().body(DefaultResponse.builder()
+                .success(true)
+                .status(HttpStatus.OK)
+                .data(validacoesService.buscaPessoa(matricula, cargo))
                 .build());
     }
 
@@ -142,7 +161,7 @@ public class PessoaService {
     }
 
     public ResponseEntity<DefaultResponse> atualizar(EntradaDTO entradaDTO, String cargo) {
-        Pessoa pessoa = buscaPessoa(entradaDTO.getMatricula(), cargo);
+        Pessoa pessoa = validacoesService.buscaPessoa(entradaDTO.getMatricula(), cargo);
         Pessoa pessoaAtualizada = pessoaRepository.save(Pessoa.builder()
                 .matricula(entradaDTO.getMatricula())
                 .cpf(entradaDTO.getCpf())
@@ -162,13 +181,24 @@ public class PessoaService {
                 .build());
     }
 
-    public ResponseEntity buscarPorNome(String nome, String cargo) {
-        return ResponseEntity.status(HttpStatus.OK).body(pessoaRepository.findByNomeAndCargoAndStatus(nome, cargo, "Ativo"));
+    public ResponseEntity<DefaultResponse> buscarPorNome(String nome, String cargo) {
+        List<Pessoa> pessoaList = pessoaRepository.findByNomeAndCargoAndStatus(nome, cargo, "Ativo");
+
+        if(pessoaList.isEmpty()){
+            return ResponseEntity.ok().body(DefaultResponse.builder()
+                    .success(false)
+                    .status(HttpStatus.NOT_FOUND)
+                    .messagem("Nenhum " + cargo + " identificado com esse nome")
+                    .build());
+        }
+
+        return ResponseEntity.ok().body(DefaultResponse.builder()
+                .success(true)
+                .status(HttpStatus.OK)
+                .data(new ResponseFiltroPessoaNome(pessoaList))
+                .build());
     }
 
-    private Pessoa buscaPessoa(Long matricula, String cargo){
-        return pessoaRepository.findByMatriculaAndCargoAndStatus(matricula, cargo, "Ativo").orElseThrow(() -> new UserNotFoundException(matricula));
-    }
 
 
 }

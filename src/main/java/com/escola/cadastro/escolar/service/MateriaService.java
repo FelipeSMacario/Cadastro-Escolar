@@ -21,14 +21,14 @@ public class MateriaService {
     MateriaRepository materiaRepository;
 
     @Autowired
-    PessoaRepository pessoaRepository;
+    ValidacoesService validacoesService;
 
     public ResponseEntity listarMaterias() {
         return ResponseEntity.status(HttpStatus.OK).body(materiaRepository.findAll());
     }
 
     public ResponseEntity<DefaultResponse> buscarMateriaPorNome(String nome) {
-        Materia materia = buscaMateriaPorNome(nome);
+        Materia materia = validacoesService.buscaMateriaPorNome(nome);
 
         return ResponseEntity.ok().body(DefaultResponse.builder()
                 .success(true)
@@ -39,7 +39,7 @@ public class MateriaService {
     }
 
     public ResponseEntity<DefaultResponse> cadastrarMateria(Materia materia) {
-        Pessoa pessoa = buscaPessoa(materia.getProfessor().getMatricula(), "Professor");
+        Pessoa pessoa = validacoesService.buscaPessoa(materia.getProfessor().getMatricula(), "Professor");
 
         Materia materiaValidada =  materiaRepository.save(new Materia(null, materia.getNome(), pessoa));
 
@@ -52,7 +52,7 @@ public class MateriaService {
     }
 
     public ResponseEntity<DefaultResponse> atualizarMateria(Materia materia) {
-        Materia materia1 = buscaMateriaPorId(materia.getId());
+        Materia materia1 = validacoesService.buscaMateriaPorId(materia.getId());
         Materia materiaAtualizada = materiaRepository.save(
                 Materia.builder()
                         .id(materia1.getId())
@@ -69,7 +69,7 @@ public class MateriaService {
     }
 
     public ResponseEntity<DefaultResponse> deletarMateria(Long id) {
-        Materia materia = buscaMateriaPorId(id);
+        Materia materia = validacoesService.buscaMateriaPorId(id);
         materiaRepository.deleteById(materia.getId());
 
         return ResponseEntity.ok().body(DefaultResponse.builder()
@@ -77,18 +77,6 @@ public class MateriaService {
                         .messagem("Matéria deletada com sucesso")
                         .status(HttpStatus.OK)
                 .build());
-    }
-
-    private Materia buscaMateriaPorNome(String nome) {
-        return materiaRepository.findByNome(nome).orElseThrow(() -> new MateriaNotFoundException(nome));
-    }
-
-    private Materia buscaMateriaPorId(Long id) {
-        return materiaRepository.findById(id).orElseThrow(() -> new MateriaNotFoundException("",id));
-    }
-
-    private Pessoa buscaPessoa(Long matricula, String cargo){
-        return pessoaRepository.findByMatriculaAndCargoAndStatus(matricula, cargo, "Ativo").orElseThrow(() -> new UserNotFoundException(matricula));
     }
 
 }

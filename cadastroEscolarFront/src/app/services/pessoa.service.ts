@@ -13,12 +13,12 @@ export class PessoaService {
 
   private url = "http://localhost:8080/";
 
-  findAllAlunos(cargo : string) : Observable<Pessoa[]> {
-    return this.httpClient.get<Pessoa[]>(this.url + cargo + "/listar");
+  findAllAlunos(cargo : string) : Observable<DefaultResponse> {
+    return this.httpClient.get<DefaultResponse>(this.url + cargo + "/listar");
   }
 
   findAlunosByNome(cargo : string, nome : string){
-    return this.httpClient.get<Pessoa[]>(`${this.url}${cargo}/buscar/porNome/${nome}`);
+    return this.httpClient.get<DefaultResponse>(`${this.url}${cargo}/buscar/porNome/${nome}`);
   }
 
   findAlunosByMatricula(cargo : string, matricula : number) : Observable<DefaultResponse>{

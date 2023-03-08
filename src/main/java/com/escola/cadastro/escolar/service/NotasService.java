@@ -23,7 +23,6 @@ import com.sendgrid.helpers.mail.objects.Email;
 import com.sendgrid.helpers.mail.objects.Personalization;
 import io.github.cdimascio.dotenv.Dotenv;
 import io.jsonwebtoken.io.IOException;
-import org.hibernate.service.spi.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,10 +40,7 @@ public class NotasService {
     @Autowired
     PessoaRepository pessoaRepository;
     @Autowired
-    MateriaRepository materiaRepository;
-
-    @Autowired
-    TurmaRepository turmaRepository;
+    ValidacoesService validacoesService;
 
     public void sendEmailNotasToUser(String email, String name, String nota, String materia) throws java.io.IOException {
 
@@ -93,12 +89,12 @@ public class NotasService {
     }
 
     public ResponseEntity cadastrarNotas(NotasDTO notasDTO) {
-        Pessoa professor = buscaPessoa(notasDTO.getMatriculaProfessor(), "Professor");
-        Materia materia = buscaMateriaPorNome(notasDTO.getMateria());
-        Turma turma = buscaTurma(notasDTO.getTurmaId());
+        Pessoa professor = validacoesService.buscaPessoa(notasDTO.getMatriculaProfessor(), "Professor");
+        Materia materia = validacoesService.buscaMateriaPorNome(notasDTO.getMateria());
+        Turma turma = validacoesService.buscaTurma(notasDTO.getTurmaId());
 
         notasDTO.getMatriculasNotas().forEach(valor -> {
-            Pessoa aluno = buscaPessoa(valor.getMatriculaAluno(), "Aluno");
+            Pessoa aluno = validacoesService.buscaPessoa(valor.getMatriculaAluno(), "Aluno");
             validaTrimeste(professor.getMatricula(), aluno.getMatricula(), materia.getId(), buscaTrimeste(), notasDTO.getTurmaId());
             Notas notas = Notas.builder()
                     .nota(valor.getNotas())
@@ -122,7 +118,7 @@ public class NotasService {
     }
 
     public ResponseEntity alterarNotas(NotasTrimestreDTO notasDTO) {
-        Notas notas = buscaNotas(notasDTO.getNotaId());
+        Notas notas = validacoesService.buscaNotas(notasDTO.getNotaId());
         Notas notaAtualizada = notasRepository.save(Notas.builder()
                 .id(notas.getId())
                 .professor(notas.getProfessor())
@@ -138,7 +134,7 @@ public class NotasService {
     }
 
     public ResponseEntity deletarNotas(NotasTrimestreDTO notasDTO) {
-        Notas notas = buscaNotas(notasDTO.getNotaId());
+        Notas notas = validacoesService.buscaNotas(notasDTO.getNotaId());
         notasRepository.deleteById(notas.getId());
         return ResponseEntity.status(HttpStatus.OK).body("Nota deletada com sucesso");
     }
@@ -164,18 +160,18 @@ public class NotasService {
     }
 
     public ResponseEntity buscaNotaPorId(Long id) {
-        return ResponseEntity.ok().body( buscaNotas(id));
+        return ResponseEntity.ok().body( validacoesService.buscaNotas(id));
     }
 
     public ResponseEntity buscaNotasPorTurmaAMateria(Long idTurma, Long idMateria) {
-        Turma turma = buscaTurma(idTurma);
-        Materia materia = buscaMateriaPorId(idMateria);
+        Turma turma = validacoesService.buscaTurma(idTurma);
+        Materia materia = validacoesService.buscaMateriaPorId(idMateria);
 
         return ResponseEntity.ok().body(notasRepository.findByTurmaIdAndMateriaId(turma.getId(), materia.getId()));
     }
 
     public ResponseEntity buscaPorMatricula(Long matricula) {
-        Pessoa aluno = buscaPessoa(matricula, "Aluno");
+        Pessoa aluno = validacoesService.buscaPessoa(matricula, "Aluno");
         return ResponseEntity.ok().body(notasRepository.findByAlunoMatricula(aluno.getMatricula()));
     }
 
@@ -201,22 +197,5 @@ public class NotasService {
         Optional<Notas> notas = notasRepository.buscaNotas(idProfessor, idAluno, idMateria, semestre, idTurma);
         if (notas.isPresent())
             throw new NotasAlreadyExistsException(notas.get().getId());
-    }
-
-    private Turma buscaTurma(Long turmaId) {
-        return turmaRepository.findById(turmaId).orElseThrow(() -> new TurmaNotFound(turmaId));
-    }
-    private Materia buscaMateriaPorId(Long id) {
-        return materiaRepository.findById(id).orElseThrow(() -> new MateriaNotFoundException("",id));
-    }
-
-    private Pessoa buscaPessoa(Long matricula, String cargo){
-        return pessoaRepository.findByMatriculaAndCargoAndStatus(matricula, cargo, "Ativo").orElseThrow(() -> new UserNotFoundException(matricula));
-    }
-    private Materia buscaMateriaPorNome(String nome) {
-        return materiaRepository.findByNome(nome).orElseThrow(() -> new MateriaNotFoundException(nome));
-    }
-    private Notas buscaNotas(Long id){
-        return notasRepository.findById(id).orElseThrow(() -> new NotasNotFoundException(id));
     }
 }

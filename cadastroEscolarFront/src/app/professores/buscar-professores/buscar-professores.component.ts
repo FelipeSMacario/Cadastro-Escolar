@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Pessoa } from 'src/app/models/pessoa';
 import { DefaultResponse } from 'src/app/models/Response/defaultResponse';
+import { ResponseFiltroPessoaNome } from 'src/app/models/Response/responseFiltroPessoaNome';
 import { PessoaService } from 'src/app/services/pessoa.service';
 
 @Component({
@@ -17,11 +19,13 @@ export class BuscarProfessoresComponent implements OnInit {
   pessoas : Pessoa[];
   resposta : DefaultResponse;
   formulario : FormGroup;
+  pessoaResposta : ResponseFiltroPessoaNome
 
   constructor(
     private professorService : PessoaService,
     private fb : FormBuilder,
-    private router: Router){ }
+    private router: Router,
+    private _snackBar: MatSnackBar){ }
 
     ngOnInit(): void {  
       this.formulario = this.fb.group({
@@ -33,17 +37,22 @@ export class BuscarProfessoresComponent implements OnInit {
     buscar(){
     
       if (this.formulario.controls["valor"].value == 1) {
-        this.pessoas = this.removeTodos();
         this.professorService.findAlunosByNome(this.cargo, this.formulario.controls["filtro"].value).subscribe({
           next: pessoa => {
-            this.pessoas = pessoa;
-          },
-          error : err => console.log("Error", err)
+            this.resposta = pessoa;
+
+            if(this.resposta.success){
+              this.pessoas = this.removeTodos();
+              this.pessoaResposta = this.resposta.data;
+              this.pessoas = this.pessoaResposta.pessoaList;
+            } else {
+              this._snackBar.open(this.resposta.messagem, "", {duration : 5000});
+            }
+          }
         }) 
       }
   
       if (this.formulario.controls["valor"].value == 2) {
-        this.pessoas = this.removeTodos();
         this.professorService.findAlunosByMatricula(this.cargo, this.formulario.controls["filtro"].value).subscribe({
           next: pessoa => {
             this.resposta = pessoa;
@@ -52,7 +61,7 @@ export class BuscarProfessoresComponent implements OnInit {
               this.pessoas = this.removeTodos();
               this.pessoas.push(this.resposta.data);
             }else {
-              console.log("Error", this.resposta.messagem)
+              this._snackBar.open(this.resposta.messagem, "", {duration : 5000});
             }
            
           }
@@ -62,9 +71,16 @@ export class BuscarProfessoresComponent implements OnInit {
       if (this.formulario.controls["valor"].value == 3) {
         this.professorService.findAllAlunos(this.cargo).subscribe({
           next: pessoa => {
-            this.pessoas = pessoa;
-          },
-          error : err => console.log("Error", err)
+            this.resposta = pessoa;
+
+            if(this.resposta.success){
+              this.pessoas = this.removeTodos();
+              this.pessoaResposta = this.resposta.data;
+              this.pessoas = this.pessoaResposta.pessoaList;
+            } else {
+              this._snackBar.open(this.resposta.messagem, "", {duration : 5000});
+            }
+          }
         }) 
       }    
       
