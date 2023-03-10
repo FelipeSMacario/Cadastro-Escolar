@@ -101,8 +101,8 @@ public class QuadroHorarioService {
 
     public ResponseEntity buscarHorarioPorMatricula(Long matricula) {
         Pessoa aluno = validacoesService.buscaPessoa(matricula, "Aluno");
-        Long idTurma = validacoesService.buscaTurmaPorMatricula(aluno.getMatricula());
-        Turma turma = validacoesService.buscaTurma(idTurma);
+//        Long idTurma = validacoesService.buscaTurmaPorMatricula(aluno.getMatricula());
+        Turma turma = validacoesService.buscaTurma(null);
 
         List<QuadroHorario> quadroHorarios = quadroHorarioRepository.findByTurmaId(turma.getId());
         return ResponseEntity.ok().body(quadroHorarios);

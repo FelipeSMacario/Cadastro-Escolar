@@ -1,8 +1,6 @@
 package com.escola.cadastro.escolar.controller;
 
 import com.escola.cadastro.escolar.controller.api.TurmaApi;
-import com.escola.cadastro.escolar.dto.EntradaTurmaAlunoDTO;
-import com.escola.cadastro.escolar.model.Turma;
 import com.escola.cadastro.escolar.service.TurmaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,14 +14,14 @@ public class TurmaController implements TurmaApi {
     @Autowired
     TurmaService turmaService;
 
-    @PostMapping(value = "/cadastrar")
-    public ResponseEntity cadastrarTurma(@RequestBody Turma turma) {
-        return turmaService.cadastrarCurso(turma);
-    }
-
     @GetMapping(value = "/listar")
     public ResponseEntity listarTurmas(){
         return turmaService.listarTurmas();
+    }
+
+    @GetMapping(value = "/buscar/porId/{id}")
+    public ResponseEntity buscarTurmaPorId(@PathVariable Long id){
+        return turmaService.buscaPorId(id);
     }
 
     @GetMapping(value = "/buscar/porNumero/{numero}")
@@ -36,8 +34,4 @@ public class TurmaController implements TurmaApi {
         return turmaService.buscaPorAno(ano);
     }
 
-    @PutMapping(value = "atualizar")
-    public ResponseEntity atualizaTurma(@RequestBody Turma turma){
-        return turmaService.atualizaTurma(turma);
-    }
 }

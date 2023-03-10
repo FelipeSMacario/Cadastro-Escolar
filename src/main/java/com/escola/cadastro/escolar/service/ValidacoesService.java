@@ -10,25 +10,28 @@ import org.springframework.stereotype.Service;
 public class ValidacoesService {
 
     @Autowired
-    PessoaRepository pessoaRepository;
+    private PessoaRepository pessoaRepository;
 
     @Autowired
-    TurmaRepository turmaRepository;
+    private TurmaRepository turmaRepository;
 
     @Autowired
-    HoraRepository horaRepository;
+    private HoraRepository horaRepository;
 
     @Autowired
-    DiasRepositry diasRepositry;
+    private DiasRepositry diasRepositry;
 
     @Autowired
-    MateriaRepository materiaRepository;
+    private MateriaRepository materiaRepository;
 
     @Autowired
-    QuadroHorarioRepository quadroHorarioRepository;
+    private QuadroHorarioRepository quadroHorarioRepository;
 
     @Autowired
-    NotasRepository notasRepository;
+    private NotasRepository notasRepository;
+
+    @Autowired
+    private TurmaAlunoRepository turmaAlunoRepository;
 
     Pessoa buscaPessoa(Long matricula, String cargo){
         return pessoaRepository.findByMatriculaAndCargoAndStatus(matricula, cargo, "Ativo").orElseThrow(() -> new UserNotFoundException(matricula));
@@ -43,7 +46,7 @@ public class ValidacoesService {
     }
 
     Long buscaTurmaPorMatricula(Long matricula){
-        return turmaRepository.buscaTurmaPorMatricula(matricula).orElseThrow(() -> new AlunoNoRegisterException(matricula));
+        return turmaAlunoRepository.buscaTurmaPorMatricula(matricula).orElseThrow(() -> new AlunoNoRegisterException(matricula));
     }
     Horas buscaHora(Long id) {
         return horaRepository.findById(id).orElseThrow(() -> new HoraNotFoundException(id));
