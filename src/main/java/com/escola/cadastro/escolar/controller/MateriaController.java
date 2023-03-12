@@ -19,7 +19,7 @@ public class MateriaController implements MateriaApi {
     MateriaService materiaService;
 
     @GetMapping(value = "/listar")
-    public ResponseEntity listarMaterias() {
+    public ResponseEntity<DefaultResponse> listarMaterias() {
         return materiaService.listarMaterias();
     }
 

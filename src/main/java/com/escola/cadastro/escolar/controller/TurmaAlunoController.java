@@ -31,7 +31,7 @@ public class TurmaAlunoController implements TurmaAlunos {
         return turmaAlunoService.buscaAlunoPorNumero(numero);
     }
 
-    @GetMapping(value = "buscarTurma/porNome/{nome}")
+        @GetMapping(value = "buscarTurma/porNome/{nome}")
     public ResponseEntity listarturmaAlunoPorNome(@PathVariable String nome){
         return turmaAlunoService.listarturmaAlunoPorNome(nome);
     }
@@ -69,5 +69,10 @@ public class TurmaAlunoController implements TurmaAlunos {
     @GetMapping(value = "/buscaAluno/porTurma/{id}")
     public ResponseEntity buscaAlunoPorTurma(@PathVariable Long id){
         return turmaAlunoService.buscaAlunoPorTurma(id);
+    }
+
+    @GetMapping(value = "/buscarTurma/{id}")
+    public ResponseEntity buscarTurmaPorId(@PathVariable Long id){
+        return turmaAlunoService.listarTurmasAlunosPorId(id);
     }
 }

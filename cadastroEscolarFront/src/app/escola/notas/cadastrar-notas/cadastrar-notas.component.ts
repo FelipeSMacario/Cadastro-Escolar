@@ -5,9 +5,14 @@ import { MatriculaNotasDTO } from 'src/app/models/DTO/matriculaNotaDTO';
 import { NotasDTO } from 'src/app/models/DTO/notasDTO';
 import { Materia } from 'src/app/models/materia';
 import { Pessoa } from 'src/app/models/pessoa';
+import { DefaultResponse } from 'src/app/models/Response/defaultResponse';
+import { ResponseFiltroPessoaNome } from 'src/app/models/Response/responseFiltroPessoaNome';
+import { ResponseFiltroTurma } from 'src/app/models/Response/responseFiltroTurma';
+import { ResponseMaterias } from 'src/app/models/Response/responseMaterias';
 import { Turma } from 'src/app/models/turma';
 import { MateriasService } from 'src/app/services/materias.service';
 import { NotasService } from 'src/app/services/notas.service';
+import { TurmaAlunoService } from 'src/app/services/turma-aluno.service';
 import { TurmaService } from 'src/app/services/turma.service';
 
 @Component({
@@ -24,19 +29,25 @@ export class CadastrarNotasComponent implements OnInit{
   notas : MatriculaNotasDTO[] = [];
   turmas : Turma[] = [];
   notasAlunos : NotasDTO = new NotasDTO();
+  resposta : DefaultResponse;
+  respostaMateria : ResponseMaterias;
+  respostaTurma : ResponseFiltroTurma;
+  respostaALunos : ResponseFiltroPessoaNome;
+  pessoa : Pessoa;
 
   constructor(
     private fb : FormBuilder,
     private materiaService : MateriasService,
-    private turmaService : TurmaService,
+    private turmaService : TurmaAlunoService,
+    private turmaServico : TurmaService,
     private notasService : NotasService,
     private _snackBar: MatSnackBar
   ){}
 
   ngOnInit(): void {
       this.formularioVazio();
-      this.listarMaterias();
       this.listaTurmas();
+      this. listarMaterias();
   }
 
   formularioVazio(){
@@ -51,9 +62,15 @@ export class CadastrarNotasComponent implements OnInit{
   listarMaterias(){
     this.materiaService.listarMateria().subscribe({
       next : mat => {
-        this.materias = mat;
-      },
-      error : err => console.log(err)
+        this.resposta = mat;
+        if(this.resposta.success){
+          this.respostaMateria = this.resposta.data;
+          this.materias = this.respostaMateria.materias;
+          this.filtrarMateriasProfessor();
+        }else {
+          this._snackBar.open(this.resposta.messagem, "", {duration : 3000})
+        }
+      }
     })
   }
 
@@ -96,20 +113,33 @@ export class CadastrarNotasComponent implements OnInit{
 
   buscaAlunos(id : number){    
     this.turmaService.findAlunoPorTurma(id).subscribe({
-      next : alu => {        
-        this.alunos = alu;
-        this.buildFormAluno(this.alunos);
-      },
-      error : err => console.log(err)
+      next : alu => {   
+        this.resposta = alu;
+        
+        if(this.resposta.success){
+          this.respostaALunos = this.resposta.data;
+          this.alunos = this.respostaALunos.pessoaList;
+          this.buildFormAluno(this.alunos);
+        }else {
+          this._snackBar.open(this.resposta.messagem, "", {duration : 3000})
+        }
+       
+      }
     })
   }
 
   listaTurmas(){
-    this.turmaService.findAll().subscribe({
+    this.turmaServico.findAll().subscribe({
       next : tur => {
-        this.turmas = tur
-      },
-      error : err => console.log(err)
+        this.resposta = tur;
+
+        if (this.resposta.success){
+          this.respostaTurma = this.resposta.data;
+          this.turmas = this.respostaTurma.turmaList
+        }else {
+          this._snackBar.open(this.resposta.messagem, "", {duration : 3000})
+        }
+      }
     })
   }
 
@@ -128,6 +158,14 @@ export class CadastrarNotasComponent implements OnInit{
     },
     error : err => this._snackBar.open(err, "", {duration : 5000})
    }) 
+  }
+
+  filtrarMateriasProfessor(){
+    this.pessoa = JSON.parse(localStorage.getItem("pessoa")!);
+    if(this.pessoa.cargo === "Professor"){
+      this.materias = this.materias.filter(v => v.professor.matricula == this.pessoa.matricula);
+      console.log(this.materias)
+    } 
   }
 
   

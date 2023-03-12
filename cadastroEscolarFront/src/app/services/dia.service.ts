@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Dia } from '../models/dia';
+import { DefaultResponse } from '../models/Response/defaultResponse';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +12,7 @@ export class DiaService {
 
   private url = "http://localhost:8080/dia/";
 
-  findAll() : Observable<Dia[]>{
-    return this.httpClient.get<Dia[]>(this.url + "listar");
+  findAll() : Observable<DefaultResponse>{
+    return this.httpClient.get<DefaultResponse>(this.url + "listar");
   }
 }

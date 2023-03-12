@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { ModalConfirmacaoComponent } from 'src/app/modal/modal-confirmacao/modal-confirmacao.component';
 import { Materia } from 'src/app/models/materia';
 import { DefaultResponse } from 'src/app/models/Response/defaultResponse';
+import { ResponseMaterias } from 'src/app/models/Response/responseMaterias';
 import { MateriasService } from 'src/app/services/materias.service';
 
 @Component({
@@ -22,6 +23,7 @@ export class BuscarMateriaComponent implements OnInit{
   materia : Materia = new Materia();
 
   resposta : DefaultResponse;
+  respostaMateria : ResponseMaterias;
 
   constructor(
     private fb : FormBuilder,
@@ -48,7 +50,7 @@ export class BuscarMateriaComponent implements OnInit{
             this.materias = this.removerTodos();
             this.materias.push(this.resposta.data);
           }else {
-            console.log("Error", this.resposta.messagem)
+            this._snackBar.open(this.resposta.messagem, "", {duration : 3000})
           }
         }
       })
@@ -67,10 +69,15 @@ export class BuscarMateriaComponent implements OnInit{
   listarTodos(){
     this.materiaService.listarMateria().subscribe({
       next : mat => {
-        this.materias = this.removerTodos();
-        this.materias = mat;
-      },
-      error : err => console.log("Error", err)
+        this.resposta = mat;
+        if(this.resposta.success){
+          this.materias = this.removerTodos();
+        this.respostaMateria = this.resposta.data;
+        this.materias = this.respostaMateria.materias;
+        }else {
+          this._snackBar.open(this.resposta.messagem, "", {duration : 3000})
+        }
+      }
     })
   }
 

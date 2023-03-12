@@ -20,7 +20,7 @@ public class ProfessorController implements ProfessorApi {
     PessoaService professorService;
 
     @GetMapping(value = "/listar")
-    public ResponseEntity listarProfessores() {
+    public ResponseEntity<DefaultResponse> listarProfessores() {
         return professorService.listar(Cargo.Professor.toString());
     }
 
@@ -30,7 +30,7 @@ public class ProfessorController implements ProfessorApi {
     }
 
     @GetMapping(value = "/buscar/porNome/{nome}")
-    public ResponseEntity buscarAlunoPorNome(@PathVariable String nome) {
+    public ResponseEntity<DefaultResponse> buscarAlunoPorNome(@PathVariable String nome) {
         return professorService.buscarPorNome(nome, Cargo.Professor.toString());
     }
 

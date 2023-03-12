@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { ProfessorService } from 'src/app/services/professor.service';
 import { Pessoa } from 'src/app/models/pessoa';
 import { MateriasService } from 'src/app/services/materias.service';
 import { Materia } from 'src/app/models/materia';
 import { DefaultResponse } from 'src/app/models/Response/defaultResponse';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { PessoaService } from 'src/app/services/pessoa.service';
+import { ResponseFiltroPessoaNome } from 'src/app/models/Response/responseFiltroPessoaNome';
 
 
 @Component({
@@ -15,10 +16,12 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class CadastrarMateriasComponent implements OnInit{
   formulario : FormGroup;
+  private readonly cargo : string = "professor";
   submitted = false;
   pessoa : Pessoa[] = [];
   materia : Materia = new Materia();
   resposta : DefaultResponse;
+  respostaPessoa : ResponseFiltroPessoaNome;
 
   ngOnInit(): void {
     this.formulario = this.fb.group({
@@ -28,17 +31,24 @@ export class CadastrarMateriasComponent implements OnInit{
     this.listarProfessores();
   }
   constructor(
-    private professorService : ProfessorService,
+    private professorService : PessoaService,
     private fb : FormBuilder,
     private materiaService: MateriasService,
     private _snackBar: MatSnackBar,
   ){}
 
   listarProfessores(){
-    this.professorService.findAll().subscribe({
+    this.professorService.findAllAlunos(this.cargo).subscribe({
       next : pessoa => {
-        this.pessoa = pessoa;
-      }, error : err => console.log(err)
+        this.resposta = pessoa;
+
+        if(this.resposta.success){
+          this.respostaPessoa = this.resposta.data;
+          this.pessoa = this.respostaPessoa.pessoaList;
+        }else {
+          this._snackBar.open(this.resposta.messagem, "", {duration : 3000})
+        }        
+      }
     });
   }
  

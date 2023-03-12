@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Sala } from '../models/sala';
+import { DefaultResponse } from '../models/Response/defaultResponse';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +12,7 @@ export class SalaService {
 
   private url = "http://localhost:8080/sala/";
 
-  findAll() : Observable<Sala[]>{
-    return this.httpClient.get<Sala[]>(this.url + "listar");
+  findAll() : Observable<DefaultResponse>{
+    return this.httpClient.get<DefaultResponse>(this.url + "listar");
   }
 }

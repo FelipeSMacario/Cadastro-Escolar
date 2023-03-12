@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Horas } from '../models/horas';
+import { DefaultResponse } from '../models/Response/defaultResponse';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +15,7 @@ export class HorasService {
   private url = "http://localhost:8080/horas";
 
 
-  findAll() : Observable<Horas[]>{
-    return this.httpClient.get<Horas[]>(this.url + "/listar");
+  findAll() : Observable<DefaultResponse>{
+    return this.httpClient.get<DefaultResponse>(this.url + "/listar");
   }
 }

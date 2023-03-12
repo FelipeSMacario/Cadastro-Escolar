@@ -7,7 +7,8 @@ import { ModalConfirmacaoComponent } from 'src/app/modal/modal-confirmacao/modal
 import { AlunoTurmaDTO } from 'src/app/models/DTO/alunoTurmaDTO';
 import { Pessoa } from 'src/app/models/pessoa';
 import { DefaultResponse } from 'src/app/models/Response/defaultResponse';
-import { TurmaService } from 'src/app/services/turma.service';
+import { ResponseTurmaAluno } from 'src/app/models/Response/responseTurmaAluno';
+import { TurmaAlunoService } from 'src/app/services/turma-aluno.service';
 
 @Component({
   selector: 'app-filtrar-turma',
@@ -16,17 +17,17 @@ import { TurmaService } from 'src/app/services/turma.service';
 })
 export class FiltrarTurmaComponent  implements OnInit{
 
-  private readonly cargo : string = "alunos";
   formulario : FormGroup;
   pessoas : Pessoa[];
   resposta : DefaultResponse;
   turmaAluno : AlunoTurmaDTO[];
   objetoTurmaAluno : AlunoTurmaDTO;
+  respostaTurmaALuno : ResponseTurmaAluno;
 
   constructor(
     private fb : FormBuilder,
     private router: Router,
-    private turmaService : TurmaService,
+    private turmaService : TurmaAlunoService,
     private dialog : MatDialog,
     private _snackBar: MatSnackBar,
   ){}
@@ -60,12 +61,19 @@ export class FiltrarTurmaComponent  implements OnInit{
   buscar(){
 
     if (this.formulario.controls["valor"].value == 1) {
-      this.turmaAluno = this.removeTodos();
+     
       this.turmaService.findTurmaAlunoByNome( this.formulario.controls["filtro"].value).subscribe({
         next: pessoa => {
-          this.turmaAluno = pessoa;
-        },
-        error : err => console.log("Error", err)
+          this.resposta = pessoa;
+
+          if(this.resposta.success){
+            this.turmaAluno = this.removeTodos();
+            this.respostaTurmaALuno = this.resposta.data;
+            this.turmaAluno = this.respostaTurmaALuno.alunoTurmaDTOList;
+          } else {
+            this._snackBar.open(this.resposta.messagem, "", {duration : 3000})
+          }
+        }
       }) 
     }
 
@@ -79,7 +87,7 @@ export class FiltrarTurmaComponent  implements OnInit{
             this.turmaAluno = this.removeTodos();
             this.turmaAluno.push(this.resposta.data);
           }else {
-            console.log("Error", this.resposta.messagem)
+            this._snackBar.open(this.resposta.messagem, "", {duration : 3000})
           }         
         }
       }) 
@@ -91,9 +99,14 @@ export class FiltrarTurmaComponent  implements OnInit{
       this.turmaAluno = this.removeTodos();
       this.turmaService.findAlunsByNumero(this.formulario.controls["filtro"].value).subscribe({
         next: pessoa => {
-          this.turmaAluno = pessoa;
-        },
-        error : err => console.log("Error", err)
+          this.resposta = pessoa;
+
+          if(this.resposta.success){
+            this.turmaAluno = this.resposta.data;
+          } else {
+            this._snackBar.open(this.resposta.messagem, "", {duration : 3000})
+          }
+        }
       }) 
     }   
 
@@ -140,7 +153,13 @@ export class FiltrarTurmaComponent  implements OnInit{
     this.turmaAluno = this.removeTodos();
     this.turmaService.findAllTurmaAluno().subscribe({
       next: pessoa => {
-        this.turmaAluno = pessoa;
+        this.resposta = pessoa;
+
+        if(this.resposta.success){
+          this.turmaAluno = this.resposta.data;
+        } else {
+          this._snackBar.open(this.resposta.messagem, "", {duration : 3000})
+        }
       },
       error : err => console.log("Error", err)
     }) 

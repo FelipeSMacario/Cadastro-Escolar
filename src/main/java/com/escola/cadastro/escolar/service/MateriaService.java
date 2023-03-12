@@ -1,19 +1,16 @@
 package com.escola.cadastro.escolar.service;
 
-import com.escola.cadastro.escolar.exception.MateriaNotFoundException;
-import com.escola.cadastro.escolar.exception.UserNotFoundException;
 import com.escola.cadastro.escolar.model.Materia;
 import com.escola.cadastro.escolar.model.Pessoa;
 import com.escola.cadastro.escolar.model.response.DefaultResponse;
+import com.escola.cadastro.escolar.model.response.ResponseMaterias;
 import com.escola.cadastro.escolar.repository.MateriaRepository;
-import com.escola.cadastro.escolar.repository.PessoaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDate;
-import java.util.Optional;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class MateriaService {
@@ -23,8 +20,22 @@ public class MateriaService {
     @Autowired
     ValidacoesService validacoesService;
 
-    public ResponseEntity listarMaterias() {
-        return ResponseEntity.status(HttpStatus.OK).body(materiaRepository.findAll());
+    public ResponseEntity<DefaultResponse> listarMaterias() {
+        List<Materia> materias = new ArrayList<>();
+        try {
+            materias = materiaRepository.findAll();
+        }catch (Exception e){
+            return ResponseEntity.ok().body(DefaultResponse.builder()
+                    .success(false)
+                    .status(HttpStatus.NOT_FOUND)
+                    .messagem("Erro ao buscar as matérias")
+                    .build());
+        }
+        return ResponseEntity.ok().body(DefaultResponse.builder()
+                .success(true)
+                .status(HttpStatus.OK)
+                .data(new ResponseMaterias(materias))
+                .build());
     }
 
     public ResponseEntity<DefaultResponse> buscarMateriaPorNome(String nome) {

@@ -20,7 +20,7 @@ public class AlunoController implements AlunoApi {
     @Autowired
     PessoaService alunoService;
     @GetMapping(value = "/listar")
-    public  ResponseEntity listarAlunos(){
+    public  ResponseEntity<DefaultResponse> listarAlunos(){
         return alunoService.listar(Cargo.Aluno.toString());
     }
 
@@ -30,7 +30,7 @@ public class AlunoController implements AlunoApi {
     }
 
     @GetMapping(value = "/buscar/porNome/{nome}")
-    public  ResponseEntity buscarAlunoNome(@PathVariable String nome) {
+    public  ResponseEntity<DefaultResponse> buscarAlunoNome(@PathVariable String nome) {
         return alunoService.buscarPorNome(nome, Cargo.Aluno.toString());
     }
 

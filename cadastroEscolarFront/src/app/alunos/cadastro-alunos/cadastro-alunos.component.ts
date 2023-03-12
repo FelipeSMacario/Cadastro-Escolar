@@ -20,6 +20,7 @@ export class CadastroAlunosComponent implements OnInit{
   urlFoto : SafeResourceUrl;
   imagem2 : any;
   resposta : DefaultResponse;
+  
 
   constructor(
     private fb : FormBuilder,

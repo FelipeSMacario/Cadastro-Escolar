@@ -1,10 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { AlunoTurmaDTO } from 'src/app/models/DTO/alunoTurmaDTO';
 import { Pessoa } from 'src/app/models/pessoa';
 import { DefaultResponse } from 'src/app/models/Response/defaultResponse';
+import { ResponseFiltroTurma } from 'src/app/models/Response/responseFiltroTurma';
 import { Turma } from 'src/app/models/turma';
+import { TurmaAlunoService } from 'src/app/services/turma-aluno.service';
 import { TurmaService } from 'src/app/services/turma.service';
 
 @Component({
@@ -21,11 +24,14 @@ export class AtualizarTurmaComponent implements OnInit{
   alunoTurma : AlunoTurmaDTO;
   alunoTurmaSaida : AlunoTurmaDTO;
   aluno : Pessoa;
+  respostaTurma : ResponseFiltroTurma;
 
   constructor(
     private fb : FormBuilder,
     private turmaService : TurmaService,
+    private turmaAlunoService : TurmaAlunoService,
     private activatedRoute : ActivatedRoute,
+    private _snackBar: MatSnackBar
     ){}
 
   ngOnInit(): void {
@@ -33,13 +39,15 @@ export class AtualizarTurmaComponent implements OnInit{
     this.id =this.activatedRoute.snapshot.params['id'];
     
     if(this.id){
-      this.turmaService.findAlunoTurmaById(this.id).subscribe({
+      this.turmaAlunoService.findAlunoTurmaById(this.id).subscribe({
         next : resp => {
           this.resposta = resp;
 
           if(this.resposta.success){
             this.alunoTurma = this.resposta.data;
             this.formularioPreenchido(this.alunoTurma)
+          }else {
+            this._snackBar.open(this.resposta.messagem, "", {duration : 3000})
           }
         }
       })
@@ -75,21 +83,25 @@ export class AtualizarTurmaComponent implements OnInit{
 
 
   atualizar(){
-    this.turmaService.updateAlunoTurma(this.montaSaida()).subscribe({
+    this.turmaAlunoService.updateAlunoTurma(this.montaSaida()).subscribe({
       next : resp => {
         this.resposta = resp;
-
-        if(this.resposta.success){
-          console.log(this.resposta.messagem)
-        }
+          this._snackBar.open(this.resposta.messagem, "", {duration : 3000})
       }
     })
   }
 
   filtrarTurmasPorAno(ano : number){
     this.turmaService.findTurmaPorANo(ano).subscribe({
-      next : tur => this.turmas = tur,
-      error : err => console.log(err)
+      next : tur => {
+        this.resposta = tur;
+        if(this.resposta.success){
+          this.respostaTurma = this.resposta.data;
+          this.turmas = this.respostaTurma.turmaList;
+        }else {
+          this._snackBar.open(this.resposta.messagem, "", {duration : 3000})
+        }
+      }
     })
   }
 

@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { NotaAtualizacaoDTO } from '../models/DTO/notaAtualizacaoDTO';
 import { NotasDTO } from '../models/DTO/notasDTO';
-import { Notas } from '../models/notas';
+import { DefaultResponse } from '../models/Response/defaultResponse';
 
 @Injectable({
   providedIn: 'root'
@@ -14,20 +14,20 @@ export class NotasService {
 
   private url = "http://localhost:8080/notas/";
 
-  salvarNotas(nota : NotasDTO) : Observable<NotasDTO>{
-    return this.httpClient.post<NotasDTO>(this.url + "cadastrar", nota);
+  salvarNotas(nota : NotasDTO) : Observable<DefaultResponse>{
+    return this.httpClient.post<DefaultResponse>(this.url + "cadastrar", nota);
   }
 
-  findByTurmaAndNotas(idTurma : number, idNotas : number) : Observable<Notas[]>{
-    return this.httpClient.get<Notas[]>(this.url + "buscar/" + idTurma + "/" + idNotas);
+  findByTurmaAndNotas(idTurma : number, idNotas : number) : Observable<DefaultResponse>{
+    return this.httpClient.get<DefaultResponse>(this.url + "buscar/" + idTurma + "/" + idNotas);
   }
-  findById(id : number) : Observable<Notas>{
-    return this.httpClient.get<Notas>(this.url + "buscar/" + id);
+  findById(id : number) : Observable<DefaultResponse>{
+    return this.httpClient.get<DefaultResponse>(this.url + "buscar/" + id);
   }
-  updateNota(notas : NotaAtualizacaoDTO):Observable<Object>{
-    return this.httpClient.put<Object>(this.url + "alterar", notas);
+  updateNota(notas : NotaAtualizacaoDTO):Observable<DefaultResponse>{
+    return this.httpClient.put<DefaultResponse>(this.url + "alterar", notas);
   }
-  filtrarNotas(matricula : number) : Observable<Notas[]>{
-    return this.httpClient.get<Notas[]>(this.url + "buscar/porMatricula/" + matricula);
+  filtrarNotas(matricula : number) : Observable<DefaultResponse>{
+    return this.httpClient.get<DefaultResponse>(this.url + "buscar/porMatricula/" + matricula);
   }
 }

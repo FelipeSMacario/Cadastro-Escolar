@@ -12,12 +12,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 @Api(tags = "Alunos")
 public interface AlunoApi {
     @ApiOperation("Listar alunos")
-    public  ResponseEntity listarAlunos();
+    public  ResponseEntity<DefaultResponse> listarAlunos();
 
-    @ApiOperation("Buscar um aluno")
+    @ApiOperation("Buscar um aluno por matricula")
     public  ResponseEntity<DefaultResponse> buscarAluno(@PathVariable Long matricula);
 
-    public  ResponseEntity buscarAlunoNome(@PathVariable String nome);
+    @ApiOperation("Buscar um aluno por nome")
+    public  ResponseEntity<DefaultResponse> buscarAlunoNome(@PathVariable String nome);
 
     @ApiOperation("Cadastrar um novo aluno")
     public  ResponseEntity<DefaultResponse> cadastrarAlunos(@RequestBody Pessoa pessoa);

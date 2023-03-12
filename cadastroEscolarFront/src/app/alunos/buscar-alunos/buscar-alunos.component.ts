@@ -75,7 +75,8 @@ export class BuscarAlunosComponent implements OnInit{
 
           if(this.resposta.success){
             this.pessoas = this.removeTodos();
-            this.pessoas.push(this.resposta.data);
+            this.pessoaResposta = this.resposta.data;
+           this.pessoas = this.pessoaResposta.pessoaList;
           }else {
             this._snackBar.open(this.resposta.messagem, "", {duration : 5000});
           }

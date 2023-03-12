@@ -1,6 +1,7 @@
 package com.escola.cadastro.escolar.controller;
 
 import com.escola.cadastro.escolar.controller.api.SalaApi;
+import com.escola.cadastro.escolar.model.response.DefaultResponse;
 import com.escola.cadastro.escolar.service.SalaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,12 +15,12 @@ public class SalaController implements SalaApi {
     @Autowired
     SalaService salaService;
     @GetMapping(value = "/listar")
-    public ResponseEntity listarSalas() {
+    public ResponseEntity<DefaultResponse> listarSalas() {
         return salaService.listarSalas();
     }
 
     @GetMapping(value = "/buscar/{id}")
-    public ResponseEntity buscarSalas(@PathVariable Long id) {
+    public ResponseEntity<DefaultResponse> buscarSalas(@PathVariable Long id) {
         return salaService.buscaSalaPorId(id);
     }
 }

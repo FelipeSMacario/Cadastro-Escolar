@@ -4,6 +4,7 @@ import com.escola.cadastro.escolar.controller.api.NotasApi;
 import com.escola.cadastro.escolar.dto.NotasDTO;
 import com.escola.cadastro.escolar.dto.NotasPessoaDTO;
 import com.escola.cadastro.escolar.dto.NotasTrimestreDTO;
+import com.escola.cadastro.escolar.model.response.DefaultResponse;
 import com.escola.cadastro.escolar.service.NotasService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,36 +19,27 @@ public class NotasController implements NotasApi {
     NotasService notasService;
 
     @PostMapping(value = "/cadastrar")
-    public ResponseEntity cadastrarNotas(@RequestBody NotasDTO notasDTO){
+    public ResponseEntity<DefaultResponse> cadastrarNotas(@RequestBody NotasDTO notasDTO){
         return notasService.cadastrarNotas(notasDTO);
     }
 
     @PutMapping(value = "/alterar")
-    public ResponseEntity alterarNotas(@RequestBody NotasTrimestreDTO notasDTO){
+    public ResponseEntity<DefaultResponse> alterarNotas(@RequestBody NotasTrimestreDTO notasDTO){
         return notasService.alterarNotas(notasDTO);
     }
 
-    @DeleteMapping(value = "/deletar")
-    public ResponseEntity deletarNotas(@RequestBody NotasTrimestreDTO notasDTO){
-        return notasService.deletarNotas(notasDTO);
-    }
-
-    @GetMapping(value = "/listar")
-    public ResponseEntity listarNotas(@RequestBody NotasPessoaDTO notasPessoaDTO){
-        return notasService.listarNotas(notasPessoaDTO);
-    }
 
     @GetMapping(value = "/buscar/porMatricula/{matricula}")
-    public ResponseEntity buscarPorMatricula(@PathVariable Long matricula){
+    public ResponseEntity<DefaultResponse> buscarPorMatricula(@PathVariable Long matricula){
         return notasService.buscaPorMatricula(matricula);
     }
 
     @GetMapping(value = "buscar/{id}")
-    public ResponseEntity buscarNota(@PathVariable Long id){
+    public ResponseEntity<DefaultResponse> buscarNota(@PathVariable Long id){
         return notasService.buscaNotaPorId(id);
     }
     @GetMapping(value = "buscar/{idTurma}/{idMateria}")
-    public ResponseEntity buscarNotaPorTurma(@PathVariable Long idTurma, @PathVariable Long idMateria){
+    public ResponseEntity<DefaultResponse> buscarNotaPorTurma(@PathVariable Long idTurma, @PathVariable Long idMateria){
         return notasService.buscaNotasPorTurmaAMateria(idTurma, idMateria);
     }
 }

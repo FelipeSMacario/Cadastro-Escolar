@@ -92,7 +92,10 @@ export class AtualizarAulasComponent  implements OnInit{
   listarTurma(){
     this.turmaService.findAll().subscribe({
       next : tur => {
-        this.turma = tur;
+        this.resposta = tur;
+        if(this.resposta.success){          
+        this.turma = this.resposta.data;
+        }
       }, error : err => console.log(err)
     });
   }
@@ -101,21 +104,32 @@ export class AtualizarAulasComponent  implements OnInit{
   listarMaterias(){
     this.materiaService.listarMateria().subscribe({
       next : mat => {
-        this.materias = mat;
+         this.resposta = mat;
+        if(this.resposta.success){          
+        this.materias = this.resposta.data;
+        }
       }, error : err => console.log(err)
     });
   }
   listarDias(){
     this.diaService.findAll().subscribe({
       next : dia => {
-        this.dias = dia;
+        this.resposta = dia;
+        if(this.resposta.success){          
+        this.dias = this.resposta.data;
+        }
       }, error : err => console.log(err)
     });
   }
 
   atualizar(dia : number, sala : number){
     this.quadroHorarioService.findHorasLivres(dia, sala).subscribe({
-      next : hor => this.horas = hor,
+      next : hor => {
+        this.resposta = hor;
+        if(this.resposta.success){          
+        this.horas = this.resposta.data;
+        }
+      },
       error : err => console.log(err)
     })
   }
@@ -127,7 +141,10 @@ export class AtualizarAulasComponent  implements OnInit{
   listarHoras(){
     this.horasService.findAll().subscribe({
       next : hora => {
-        this.horas = hora;
+        this.resposta = hora;
+        if(this.resposta.success){          
+        this.horas = this.resposta.data;
+        }
       }, error : err => console.log(err)
     });
   }
@@ -145,11 +162,16 @@ export class AtualizarAulasComponent  implements OnInit{
   cadastrar(){   
     this.quadroHorarioService.updateQuadro(this.defineFormQuadro()).subscribe({
       next : async quad => {
+        this.resposta = quad;
+
+        if(this.resposta.success){
         this._snackBar.open("Aula atualizada com sucesso", "", {duration : 5000});
           await new Promise(f => setTimeout(f, 5000));
           this.router.navigate(['escola/aulas/buscar'])
-      },
-      error : err => this._snackBar.open(err, "", {duration : 5000})
+        }else{
+          this._snackBar.open(this.resposta.messagem, "", {duration : 5000})
+        }
+      }
     })
   }
 

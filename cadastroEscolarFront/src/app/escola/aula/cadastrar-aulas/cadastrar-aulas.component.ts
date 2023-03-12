@@ -7,6 +7,10 @@ import { Horas } from 'src/app/models/horas';
 import { Materia } from 'src/app/models/materia';
 import { QuadroHorario } from 'src/app/models/quadroHorario';
 import { DefaultResponse } from 'src/app/models/Response/defaultResponse';
+import { ResponseDias } from 'src/app/models/Response/responseDias';
+import { ResponseFiltroTurma } from 'src/app/models/Response/responseFiltroTurma';
+import { ResponseHoras } from 'src/app/models/Response/ResponseHoras';
+import { ResponseMaterias } from 'src/app/models/Response/responseMaterias';
 import { Turma } from 'src/app/models/turma';
 import { DiaService } from 'src/app/services/dia.service';
 import { MateriasService } from 'src/app/services/materias.service';
@@ -28,6 +32,10 @@ export class CadastrarAulasComponent implements OnInit{
   quadro : QuadroDTO = new QuadroDTO();
   quadroHorario : QuadroHorario = new QuadroHorario();
   resposta : DefaultResponse;
+  respostaTurma : ResponseFiltroTurma;
+  respostaMateria : ResponseMaterias;
+  respostaDias : ResponseDias;
+  respostaHoras : ResponseHoras;
 
   ngOnInit(): void {
     this.formularioVazio();
@@ -58,26 +66,43 @@ export class CadastrarAulasComponent implements OnInit{
   listarTurma(){
     this.turmaService.findAll().subscribe({
       next : tur => {
-        this.turma = tur;
-      }, error : err => console.log(err)
+        this.resposta = tur;
+        if(this.resposta.success){
+          this.respostaTurma = this.resposta.data;
+          this.turma = this.respostaTurma.turmaList;
+        }else {
+          this._snackBar.open(this.resposta.messagem, "", {duration : 3000})
+        }
+        
+      }
     });
-  }
-
-  
+  } 
 
 
   listarMaterias(){
     this.materiaService.listarMateria().subscribe({
       next : mat => {
-        this.materias = mat;
-      }, error : err => console.log(err)
+        this.resposta = mat;
+        if(this.resposta.success){
+          this.respostaMateria = this.resposta.data;
+          this.materias = this.respostaMateria.materias;
+        }else {
+          this._snackBar.open(this.resposta.messagem, "", {duration : 3000})
+        }
+      }
     });
   }
   listarDias(){
     this.diaService.findAll().subscribe({
       next : dia => {
-        this.dias = dia;
-      }, error : err => console.log(err)
+        this.resposta = dia;
+        if(this.resposta.success){
+          this.respostaDias = this.resposta.data;
+          this.dias = this.respostaDias.dias;
+        }else {
+          this._snackBar.open(this.resposta.messagem, "", {duration : 3000})
+        }
+      }
     });
   } 
 
@@ -86,8 +111,15 @@ export class CadastrarAulasComponent implements OnInit{
     if(dia && turma){
       console.log("passei")
     this.quadroHorarioService.findHorasLivres(dia, turma).subscribe({
-      next : hor => this.horas = hor,
-      error : err => console.log(err)
+      next : hor => {
+        this.resposta = hor;
+        if(this.resposta.success){
+          this.respostaHoras = this.resposta.data;
+          this.horas = this.respostaHoras.horas;
+        }else {
+          this._snackBar.open(this.resposta.messagem, "", {duration : 3000})
+        }
+      }
     })
   }
   }
@@ -122,11 +154,15 @@ export class CadastrarAulasComponent implements OnInit{
     if(dia && hora){
     this.quadroHorarioService.filtrarMaterias(dia, hora).subscribe({
       next : mat => {
-        console.log(mat)
-        this.materias = mat;
-        this.formulario.controls['materia'].setValue(null);
-      }, 
-      error : err => console.log(err)
+        this.resposta = mat;
+        if(this.resposta.success){
+          this.respostaMateria = this.resposta.data;
+          this.materias = this.respostaMateria.materias;
+          this.formulario.controls['materia'].setValue(null);
+        }else {
+          this._snackBar.open(this.resposta.messagem, "", {duration : 3000})
+        }
+      }
     })
   }
 }

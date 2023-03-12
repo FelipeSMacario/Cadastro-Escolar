@@ -6,7 +6,10 @@ import { PessoaEntradaDTO } from 'src/app/models/DTO/pessoaEntradaDTO';
 import { FormularioTurma } from 'src/app/models/formularioTurma';
 import { Pessoa } from 'src/app/models/pessoa';
 import { DefaultResponse } from 'src/app/models/Response/defaultResponse';
+import { ResponseFiltroPessoaNome } from 'src/app/models/Response/responseFiltroPessoaNome';
+import { ResponseFiltroTurma } from 'src/app/models/Response/responseFiltroTurma';
 import { Turma } from 'src/app/models/turma';
+import { TurmaAlunoService } from 'src/app/services/turma-aluno.service';
 import { TurmaService } from 'src/app/services/turma.service';
 
 @Component({
@@ -24,6 +27,8 @@ export class CadastrarTurmaComponent implements OnInit{
   formularioFiltrado : FormularioTurma[];
   pessoa : PessoaEntradaDTO[];
   resposta : DefaultResponse;
+  respostaTurma : ResponseFiltroTurma;
+  respostaPessoa : ResponseFiltroPessoaNome;
 
   ngOnInit(): void {
     this.formularioVazio();
@@ -32,22 +37,38 @@ export class CadastrarTurmaComponent implements OnInit{
 
   constructor(
     private fb : FormBuilder,
+    private turmaAlunoService : TurmaAlunoService,
     private turmaService : TurmaService,
     private _snackBar: MatSnackBar
   ){}
 
   atualizaAlunos(turma : number){
     this.turmaFiltrada = this.turmas.filter(t => t.id === turma)[0]
-    this.turmaService.findAlunoByAno(this.turmaFiltrada.ano).subscribe({
-      next : alu => this.listarAlunos(alu),
-      error : err => console.log(err)
+    this.turmaAlunoService.findAlunoByAno(this.turmaFiltrada.ano).subscribe({
+      next : alu => {
+        this.resposta = alu;
+
+        if(this.resposta.success){
+          this.respostaPessoa = this.resposta.data;
+          this.listarAlunos(this.respostaPessoa.pessoaList)
+        } else {
+          this._snackBar.open(this.resposta.messagem, "", {duration : 3000})
+        }
+      }
     })
   }
 
   listarTurmas(){
     this.turmaService.findAll().subscribe({
-      next : tur => this.turmas = tur,
-      error : err => console.log(err)
+      next : tur => {
+        this.resposta = tur;
+        if(this.resposta.success){
+          this.respostaTurma = this.resposta.data;
+          this.turmas = this.respostaTurma.turmaList;
+        } else {
+          this._snackBar.open(this.resposta.messagem, "", {duration : 3000})
+        }
+      } 
     })
   }
 
@@ -102,7 +123,7 @@ export class CadastrarTurmaComponent implements OnInit{
     return new EntradaTurmaAlunoDTO(this.formulario.value.turma, this.pessoa);
   }
   cadastrar(){
-    this.turmaService.saveTurma(this.montaTurmaAlunoSaida()).subscribe({
+    this.turmaAlunoService.saveTurma(this.montaTurmaAlunoSaida()).subscribe({
       next : res => {
         this.resposta = res;
         if(this.resposta.success){

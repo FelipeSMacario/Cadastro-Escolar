@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Pessoa } from 'src/app/models/pessoa';
 import { QuadroHorario } from 'src/app/models/quadroHorario';
+import { DefaultResponse } from 'src/app/models/Response/defaultResponse';
+import { ResponseQuadroHorario } from 'src/app/models/Response/responseQuadroHorario';
 import { QuadroHorariosService } from 'src/app/services/quadro-horarios.service';
 
 @Component({
@@ -14,7 +17,9 @@ export class MinhasAulasComponent implements OnInit{
   quadroHorario : QuadroHorario [] = [];
   quadroHorarioFiltro : QuadroHorario [] = [];
   formulario : FormGroup;
-  pessoa : Pessoa
+  pessoa : Pessoa;
+  resposta : DefaultResponse;
+  respostaQuadroHorario : ResponseQuadroHorario;
 
   ngOnInit(): void {
     this.pessoa = JSON.parse(localStorage.getItem("pessoa")!);
@@ -23,8 +28,15 @@ export class MinhasAulasComponent implements OnInit{
     });
     this.quadroHorarioService.findByMatricula(this.pessoa.matricula).subscribe({
     next : quad => {
-      this.quadroHorario = quad;
-    }, error : err => console.log(err)
+      this.resposta = quad;
+      if(this.resposta.success){
+        this.respostaQuadroHorario = this.resposta.data;
+        this.quadroHorario = this.respostaQuadroHorario.quadroHorarios;
+      }else {
+        this._snackBar.open(this.resposta.messagem, "", {duration : 3000})
+      }
+      
+    }
    })
   
   }
@@ -32,6 +44,7 @@ export class MinhasAulasComponent implements OnInit{
   constructor(
     private quadroHorarioService : QuadroHorariosService,
     private fb : FormBuilder,
+    private _snackBar: MatSnackBar
   ){}
 
   filtrar(valor : number){

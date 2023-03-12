@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { QuadroHorario } from 'src/app/models/quadroHorario';
+import { DefaultResponse } from 'src/app/models/Response/defaultResponse';
+import { ResponseQuadroHorario } from 'src/app/models/Response/responseQuadroHorario';
 import { QuadroHorariosService } from 'src/app/services/quadro-horarios.service';
 
 @Component({
@@ -13,6 +16,8 @@ export class BuscarAulasComponent implements OnInit{
 
   formulario : FormGroup;
   quadroHorario : QuadroHorario [];
+  resposta : DefaultResponse;
+  respostaQuadroHorario : ResponseQuadroHorario;
 
   ngOnInit(): void {
     this.formulario = this.fb.group({
@@ -24,26 +29,40 @@ export class BuscarAulasComponent implements OnInit{
   constructor(
     private quadroHorarioService : QuadroHorariosService,
     private fb : FormBuilder,
-    private router: Router
+    private router: Router,
+    private _snackBar: MatSnackBar
   ){}
 
   filtrar(){
     if(this.formulario.controls["valor"].value == 1){
       this.quadroHorarioService.findByMatricula(this.formulario.controls["filtro"].value).subscribe({
         next: quadr => {
-          this.quadroHorario = this.quadroVazio();
-          this.quadroHorario = quadr;
-        },
-        error : err => console.log("Error", err)
+          this.resposta = quadr;
+
+          if(this.resposta.success){
+            this.quadroHorario = this.quadroVazio();
+            this.respostaQuadroHorario = this.resposta.data;
+            this.quadroHorario = this.respostaQuadroHorario.quadroHorarios;
+          }else {
+            this._snackBar.open(this.resposta.messagem, "", {duration : 3000})
+          }
+         
+        }
       }) 
     }
     if(this.formulario.controls["valor"].value == 2){
       this.quadroHorarioService.findByTurma(this.formulario.controls["filtro"].value).subscribe({
         next: quadr => {
-          this.quadroHorario = this.quadroVazio();
-          this.quadroHorario = quadr;
-        },
-        error : err => console.log("Error", err)
+          this.resposta = quadr;
+
+          if(this.resposta.success){
+            this.quadroHorario = this.quadroVazio();
+            this.respostaQuadroHorario = this.resposta.data;
+            this.quadroHorario = this.respostaQuadroHorario.quadroHorarios;
+          }else {
+            this._snackBar.open(this.resposta.messagem, "", {duration : 3000})
+          }
+        }
       }) 
     }
   }
@@ -54,7 +73,6 @@ export class BuscarAulasComponent implements OnInit{
   }
 
   editaAula(id : number){
-    console.log(this.quadroHorario)
     this.router.navigate(['aula/atualizar', id])
   }
 }

@@ -14,12 +14,12 @@ import javax.validation.Valid;
 @Api(tags = "Professor")
 public interface ProfessorApi {
     @ApiOperation(("Listar professores"))
-    public ResponseEntity listarProfessores();
+    public ResponseEntity<DefaultResponse> listarProfessores();
 
     @ApiOperation("Buscar um professor")
     public ResponseEntity<DefaultResponse> buscarProfessor(@PathVariable Long matricula);
 
-    public ResponseEntity buscarAlunoPorNome(@PathVariable String nome);
+    public ResponseEntity<DefaultResponse> buscarAlunoPorNome(@PathVariable String nome);
 
     @ApiOperation("Cadastrar um novo professor")
     public ResponseEntity<DefaultResponse> cadastrarProfessor(@RequestBody @Valid Pessoa pessoa);

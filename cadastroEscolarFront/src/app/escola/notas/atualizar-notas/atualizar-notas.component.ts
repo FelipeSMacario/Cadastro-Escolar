@@ -3,6 +3,10 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Notas } from 'src/app/models/notas';
+import { DefaultResponse } from 'src/app/models/Response/defaultResponse';
+import { ResponseFiltroTurma } from 'src/app/models/Response/responseFiltroTurma';
+import { ResponseMaterias } from 'src/app/models/Response/responseMaterias';
+import { RespostaNotas } from 'src/app/models/Response/respostaNotas';
 import { NotasService } from 'src/app/services/notas.service';
 
 @Component({
@@ -14,6 +18,11 @@ export class AtualizarNotasComponent implements OnInit{
 
   id : number;
   formulario : FormGroup;
+  resposta : DefaultResponse;
+  nota : Notas;
+  respostaTurma : ResponseFiltroTurma;
+  respostaMateria : ResponseMaterias;
+  respostaNota : RespostaNotas;
 
  constructor(
   private fb : FormBuilder,
@@ -60,9 +69,14 @@ export class AtualizarNotasComponent implements OnInit{
   buscarNotas(){
     this.notaService.findById(this.id).subscribe({
       next : not => {
-        this.formularioPreenchido(not)
+        this.resposta = not;
+        if(this.resposta.success){
+          this.nota = this.resposta.data;
+          this.formularioPreenchido(this.nota)  
+        }
+        
       },
-      error : err => console.log(err)
+      error : err => this._snackBar.open(err, "", {duration : 5000})
     })
   }
 

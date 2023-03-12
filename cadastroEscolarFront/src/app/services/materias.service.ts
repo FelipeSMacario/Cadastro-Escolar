@@ -17,8 +17,8 @@ export class MateriasService {
 
   private url = "http://localhost:8080/materias";
 
-  listarMateria() : Observable<Materia[]>{
-    return this.httpClient.get<Materia[]>(this.url + "/listar");
+  listarMateria() : Observable<DefaultResponse>{
+    return this.httpClient.get<DefaultResponse>(this.url + "/listar");
   }
 
   cadastrarMateria(materia : Materia) : Observable<DefaultResponse>{

@@ -149,13 +149,14 @@ public class ControllerException {
     }
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(AlunoNoRegisterException.class)
-    public ErroResponse handleAlunonoRegister(AlunoNoRegisterException exception){
-        return ErroResponse.builder()
+    public ResponseEntity<DefaultResponse> handleAlunonoRegister(AlunoNoRegisterException exception){
+        return ResponseEntity.ok().body(DefaultResponse.builder()
                 .success(false)
                 .timestamp(LocalDate.now())
                 .status(HttpStatus.NOT_FOUND)
                 .messagem(exception.getMessage())
-                .build();
+                .build());
     }
+
 
 }

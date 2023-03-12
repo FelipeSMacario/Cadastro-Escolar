@@ -1,18 +1,16 @@
 package com.escola.cadastro.escolar.service;
 
 import com.escola.cadastro.escolar.dto.NotasDTO;
-import com.escola.cadastro.escolar.dto.NotasPessoaDTO;
-import com.escola.cadastro.escolar.dto.NotasSaidaDTO;
 import com.escola.cadastro.escolar.dto.NotasTrimestreDTO;
 import com.escola.cadastro.escolar.exception.*;
 import com.escola.cadastro.escolar.model.Materia;
 import com.escola.cadastro.escolar.model.Notas;
 import com.escola.cadastro.escolar.model.Pessoa;
 import com.escola.cadastro.escolar.model.Turma;
-import com.escola.cadastro.escolar.repository.MateriaRepository;
+import com.escola.cadastro.escolar.model.response.DefaultResponse;
+import com.escola.cadastro.escolar.model.response.ResponseNotas;
 import com.escola.cadastro.escolar.repository.NotasRepository;
 import com.escola.cadastro.escolar.repository.PessoaRepository;
-import com.escola.cadastro.escolar.repository.TurmaRepository;
 import com.sendgrid.Method;
 import com.sendgrid.Request;
 import com.sendgrid.Response;
@@ -29,7 +27,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,8 +34,6 @@ import java.util.Optional;
 public class NotasService {
     @Autowired
     NotasRepository notasRepository;
-    @Autowired
-    PessoaRepository pessoaRepository;
     @Autowired
     ValidacoesService validacoesService;
 
@@ -88,7 +83,7 @@ public class NotasService {
 
     }
 
-    public ResponseEntity cadastrarNotas(NotasDTO notasDTO) {
+    public ResponseEntity<DefaultResponse> cadastrarNotas(NotasDTO notasDTO) {
         Pessoa professor = validacoesService.buscaPessoa(notasDTO.getMatriculaProfessor(), "Professor");
         Materia materia = validacoesService.buscaMateriaPorNome(notasDTO.getMateria());
         Turma turma = validacoesService.buscaTurma(notasDTO.getTurmaId());
@@ -114,10 +109,14 @@ public class NotasService {
 
         });
 
-        return ResponseEntity.ok().body(notasDTO);
+        return ResponseEntity.ok().body(DefaultResponse.builder()
+                .success(true)
+                .status(HttpStatus.OK)
+                .messagem("Notas cadastradas com sucesso!")
+                .build());
     }
 
-    public ResponseEntity alterarNotas(NotasTrimestreDTO notasDTO) {
+    public ResponseEntity<DefaultResponse> alterarNotas(NotasTrimestreDTO notasDTO) {
         Notas notas = validacoesService.buscaNotas(notasDTO.getNotaId());
         Notas notaAtualizada = notasRepository.save(Notas.builder()
                 .id(notas.getId())
@@ -130,49 +129,62 @@ public class NotasService {
                 .nota(notasDTO.getNota())
                 .build());
 
-        return ResponseEntity.ok().body(notaAtualizada);
+        return ResponseEntity.ok().body(DefaultResponse.builder()
+                .success(true)
+                .status(HttpStatus.OK)
+                .data(notaAtualizada)
+                .build());
     }
 
-    public ResponseEntity deletarNotas(NotasTrimestreDTO notasDTO) {
-        Notas notas = validacoesService.buscaNotas(notasDTO.getNotaId());
-        notasRepository.deleteById(notas.getId());
-        return ResponseEntity.status(HttpStatus.OK).body("Nota deletada com sucesso");
+
+    public ResponseEntity<DefaultResponse> buscaNotaPorId(Long id) {
+        return ResponseEntity.ok().body(DefaultResponse.builder()
+                .success(true)
+                .status(HttpStatus.OK)
+                .data(validacoesService.buscaNotas(id))
+                .build());
     }
 
-    public ResponseEntity listarNotas(NotasPessoaDTO notasPessoaDTO) {
-        Optional<Pessoa> pessoa = pessoaRepository.findByMatriculaAndStatus(notasPessoaDTO.getMatriculaPessoa(), "Ativo");
-        return pessoa
-                .map(record -> {
-                    List<Notas> notas = record.getCargo().equals("Professor")
-                            ? notasRepository.buscaNotasProfessor(notasPessoaDTO.getMatriculaPessoa(), notasPessoaDTO.getTrimeste())
-                            : notasRepository.buscaNotasAluno(notasPessoaDTO.getMatriculaPessoa(), notasPessoaDTO.getTrimeste());
-
-                    List<NotasSaidaDTO> notasSaidaDTOS = new ArrayList<>();
-                    notas.forEach(v -> notasSaidaDTOS.add(
-                            NotasSaidaDTO.builder()
-                                    .nome(pessoa.get().getNome())
-                                    .sobreNome(pessoa.get().getSobreNome())
-                                    .materia(v.getMateria().getNome())
-                                    .nota(v.getNota()).build()
-                    ));
-                    return ResponseEntity.ok().body(notasSaidaDTOS);
-                }).orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
-    }
-
-    public ResponseEntity buscaNotaPorId(Long id) {
-        return ResponseEntity.ok().body( validacoesService.buscaNotas(id));
-    }
-
-    public ResponseEntity buscaNotasPorTurmaAMateria(Long idTurma, Long idMateria) {
+    public ResponseEntity<DefaultResponse> buscaNotasPorTurmaAMateria(Long idTurma, Long idMateria) {
         Turma turma = validacoesService.buscaTurma(idTurma);
         Materia materia = validacoesService.buscaMateriaPorId(idMateria);
 
-        return ResponseEntity.ok().body(notasRepository.findByTurmaIdAndMateriaId(turma.getId(), materia.getId()));
+        List<Notas> notas = notasRepository.findByTurmaIdAndMateriaId(turma.getId(), materia.getId());
+
+        if (notas.isEmpty()){
+            return ResponseEntity.ok().body(DefaultResponse.builder()
+                    .success(false)
+                    .status(HttpStatus.NOT_FOUND)
+                    .messagem("Nenhuma nota identificada!")
+                    .build());
+        }
+
+        return ResponseEntity.ok().body(DefaultResponse.builder()
+                .success(true)
+                .status(HttpStatus.OK)
+                .messagem("Aula adastrada com sucesso!")
+                .data(new ResponseNotas(notas))
+                .build());
     }
 
-    public ResponseEntity buscaPorMatricula(Long matricula) {
+    public ResponseEntity<DefaultResponse> buscaPorMatricula(Long matricula) {
         Pessoa aluno = validacoesService.buscaPessoa(matricula, "Aluno");
-        return ResponseEntity.ok().body(notasRepository.findByAlunoMatricula(aluno.getMatricula()));
+
+        List<Notas> notas = notasRepository.findByAlunoMatricula(aluno.getMatricula());
+
+        if (notas.isEmpty()){
+            return ResponseEntity.ok().body(DefaultResponse.builder()
+                    .success(false)
+                    .status(HttpStatus.NOT_FOUND)
+                    .messagem("Nenhuma nota identificada!")
+                    .build());
+        }
+
+        return ResponseEntity.ok().body(DefaultResponse.builder()
+                .success(true)
+                .status(HttpStatus.OK)
+                .data(new ResponseNotas(notas))
+                .build());
     }
 
     private Integer buscaTrimeste() {

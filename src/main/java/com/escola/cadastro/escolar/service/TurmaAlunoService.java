@@ -100,7 +100,7 @@ public class TurmaAlunoService {
                     .success(false)
                     .timestamp(LocalDate.now())
                     .messagem("Nenhum aluno identificado com esse nome")
-                    .status(HttpStatus.OK)
+                    .status(HttpStatus.NOT_FOUND)
                     .build());
         }
 
@@ -191,7 +191,7 @@ public class TurmaAlunoService {
                 .build());
     }
 
-    public ResponseEntity buscaAlunoPorTurma(Long id) {
+    public ResponseEntity<DefaultResponse> buscaAlunoPorTurma(Long id) {
         List<Pessoa> pessoas = new ArrayList<>();
 
         try {
@@ -211,6 +211,27 @@ public class TurmaAlunoService {
                 .status(HttpStatus.OK)
                 .data(new ResponseFiltroPessoaNome(pessoas))
                 .build());
+    }
+
+    public ResponseEntity<DefaultResponse> listarTurmasAlunosPorId(Long id) {
+        return ResponseEntity.ok().body(DefaultResponse.builder()
+                .success(true)
+                .data(buscaAlunoTurmaPorId(id))
+                .status(HttpStatus.OK)
+                .build());
+    }
+
+
+    AlunoTurmaDTO buscaAlunoTurmaPorId(Long id){
+        AlunoTurmaDTO alunoTurmaDTO = new AlunoTurmaDTO();
+        List<Object[]> lista = turmaAlunoRepository.definaAlunoTurmaPorId(id);
+
+        lista.forEach(v -> {
+            alunoTurmaDTO.setId(Long.parseLong(v[0] + ""));
+            alunoTurmaDTO.setTurma(validacoesService.buscaTurma(Long.parseLong(v[1] + "")));
+            alunoTurmaDTO.setAluno(validacoesService.buscaPessoa(Long.parseLong(v[2] + ""), Cargo.Aluno.toString()));
+        });
+        return alunoTurmaDTO;
     }
     private void cadastraAlunos(List<Pessoa> pessoas, Long turmaId) {
         pessoas.forEach(p -> {

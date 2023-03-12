@@ -2,7 +2,6 @@ package com.escola.cadastro.escolar.service;
 
 import com.escola.cadastro.escolar.dto.EntradaDTO;
 import com.escola.cadastro.escolar.enums.RoleName;
-import com.escola.cadastro.escolar.exception.UserNotFoundException;
 import com.escola.cadastro.escolar.model.Login;
 import com.escola.cadastro.escolar.model.Pessoa;
 import com.escola.cadastro.escolar.model.Role;

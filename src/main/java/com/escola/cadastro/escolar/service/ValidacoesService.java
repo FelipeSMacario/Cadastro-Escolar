@@ -46,7 +46,10 @@ public class ValidacoesService {
     }
 
     Long buscaTurmaPorMatricula(Long matricula){
-        return turmaAlunoRepository.buscaTurmaPorMatricula(matricula).orElseThrow(() -> new AlunoNoRegisterException(matricula));
+        Long id = turmaAlunoRepository.buscaTurmaPorMatricula(matricula).orElseThrow(() -> new AlunoNoRegisterException(matricula));
+        if (id == 0)
+            throw new AlunoNoRegisterException(matricula);
+        return id;
     }
     Horas buscaHora(Long id) {
         return horaRepository.findById(id).orElseThrow(() -> new HoraNotFoundException(id));
