@@ -9,11 +9,13 @@
 
 .texto{
     text-align: center;
+    font-size: 17px;
 }
 
 .cards{
     background-color: #27376a;
     color: white;
+    margin-bottom: -300px;
 }
 .colHover:hover{
     background-color: #ADD8E6;
@@ -26,7 +28,8 @@
 }
 
 .imagem{
-    height: 70%;
+    height: 120%;
+    width: 100%;
 }
 .divCards{
     display: flex;

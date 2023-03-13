@@ -7,11 +7,6 @@
     display: flex;
     justify-content: center;
 }
-
-.texto{
-    text-align: center;
-}
-
 .cards{
     background-color: #27376a;
     color: white;
@@ -27,4 +22,8 @@
 }
 .imagem{
     height: 250px;
+}
+.texto{
+    text-align: center;
+    font-size: 17px;
 }

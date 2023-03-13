@@ -2,7 +2,7 @@
   <div class="row row-cols-1 row-cols-md-2 g-4 divCards">
     <div class="col colHover" [routerLink]="['aulas']" >
       <div class="card btn divCard"  >
-        <img src="../../../assets/images/aulas.png" class="card-img-top imagem" alt="...">
+        <img src="../../../assets/images/aula-icon-home.jpg" class="card-img-top imagem" alt="...">
         <div class="card-body cards">
           <h5 class="card-title texto">Gerenciamento de aulas</h5>
         </div>
@@ -10,7 +10,7 @@
     </div>
     <div class="col colHover" [routerLink]="['notas']" >
       <div class="card btn divCard">
-        <img src="../../../assets/images/notas.png" class="card-img-top imagem" alt="..." [routerLink]="['notas']">
+        <img src="../../../assets/images/nota.png" class="card-img-top imagem" alt="..." [routerLink]="['notas']">
         <div class="card-body cards">
           <h5 class="card-title texto">Gerenciamento de notas</h5>
         </div>
@@ -18,7 +18,7 @@
     </div>
     <div class="col colHover" [routerLink]="['materia']" *ngIf="pessoa.cargo === 'Admin'">
       <div class="card btn divCard">
-        <img src="../../../assets/images/materia.jpg" class="card-img-top imagem" alt="...">
+        <img src="../../../assets/images/materia-home.png" class="card-img-top imagem" alt="...">
         <div class="card-body cards">
           <h5 class="card-title texto">Gerenciamento de matérias</h5>
         </div>

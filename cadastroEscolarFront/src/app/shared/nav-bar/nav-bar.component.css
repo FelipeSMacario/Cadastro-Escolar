@@ -52,4 +52,5 @@ img{
 .label{
     font-size: 12px;
     color: white;
+    margin-left: -10px;
 }
