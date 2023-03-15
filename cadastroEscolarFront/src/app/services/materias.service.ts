@@ -15,7 +15,7 @@ export class MateriasService {
 
   constructor(private httpClient : HttpClient) { }
 
-  private url = "http://localhost:8080/materias";
+  private url = "http://localhost:8081/materias";
 
   listarMateria() : Observable<DefaultResponse>{
     return this.httpClient.get<DefaultResponse>(this.url + "/listar");

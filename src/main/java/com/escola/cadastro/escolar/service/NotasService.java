@@ -10,7 +10,6 @@ import com.escola.cadastro.escolar.model.Turma;
 import com.escola.cadastro.escolar.model.response.DefaultResponse;
 import com.escola.cadastro.escolar.model.response.ResponseNotas;
 import com.escola.cadastro.escolar.repository.NotasRepository;
-import com.escola.cadastro.escolar.repository.PessoaRepository;
 import com.sendgrid.Method;
 import com.sendgrid.Request;
 import com.sendgrid.Response;
@@ -19,7 +18,6 @@ import com.sendgrid.helpers.mail.Mail;
 import com.sendgrid.helpers.mail.objects.Content;
 import com.sendgrid.helpers.mail.objects.Email;
 import com.sendgrid.helpers.mail.objects.Personalization;
-import io.github.cdimascio.dotenv.Dotenv;
 import io.jsonwebtoken.io.IOException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -37,51 +35,49 @@ public class NotasService {
     @Autowired
     ValidacoesService validacoesService;
 
-    public void sendEmailNotasToUser(String email, String name, String nota, String materia) throws java.io.IOException {
-
-        System.out.println("Sending nota email to " + email);
-
-        Dotenv dotenv = Dotenv.load();
-
-        Email from = new Email("brunofonseca821@gmail.com");
-        String subject = "Cadastro realizado";
-        Email to = new Email(email);
-        Content content = new Content("text/html", " ");
-
-        Mail mail = new Mail(from, subject, to, content);
-
-        Personalization personalization0 = new Personalization();
-        personalization0.addDynamicTemplateData("name", name);
-        personalization0.addDynamicTemplateData("email", email);
-        personalization0.addDynamicTemplateData("nota", nota);
-        personalization0.addDynamicTemplateData("materia", materia);
-
-        personalization0.addTo(new Email(email));
-
-        mail.addPersonalization(personalization0);
-
-        mail.setTemplateId("d-c810e44a8a484641aa82cf572f750387");
-
-        SendGrid sg = new SendGrid(dotenv.get("SENDGRID_API_KEY"));
-        Request request = new Request();
-
-        try {
-            request.setMethod(Method.POST);
-            request.setEndpoint("mail/send");
-            request.setBody(mail.build());
-            Response response = sg.api(request);
-            System.out.println(response.getStatusCode());
-            System.out.println(response.getBody());
-            System.out.println(response.getHeaders());
-
-            System.out.println("Email to user " + email + " sent successfully");
-
-        } catch (IOException ex) {
-            System.out.println("Error when trying to send email to:" + email);
-            throw ex;
-        }
-
-    }
+//    public void sendEmailNotasToUser(String email, String name, String nota, String materia) throws java.io.IOException {
+//
+//        System.out.println("Sending nota email to " + email);
+//
+//        Email from = new Email("brunofonseca821@gmail.com");
+//        String subject = "Cadastro realizado";
+//        Email to = new Email(email);
+//        Content content = new Content("text/html", " ");
+//
+//        Mail mail = new Mail(from, subject, to, content);
+//
+//        Personalization personalization0 = new Personalization();
+//        personalization0.addDynamicTemplateData("name", name);
+//        personalization0.addDynamicTemplateData("email", email);
+//        personalization0.addDynamicTemplateData("nota", nota);
+//        personalization0.addDynamicTemplateData("materia", materia);
+//
+//        personalization0.addTo(new Email(email));
+//
+//        mail.addPersonalization(personalization0);
+//
+//        mail.setTemplateId("d-c810e44a8a484641aa82cf572f750387");
+//
+//        SendGrid sg = new SendGrid(dotenv.get("SENDGRID_API_KEY"));
+//        Request request = new Request();
+//
+//        try {
+//            request.setMethod(Method.POST);
+//            request.setEndpoint("mail/send");
+//            request.setBody(mail.build());
+//            Response response = sg.api(request);
+//            System.out.println(response.getStatusCode());
+//            System.out.println(response.getBody());
+//            System.out.println(response.getHeaders());
+//
+//            System.out.println("Email to user " + email + " sent successfully");
+//
+//        } catch (IOException ex) {
+//            System.out.println("Error when trying to send email to:" + email);
+//            throw ex;
+//        }
+//
+//    }
 
     public ResponseEntity<DefaultResponse> cadastrarNotas(NotasDTO notasDTO) {
         Pessoa professor = validacoesService.buscaPessoa(notasDTO.getMatriculaProfessor(), "Professor");
@@ -101,11 +97,11 @@ public class NotasService {
                     .trimestre(buscaTrimeste()).build();
             notasRepository.save(notas);
 
-            try {
-                sendEmailNotasToUser(aluno.getEmail(), aluno.getNome(), valor.getNotas().toString(), materia.getNome());
-            } catch (java.io.IOException e) {
-                e.printStackTrace();
-            }
+//            try {
+//                sendEmailNotasToUser(aluno.getEmail(), aluno.getNome(), valor.getNotas().toString(), materia.getNome());
+//            } catch (java.io.IOException e) {
+//                e.printStackTrace();
+//            }
 
         });
 

@@ -10,7 +10,7 @@ export class DiaService {
 
   constructor(private httpClient : HttpClient) { }
 
-  private url = "http://localhost:8080/dia/";
+  private url = "http://localhost:8081/dia/";
 
   findAll() : Observable<DefaultResponse>{
     return this.httpClient.get<DefaultResponse>(this.url + "listar");
