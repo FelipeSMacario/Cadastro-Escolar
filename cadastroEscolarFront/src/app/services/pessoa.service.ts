@@ -11,7 +11,7 @@ export class PessoaService {
 
   constructor(private httpClient : HttpClient) { }
 
-  private url = "http://localhost:8080/";
+  private url = "http://localhost:8081/";
 
   findAllAlunos(cargo : string) : Observable<DefaultResponse> {
     return this.httpClient.get<DefaultResponse>(this.url + cargo + "/listar");

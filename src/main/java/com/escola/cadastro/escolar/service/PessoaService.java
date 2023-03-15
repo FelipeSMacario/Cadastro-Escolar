@@ -1,6 +1,8 @@
 package com.escola.cadastro.escolar.service;
 
 import com.escola.cadastro.escolar.dto.EntradaDTO;
+import com.escola.cadastro.escolar.dto.SendGridDTO;
+import com.escola.cadastro.escolar.enums.Fila;
 import com.escola.cadastro.escolar.enums.RoleName;
 import com.escola.cadastro.escolar.model.Login;
 import com.escola.cadastro.escolar.model.Pessoa;
@@ -14,18 +16,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import com.sendgrid.*;
-import com.sendgrid.helpers.mail.Mail;
-import com.sendgrid.helpers.mail.objects.Content;
-import com.sendgrid.helpers.mail.objects.Email;
-import com.sendgrid.helpers.mail.objects.Personalization;
-
-import io.github.cdimascio.dotenv.Dotenv;
 
 
 @Service
@@ -37,57 +30,13 @@ public class PessoaService {
     PasswordEncoder encoder;
     @Autowired
     LoginRepository loginRepository;
-
     @Autowired
     ValidacoesService validacoesService;
 
-    public void sendEmailToUser(String email, String name, String password) throws IOException {
-
-        System.out.println("Sending registration email to " + email);
-
-        Dotenv dotenv = Dotenv.load();
-
-        Email from = new Email("brunofonseca821@gmail.com");
-        String subject = "Cadastro realizado";
-        Email to = new Email(email);
-        Content content = new Content("text/html", " ");
+    @Autowired
+    RabbitmqService rabbitmqService;
 
 
-        Mail mail = new Mail(from, subject, to, content);
-        
-        Personalization personalization0 = new Personalization();
-        personalization0.addDynamicTemplateData("name", name);
-        personalization0.addDynamicTemplateData("email", email);
-        personalization0.addDynamicTemplateData("password", password);
-
-        personalization0.addTo(new Email(email));
-        
-
-        mail.addPersonalization(personalization0);
-
-        mail.setTemplateId("d-51c075f4bf2445a284e335a46131cdb8");
-
-        
-        SendGrid sg = new SendGrid(dotenv.get("SENDGRID_API_KEY"));
-        Request request = new Request();
-
-        try {
-            request.setMethod(Method.POST);
-            request.setEndpoint("mail/send");
-            request.setBody(mail.build());
-            Response response = sg.api(request);
-            System.out.println(response.getStatusCode());
-            System.out.println(response.getBody());
-            System.out.println(response.getHeaders());
-
-            System.out.println("Email to user " + email + " sent successfully");
-
-        } catch (IOException ex) {
-            System.out.println("Error when trying to send email to:" + email);
-            throw ex;
-        }
-       
-    }
 
 
     public ResponseEntity<DefaultResponse> listar(String cargo) {
@@ -136,13 +85,6 @@ public class PessoaService {
         Role role = pessoa1.getCargo().equals("Professor") ? new Role(2L, RoleName.ROLE_PROFESSOR) : new Role(3L, RoleName.ROLE_ALUNO);
         roles.add(role);
 
-        try {
-            sendEmailToUser(pessoa.getEmail(), pessoa.getNome(), pessoa1.getCpf());
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-
         Login login = Login.builder()
                 .usuario(pessoa1.getEmail())
                 .senha(encoder.encode(pessoa1.getCpf()))
@@ -150,6 +92,9 @@ public class PessoaService {
                 .roles(roles)
                 .build();
         loginRepository.save(login);
+
+        SendGridDTO sendGridDTO = new SendGridDTO(pessoa1.getEmail(), pessoa1.getNome(), pessoa1.getCpf());
+        rabbitmqService.enviaMensagem(Fila.CADASTRO.toString(), sendGridDTO);
 
         return ResponseEntity.ok().body(DefaultResponse.builder()
                         .success(true)

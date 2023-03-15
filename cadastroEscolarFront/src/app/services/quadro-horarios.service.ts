@@ -14,7 +14,7 @@ export class QuadroHorariosService {
 
   constructor(private httpClient : HttpClient) { }
 
-  private url = "http://localhost:8080/quadroHorario/";
+  private url = "http://localhost:8081/quadroHorario/";
 
   findByMatricula(matricula : number) : Observable<DefaultResponse>{
     return this.httpClient.get<DefaultResponse>(this.url + "buscar/HorarioPorMatricula/" + matricula);

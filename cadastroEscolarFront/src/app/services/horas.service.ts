@@ -12,7 +12,7 @@ export class HorasService {
     private httpClient : HttpClient
     ) { }
 
-  private url = "http://localhost:8080/horas";
+  private url = "http://localhost:8081/horas";
 
 
   findAll() : Observable<DefaultResponse>{

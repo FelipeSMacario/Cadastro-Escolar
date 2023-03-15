@@ -10,7 +10,7 @@ export class SalaService {
 
   constructor(private httpClient : HttpClient) { }
 
-  private url = "http://localhost:8080/sala/";
+  private url = "http://localhost:8081/sala/";
 
   findAll() : Observable<DefaultResponse>{
     return this.httpClient.get<DefaultResponse>(this.url + "listar");
