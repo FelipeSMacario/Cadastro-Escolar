@@ -1,10 +1,14 @@
 package com.escola.cadastro.escolar.service;
 
+import com.escola.cadastro.escolar.enums.Cargo;
 import com.escola.cadastro.escolar.exception.*;
 import com.escola.cadastro.escolar.model.*;
 import com.escola.cadastro.escolar.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class ValidacoesService {
@@ -71,5 +75,18 @@ public class ValidacoesService {
     }
     Notas buscaNotas(Long id){
         return notasRepository.findById(id).orElseThrow(() -> new NotasNotFoundException(id));
+    }
+
+    List<Pessoa> validaPessoa(List<Long> matricula) {
+        List<Pessoa> pessoas = new ArrayList<>();
+
+        matricula.forEach(valor -> {
+            Pessoa pessoa = buscaPessoa(valor, Cargo.Aluno.toString());
+
+            pessoas.add(pessoa);
+        });
+
+
+        return pessoas;
     }
 }

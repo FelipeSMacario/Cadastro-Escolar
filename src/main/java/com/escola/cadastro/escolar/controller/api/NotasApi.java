@@ -26,4 +26,7 @@ public interface NotasApi {
     @ApiOperation("Buscar notas por turma")
     public ResponseEntity<DefaultResponse> buscarNotaPorTurma(@PathVariable Long idTurma, @PathVariable Long idMateria);
 
+    @ApiOperation("Buscar alunos por turma e matéria")
+    ResponseEntity<DefaultResponse> buscarAlunosPorTurma(@PathVariable Long idTurma, @PathVariable Long idMateria);
+
 }

@@ -10,15 +10,18 @@ import com.escola.cadastro.escolar.model.Notas;
 import com.escola.cadastro.escolar.model.Pessoa;
 import com.escola.cadastro.escolar.model.Turma;
 import com.escola.cadastro.escolar.model.response.DefaultResponse;
+import com.escola.cadastro.escolar.model.response.ResponseFiltroPessoaNome;
 import com.escola.cadastro.escolar.model.response.ResponseNotas;
 import com.escola.cadastro.escolar.repository.NotasRepository;
 
+import com.escola.cadastro.escolar.repository.TurmaAlunoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,6 +32,8 @@ public class NotasService {
     @Autowired
     ValidacoesService validacoesService;
 
+    @Autowired
+    TurmaAlunoRepository turmaAlunoRepository;
     @Autowired
     RabbitmqService rabbitmqService;
 
@@ -157,5 +162,28 @@ public class NotasService {
         Optional<Notas> notas = notasRepository.buscaNotas(idProfessor, idAluno, idMateria, semestre, idTurma);
         if (notas.isPresent())
             throw new NotasAlreadyExistsException(notas.get().getId());
+    }
+
+    public ResponseEntity<DefaultResponse> buscarAlunosPorTurma(Long idTurma, Long idMateria) {
+        List<Long> matricula = turmaAlunoRepository.buscaAlunosPorTurma(idTurma);
+        List<Pessoa> alunos = validacoesService.validaPessoa(matricula);
+
+        List<Pessoa> alunosFiltrados = new ArrayList<>();
+
+        Turma turma = validacoesService.buscaTurma(idTurma);
+        Materia materia = validacoesService.buscaMateriaPorId(idMateria);
+
+        List<Notas> notas = notasRepository.findByTurmaIdAndMateriaId(turma.getId(), materia.getId());
+
+        alunos.forEach(a -> {
+            if(notas.stream().noneMatch(n -> n.getAluno().getMatricula().equals(a.getMatricula())))
+                alunosFiltrados.add(a);
+        });
+
+        return ResponseEntity.ok().body(DefaultResponse.builder()
+                .success(true)
+                .status(HttpStatus.OK)
+                .data(new ResponseFiltroPessoaNome(alunosFiltrados))
+                .build());
     }
 }

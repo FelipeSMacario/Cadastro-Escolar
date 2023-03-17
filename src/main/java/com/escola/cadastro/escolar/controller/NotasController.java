@@ -28,7 +28,6 @@ public class NotasController implements NotasApi {
         return notasService.alterarNotas(notasDTO);
     }
 
-
     @GetMapping(value = "/buscar/porMatricula/{matricula}")
     public ResponseEntity<DefaultResponse> buscarPorMatricula(@PathVariable Long matricula){
         return notasService.buscaPorMatricula(matricula);
@@ -41,5 +40,10 @@ public class NotasController implements NotasApi {
     @GetMapping(value = "buscar/{idTurma}/{idMateria}")
     public ResponseEntity<DefaultResponse> buscarNotaPorTurma(@PathVariable Long idTurma, @PathVariable Long idMateria){
         return notasService.buscaNotasPorTurmaAMateria(idTurma, idMateria);
+    }
+
+    @GetMapping(value = "buscarAlunos/{idTurma}/{idMateria}")
+    public ResponseEntity<DefaultResponse> buscarAlunosPorTurma(@PathVariable Long idTurma, @PathVariable Long idMateria){
+        return notasService.buscarAlunosPorTurma(idTurma, idMateria);
     }
 }

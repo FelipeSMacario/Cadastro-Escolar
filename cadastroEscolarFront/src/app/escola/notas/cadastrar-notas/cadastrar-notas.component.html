@@ -12,7 +12,7 @@
               class="form-select"
               aria-label="Default select example"
               formControlName="materia"
-              (change)="buscaProfessor(this.formulario.value.materia)"
+              (change)="buscaProfessor(this.formulario.value.materia);buscaAlunos(this.formulario.value.turma, this.formulario.value.materia) "
             >
               <option value="null" selected disabled>
                 Selecione uma matéria
@@ -48,7 +48,7 @@
             class="form-select"
             aria-label="Default select example"
             formControlName="turma"
-            (change)="buscaAlunos(this.formulario.value.turma)"
+            (change)="buscaAlunos(this.formulario.value.turma, this.formulario.value.materia)"
           >
             <option value="null" selected disabled>Selecione uma turma</option>
             <option *ngFor="let tur of turmas" [ngValue]="tur.id">

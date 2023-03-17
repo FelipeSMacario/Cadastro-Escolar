@@ -4,11 +4,13 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatriculaNotasDTO } from 'src/app/models/DTO/matriculaNotaDTO';
 import { NotasDTO } from 'src/app/models/DTO/notasDTO';
 import { Materia } from 'src/app/models/materia';
+import { Notas } from 'src/app/models/notas';
 import { Pessoa } from 'src/app/models/pessoa';
 import { DefaultResponse } from 'src/app/models/Response/defaultResponse';
 import { ResponseFiltroPessoaNome } from 'src/app/models/Response/responseFiltroPessoaNome';
 import { ResponseFiltroTurma } from 'src/app/models/Response/responseFiltroTurma';
 import { ResponseMaterias } from 'src/app/models/Response/responseMaterias';
+import { RespostaNotas } from 'src/app/models/Response/respostaNotas';
 import { Turma } from 'src/app/models/turma';
 import { MateriasService } from 'src/app/services/materias.service';
 import { NotasService } from 'src/app/services/notas.service';
@@ -33,7 +35,10 @@ export class CadastrarNotasComponent implements OnInit{
   respostaMateria : ResponseMaterias;
   respostaTurma : ResponseFiltroTurma;
   respostaALunos : ResponseFiltroPessoaNome;
+  respostaNotas : RespostaNotas;
+  notasFiltrada : Notas[];
   pessoa : Pessoa;
+  alunosFIltrados : Pessoa[];
 
   constructor(
     private fb : FormBuilder,
@@ -75,7 +80,8 @@ export class CadastrarNotasComponent implements OnInit{
   }
 
   buscaProfessor(materia : number){
-    this.formulario.controls['professor'].setValue(this.buscaMateria(materia).professor.nome);
+    let materiaFiltro = this.buscaMateria(materia);
+    this.formulario.controls['professor'].setValue(materiaFiltro.professor.nome + ' ' + materiaFiltro.professor.sobreNome);
   }
 
   buscaMateria(materia : number) : Materia{
@@ -111,22 +117,25 @@ export class CadastrarNotasComponent implements OnInit{
   }
 
 
-  buscaAlunos(id : number){    
-    this.turmaService.findAlunoPorTurma(id).subscribe({
-      next : alu => {   
-        this.resposta = alu;
-        
-        if(this.resposta.success){
-          this.respostaALunos = this.resposta.data;
-          this.alunos = this.respostaALunos.pessoaList;
-          this.buildFormAluno(this.alunos);
-        }else {
-          this._snackBar.open(this.resposta.messagem, "", {duration : 3000})
+  buscaAlunos(idTurma : number, idMateria : number){   
+    if(idTurma  && idMateria){ 
+      this.notasService.filtraAlunos(idTurma, idMateria).subscribe({
+        next : alu => {   
+          this.resposta = alu;
+          if(this.resposta.success){
+            this.alunos = [];
+            this.respostaALunos = this.resposta.data;
+            this.alunos = this.respostaALunos.pessoaList;
+            this.buildFormAluno(this.alunos);            
+
+          }else {
+            this._snackBar.open(this.resposta.messagem, "", {duration : 3000})
+          }         
         }
-       
-      }
-    })
+      });
+    }    
   }
+
 
   listaTurmas(){
     this.turmaServico.findAll().subscribe({

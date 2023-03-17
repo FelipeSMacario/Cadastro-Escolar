@@ -30,4 +30,7 @@ export class NotasService {
   filtrarNotas(matricula : number) : Observable<DefaultResponse>{
     return this.httpClient.get<DefaultResponse>(this.url + "buscar/porMatricula/" + matricula);
   }
+  filtraAlunos(idTurma : number, idNotas : number) : Observable<DefaultResponse>{
+    return this.httpClient.get<DefaultResponse>(this.url + "buscarAlunos/" + idTurma + "/" + idNotas);
+  }
 }

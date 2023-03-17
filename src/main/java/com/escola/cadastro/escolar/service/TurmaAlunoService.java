@@ -39,7 +39,7 @@ public class TurmaAlunoService {
         entrada.getPessoas().forEach(v -> matricula.add(v.getMatricula()));
 
 
-        List<Pessoa> pessoas = validaPessoa(matricula);
+        List<Pessoa> pessoas = validacoesService.validaPessoa(matricula);
 
         cadastraAlunos(pessoas, turma.getId());
 
@@ -78,7 +78,7 @@ public class TurmaAlunoService {
         Turma turma = validacoesService.buscaTurmaPorNumero(numero);
         List<Long> matriculas = turmaAlunoRepository.buscaAlunosPorTurma(turma.getId());
 
-        List<Pessoa> alunos = validaPessoa(matriculas);
+        List<Pessoa> alunos = validacoesService.validaPessoa(matriculas);
 
         List<AlunoTurmaDTO> turmaAluno = new ArrayList<>();
 
@@ -195,7 +195,7 @@ public class TurmaAlunoService {
         List<Pessoa> pessoas = new ArrayList<>();
 
         try {
-            pessoas = validaPessoa(turmaAlunoRepository.buscaAlunosPorTurma(id));
+            pessoas = validacoesService.validaPessoa(turmaAlunoRepository.buscaAlunosPorTurma(id));
         }catch (Exception e){
             return ResponseEntity.ok().body(DefaultResponse.builder()
                     .success(false)
@@ -239,18 +239,7 @@ public class TurmaAlunoService {
         });
     }
 
-    private List<Pessoa> validaPessoa(List<Long> matricula) {
-        List<Pessoa> pessoas = new ArrayList<>();
 
-        matricula.forEach(valor -> {
-            Pessoa pessoa = validacoesService.buscaPessoa(valor, Cargo.Aluno.toString());
-
-            pessoas.add(pessoa);
-        });
-
-
-        return pessoas;
-    }
 
     private List<AlunoTurmaDTO> listarAlunoTurma(){
         List<Object[]> listaAlunoTurma = turmaAlunoRepository.buscaAlunoTurma();
