@@ -21,20 +21,28 @@ public class JWTConfiguracao {
     @Autowired
     AuthenticationProvider authenticationProvider;
 
+//    @Bean
+//    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
+//        http.csrf().disable().authorizeHttpRequests()
+//                .antMatchers(HttpMethod.POST, "/login/logar").permitAll()
+//                .anyRequest().authenticated()
+//                .and()
+//                .cors()
+//                .and()
+//                .sessionManagement()
+//                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+//                .and()
+//                .authenticationProvider(authenticationProvider)
+//                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+//        return http.build();
+//    }
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
-        http.csrf().disable().authorizeHttpRequests()
-                .antMatchers(HttpMethod.POST, "/login/logar").permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .cors()
-                .and()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .authenticationProvider(authenticationProvider)
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+        http.csrf().disable().authorizeHttpRequests().antMatchers("/").permitAll();
         return http.build();
     }
+
+
 
 }
