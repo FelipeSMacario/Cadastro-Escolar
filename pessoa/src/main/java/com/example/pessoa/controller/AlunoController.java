@@ -24,7 +24,6 @@ public class AlunoController {
     public  ResponseEntity<DefaultResponse> buscarAluno(@PathVariable Long matricula) {
         return alunoService.buscar(matricula, Cargo.Aluno.toString());
     }
-
     @GetMapping(value = "/buscar/porNome/{nome}")
     public  ResponseEntity<DefaultResponse> buscarAlunoNome(@PathVariable String nome) {
         return alunoService.buscarPorNome(nome, Cargo.Aluno.toString());
