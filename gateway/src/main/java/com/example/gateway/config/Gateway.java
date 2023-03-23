@@ -16,6 +16,12 @@ public class Gateway {
                 .route("professor", r ->
                         r.path("/professor/**")
                                 .uri("lb://api-pessoa"))
+                .route("aulas", r ->
+                        r.path("/quadroHorario/**")
+                                .uri("lb://api-aulas"))
+                .route("notas", r ->
+                        r.path("/notas/**")
+                                .uri("lb://api-aulas"))
 
                 .build();
     }
