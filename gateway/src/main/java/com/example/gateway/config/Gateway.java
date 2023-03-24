@@ -31,7 +31,15 @@ public class Gateway {
                 .route("materia", r ->
                         r.path("/materias/**")
                                 .uri("lb://api-dias"))
-
+                .route("sala", r ->
+                        r.path("/sala/**")
+                                .uri("lb://api-turma-client"))
+                .route("turma", r ->
+                        r.path("/turma/**")
+                                .uri("lb://api-turma-client"))
+                .route("turmaAluno", r ->
+                        r.path("/turmaAlunos/**")
+                                .uri("lb://api-turma-client"))
                 .build();
     }
 }
