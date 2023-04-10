@@ -1,6 +1,6 @@
 package com.example.authserver.security;
 
-import com.example.authserver.domain.UserRepository;
+import com.example.authserver.domain.LoginRepository;
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.JWKSource;
@@ -56,14 +56,14 @@ public class AuthSecurityConfig {
     }
 
     @Bean
-    public OAuth2TokenCustomizer<JwtEncodingContext> jwtEncodingContextOAuth2TokenCustomizer(UserRepository userRepository){
+    public OAuth2TokenCustomizer<JwtEncodingContext> jwtEncodingContextOAuth2TokenCustomizer(LoginRepository userRepository){
         return (jwtEncodingContext -> {
             Authentication authentication = jwtEncodingContext.getPrincipal();
 
             if (authentication.getPrincipal() instanceof User) {
                 final var user = (User) authentication.getPrincipal();
 
-                final var userEntity = userRepository.findByEmail(user.getUsername()).orElseThrow();
+                final var userEntity = userRepository.findByUsuario(user.getUsername()).orElseThrow();
 
                 Set<String> authorities = new HashSet<>();
                 for (GrantedAuthority authority : user.getAuthorities()){
@@ -71,7 +71,7 @@ public class AuthSecurityConfig {
                 }
 
                 jwtEncodingContext.getClaims().claim("user_id", userEntity.getId().toString());
-                jwtEncodingContext.getClaims().claim("user_fullname", userEntity.getName());
+                jwtEncodingContext.getClaims().claim("user_fullname", userEntity.getPessoa().getNome() + " " + userEntity.getPessoa().getSobreNome());
                 jwtEncodingContext.getClaims().claim("authorities", authorities);
             }
         });

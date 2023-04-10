@@ -1,7 +1,8 @@
 package com.example.authserver.security;
 
 
-import com.example.authserver.domain.UserRepository;
+import com.example.authserver.domain.LoginRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,22 +15,21 @@ import java.util.List;
 @Service
 public class JPAUserDetailsService implements UserDetailsService{
 
-    private final UserRepository userRepository;
+    @Autowired
+    LoginRepository loginRepository;
 
-    public JPAUserDetailsService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
 
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        final var user = userRepository.findByEmail(email)
-                .orElseThrow(()-> new UsernameNotFoundException(email));
+    public UserDetails loadUserByUsername(String usuario) throws UsernameNotFoundException {
+        final var user = loginRepository.findByUsuario(usuario)
+                .orElseThrow(()-> new UsernameNotFoundException(usuario));
 
-        final var simpleGrantedAuthority = new SimpleGrantedAuthority("ROLE_" + user.getType().name());
+        final var simpleGrantedAuthority = new SimpleGrantedAuthority("ROLE_" + user.getRoles().name());
+        System.out.println(simpleGrantedAuthority);
 
         return new User(
-                user.getEmail(),
-                user.getPassword(),
+                user.getUsuario(),
+                user.getSenha(),
                 List.of(simpleGrantedAuthority)
         );
     }
