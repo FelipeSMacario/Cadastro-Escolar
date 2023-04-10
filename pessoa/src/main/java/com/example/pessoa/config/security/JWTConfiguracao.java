@@ -1,45 +1,63 @@
 package com.example.pessoa.config.security;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
+import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.web.SecurityFilterChain;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+
 
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class JWTConfiguracao {
 
-//    @Autowired
-//    JWTAuthenticationFilter jwtAuthenticationFilter;
-
-    @Autowired
-    AuthenticationProvider authenticationProvider;
-
-//    @Bean
-//    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
-//        http.csrf().disable().authorizeHttpRequests()
-//                .antMatchers(HttpMethod.POST, "/login/logar").permitAll()
-//                .anyRequest().authenticated()
-//                .and()
-//                .cors()
-//                .and()
-//                .sessionManagement()
-//                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-//                .and()
-//                .authenticationProvider(authenticationProvider)
-//                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
-//        return http.build();
-//    }
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
-        http.csrf().disable().authorizeHttpRequests().anyRequest().permitAll();
+    public SecurityFilterChain securityFilterChain(
+            HttpSecurity http) throws Exception {
+        http.authorizeRequests().anyRequest().authenticated()
+                .and()
+                .csrf().disable()
+                .oauth2ResourceServer()
+                .jwt()
+                .jwtAuthenticationConverter(jwtAuthenticationConverter());
+
         return http.build();
+
     }
 
+    private JwtAuthenticationConverter jwtAuthenticationConverter() {
+        JwtAuthenticationConverter converter = new JwtAuthenticationConverter();
+
+        converter.setJwtGrantedAuthoritiesConverter(
+                jwt -> {
+                    List<String> authorities = jwt.getClaimAsStringList("authorities");
+                    System.out.println(authorities);
+
+                    if (authorities == null) {
+                        return Collections.emptyList();
+                    }
+
+                    JwtGrantedAuthoritiesConverter scopesConverter = new JwtGrantedAuthoritiesConverter();
+                    Collection<GrantedAuthority> grantedAuthorities = scopesConverter.convert(jwt);
+
+                    grantedAuthorities.addAll(authorities.stream().map(SimpleGrantedAuthority::new).toList());
+
+                    return grantedAuthorities;
+                }
+        );
+
+        return converter;
+    }
 
 
 }
