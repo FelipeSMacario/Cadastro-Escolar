@@ -1,6 +1,7 @@
 package com.example.pessoa.controller;
 
-import com.example.pessoa.config.security.CanReadMyUser;
+import com.example.pessoa.config.security.CanCreateAlunos;
+import com.example.pessoa.config.security.CanReadAlunos;
 import com.example.pessoa.dto.EntradaDTO;
 import com.example.pessoa.enums.Cargo;
 import com.example.pessoa.model.Pessoa;
@@ -18,26 +19,30 @@ public class AlunoController {
     @Autowired
     PessoaService alunoService;
 
-    @CanReadMyUser
+    @CanReadAlunos
     @GetMapping(value = "/listar")
     public ResponseEntity<DefaultResponse> listarAlunos(){
         return alunoService.listar(Cargo.Aluno.toString());
     }
 
+    @CanReadAlunos
     @GetMapping(value = "/buscar/{matricula}")
     public  ResponseEntity<DefaultResponse> buscarAluno(@PathVariable Long matricula) {
         return alunoService.buscar(matricula, Cargo.Aluno.toString());
     }
+    @CanReadAlunos
     @GetMapping(value = "/buscar/porNome/{nome}")
     public  ResponseEntity<DefaultResponse> buscarAlunoNome(@PathVariable String nome) {
         return alunoService.buscarPorNome(nome, Cargo.Aluno.toString());
     }
 
+    @CanCreateAlunos
     @PostMapping(value = "/cadastrar")
     public  ResponseEntity<DefaultResponse> cadastrarAlunos(@RequestBody @Valid Pessoa pessoa) {
         return alunoService.cadastrar(pessoa, Cargo.Aluno.toString());
     }
 
+    @CanCreateAlunos
     @PutMapping(value = "/atualizar")
     public  ResponseEntity<DefaultResponse> atualizarAluno(@RequestBody EntradaDTO entradaDTO) {
         return alunoService.atualizar(entradaDTO, Cargo.Aluno.toString());

@@ -41,7 +41,6 @@ public class JWTConfiguracao {
         converter.setJwtGrantedAuthoritiesConverter(
                 jwt -> {
                     List<String> authorities = jwt.getClaimAsStringList("authorities");
-                    System.out.println(authorities);
 
                     if (authorities == null) {
                         return Collections.emptyList();
