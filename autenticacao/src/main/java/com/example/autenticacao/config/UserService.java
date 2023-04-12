@@ -1,7 +1,6 @@
-package com.example.auth.server.config;
+package com.example.autenticacao.config;
 
-import com.example.auth.server.config.feign.UsuarioFeing;
-import com.example.auth.server.model.Usuario;
+import com.example.autenticacao.config.feign.UsuarioFeing;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -17,7 +16,7 @@ public class UserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Usuario usuario = usuarioFeing.findEmail(username);
+        var usuario = usuarioFeing.findEmail(username);
         return usuario;
     }
 }

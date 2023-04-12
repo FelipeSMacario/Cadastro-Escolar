@@ -11,7 +11,7 @@ import java.util.List;
 public class Login implements UserDetails{
     private String usuario;
     private String senha;
-    private String roles;
+    private List<String> roles;
 
 
     @Override

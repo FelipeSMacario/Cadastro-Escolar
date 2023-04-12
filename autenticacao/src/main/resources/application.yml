@@ -1,8 +1,0 @@
-#aw:
-#  auth:
-#    provider-uri: "http://localhost:8085"
-#    jks:
-#      keypass: 123456
-#      storepass: 123456
-#      alias: cadastroEscolar
-#      path: keystore/cadastroEscolar.jks
