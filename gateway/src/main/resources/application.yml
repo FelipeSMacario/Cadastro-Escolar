@@ -1,9 +1,36 @@
 spring:
   application:
     name: api-gateway
+    cloud:
+      gateway:
+        routes:
+          - id: aluno
+            uri: lb://aluno
+            predicates:
+              - Path=/aluno/**
+          - id: professor
+            uri: lb://professor
+            predicates:
+              - Path=/professor/**
 
 server:
   port: 8080
+
+  management:
+    endpoints:
+      web:
+        exposure:
+          include: '*'
+  zuul:
+    ignored-headers: Access-Control-Allow-Credentials, Access-Control-Allow-Origin
+    routes:
+      auth:
+        path: /auth/**
+        sensitive-headers: Cookie,Set-Cookie
+        service-id: auth
+      usuario:
+        path: /usuario/**
+        service-id: usuario
 
 eureka:
   client:
