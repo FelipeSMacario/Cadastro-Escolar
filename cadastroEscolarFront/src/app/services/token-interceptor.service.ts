@@ -1,38 +1,28 @@
 import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, Observable, throwError } from 'rxjs';
-import { MateriasService } from './materias.service';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TokenInterceptorService implements HttpInterceptor {
 
-  constructor(private authService: MateriasService) { }
+  constructor() {
+  }
 
-  token = localStorage.getItem("token");
-
-  intercept(
-    request: HttpRequest<any>,
-    next: HttpHandler
-  ): Observable<HttpEvent<any>> {
-    
-    if (this.token) {
-      request = request.clone({
-        setHeaders: {
-          Authorization: `Bearer ${this.token}`,
-        },
-      });
-    }
-    return next.handle(request).pipe(
-      catchError((err) => {
-        if (err.status === 401) {
-          this.authService.logout();
+  intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
+    if (!request.url.includes('/oauth/token')) {
+      const token = localStorage.getItem('token');
+      const requestClone = request.clone(
+        {
+          setHeaders: {
+            Authorization: `Bearer ${token}`
+          }
         }
-        const error = err.error.message || err.statusText;
-        return throwError(error);
-      })
-    );
+      )
+      return next.handle(requestClone);
+    }
+    return next.handle(request)
   }
     
 }

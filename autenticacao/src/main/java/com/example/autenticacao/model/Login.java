@@ -10,6 +10,8 @@ import java.util.List;
 @Data
 public class Login implements UserDetails{
         private String usuario;
+
+        private String matricula;
         private String senha;
         private List<Role> roles;
 
@@ -25,7 +27,7 @@ public class Login implements UserDetails{
 
     @Override
     public String getUsername() {
-        return usuario;
+        return matricula;
     }
 
     @Override

@@ -11,7 +11,7 @@ export class PessoaService {
 
   constructor(private httpClient : HttpClient) { }
 
-  private url = "http://localhost:8081/";
+  private url = "http://localhost:8080/usuario";
 
   findAllAlunos(cargo : string) : Observable<DefaultResponse> {
     return this.httpClient.get<DefaultResponse>(this.url + cargo + "/listar");
@@ -32,5 +32,8 @@ export class PessoaService {
   updateAlunos(cargo : string, pessoa : Pessoa) : Observable<DefaultResponse> {
     return this.httpClient.put<DefaultResponse>(this.url + cargo +  "/atualizar", pessoa);
   }
-
+  
+  findUsuarioByMatricula(matricula : number) : Observable<Pessoa>{
+    return this.httpClient.get<Pessoa>(`${this.url}/login/buscar/${matricula}`);
+  }
 }

@@ -11,6 +11,8 @@ import java.util.List;
 @NoArgsConstructor
 public class LoginDTO {
     private String usuario;
+
+    private Long matricula;
     private String senha;
     private List<RoleDTO> roles;
 

@@ -142,5 +142,7 @@ public class PessoaService {
     }
 
 
-
+    public Pessoa buscaPessoaSemFiltro(Long matricula) {
+        return validacoesService.buscaPessoaSemCargo(matricula);
+    }
 }

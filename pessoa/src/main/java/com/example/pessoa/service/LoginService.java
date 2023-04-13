@@ -22,6 +22,7 @@ public class LoginService {
 
         var login = loginRepository.findByUsuario(username).orElseThrow();
         LoginDTO loginDTO = new LoginDTO();
+        loginDTO.setMatricula(login.getPessoa().getMatricula());
         BeanUtils.copyProperties(login, loginDTO);
 
         login.getRoles().forEach(valor -> roleDTOList.add(new RoleDTO(valor.getNome().name())));

@@ -9,9 +9,7 @@ import { DefaultResponse } from '../models/Response/defaultResponse';
 })
 export class MateriasService {
   userValue: { token: any; };
-  logout() {
-    throw new Error('Method not implemented.');
-  }
+
 
   constructor(private httpClient : HttpClient) { }
 

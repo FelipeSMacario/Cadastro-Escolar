@@ -17,5 +17,9 @@ public class ValidacoesService {
         return pessoaRepository.findByMatriculaAndCargoAndStatus(matricula, cargo, "Ativo").orElseThrow(() -> new UserNotFoundException(matricula));
     }
 
+    Pessoa buscaPessoaSemCargo(Long matricula){
+        return pessoaRepository.findById(matricula).orElseThrow(() -> new UserNotFoundException(matricula));
+    }
+
 
 }

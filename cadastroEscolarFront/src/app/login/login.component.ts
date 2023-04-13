@@ -4,6 +4,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { DefaultResponse } from '../models/Response/defaultResponse';
 import { LoginService } from '../services/login.service';
+import { Auth } from '../models/auth';
 
 @Component({
   selector: 'app-login',
@@ -14,6 +15,8 @@ export class LoginComponent implements OnInit{
 
   formulario : FormGroup;
   resposta : DefaultResponse;
+
+  token : Auth;
 
   constructor(
     private fb : FormBuilder,
@@ -30,20 +33,7 @@ export class LoginComponent implements OnInit{
   }
 
   logar(){
-    this.loginService.logar(this.formulario.value).subscribe({
-      next : log => {
-        this.resposta = log;
-
-        if(this.resposta.success){
-        localStorage.setItem("token", this.resposta.data.token)
-        localStorage.setItem("pessoa", JSON.stringify(this.resposta.data.pessoa))
-        localStorage.setItem("mostrarMenu", JSON.stringify(true))
-        this.router.navigate(['/']).then(() => window.location.reload())
-      } else {
-        this._snackBar.open(this.resposta.messagem, "", {duration : 3000})
-      }
-      }
-    })
+    this.loginService.login(this.formulario.value)
   }
 
 

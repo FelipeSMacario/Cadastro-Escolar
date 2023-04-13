@@ -47,6 +47,11 @@ import { HomeTurmaComponent } from './escola/turma/home-turma/home-turma.compone
 import { FiltrarTurmaComponent } from './escola/turma/filtrar-turma/filtrar-turma.component';
 import { CadastrarTurmaComponent } from './escola/turma/cadastrar-turma/cadastrar-turma.component';
 import { AtualizarTurmaComponent } from './escola/turma/atualizar-turma/atualizar-turma.component';
+import { JwtHelperService, JwtModule } from '@auth0/angular-jwt';
+
+export function tokenGetter() {
+  return localStorage.getItem("token");
+}
 
 @NgModule({
   declarations: [
@@ -99,9 +104,17 @@ import { AtualizarTurmaComponent } from './escola/turma/atualizar-turma/atualiza
     MatSnackBarModule,
     MatIconModule,
     MatMenuModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: tokenGetter,
+        allowedDomains: ["example.com"],
+        disallowedRoutes: ["http://example.com/examplebadroute/"],
+      },
+    }),
+    
   ],
-  providers: [PessoaService, ModalInformacaoComponent, AuthGuard,  {
+  providers: [PessoaService, ModalInformacaoComponent,JwtHelperService, AuthGuard,  JwtHelperService,{
     provide: HTTP_INTERCEPTORS,
     useClass: TokenInterceptorService,
     multi: true,
