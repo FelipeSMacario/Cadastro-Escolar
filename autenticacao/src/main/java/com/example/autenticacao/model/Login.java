@@ -9,14 +9,13 @@ import java.util.List;
 
 @Data
 public class Login implements UserDetails{
-    private String usuario;
-    private String senha;
-    private List<String> roles;
-
+        private String usuario;
+        private String senha;
+        private List<Role> roles;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return roles;
     }
 
     @Override

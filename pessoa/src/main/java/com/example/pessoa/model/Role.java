@@ -15,7 +15,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "Role")
-public class Role /*implements GrantedAuthority */{
+public class Role {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,8 +25,4 @@ public class Role /*implements GrantedAuthority */{
     @Column(nullable = false, unique = true)
     private RoleName nome;
 
-//    @Override
-//    public String getAuthority() {
-//        return this.nome.toString();
-//    }
 }

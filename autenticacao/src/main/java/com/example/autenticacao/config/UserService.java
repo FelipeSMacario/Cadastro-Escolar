@@ -17,6 +17,8 @@ public class UserService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         var usuario = usuarioFeing.findEmail(username);
+        System.out.println(username);
+        System.out.println(usuario);
         return usuario;
     }
 }

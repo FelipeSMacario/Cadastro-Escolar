@@ -10,7 +10,6 @@ import com.example.Turma.service.SalaService;
 
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping(value = "sala")
 public class SalaController implements SalaApi {
 

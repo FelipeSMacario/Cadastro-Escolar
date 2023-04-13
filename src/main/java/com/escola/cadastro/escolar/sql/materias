@@ -1,6 +1,0 @@
-INSERT INTO sistemaescolar.materia values (1, 'Matemática', 10);
-INSERT INTO sistemaescolar.materia values (2, 'Português', 10);
-INSERT INTO sistemaescolar.materia values (3, 'Inglês', 10);
-INSERT INTO sistemaescolar.materia values (4, 'História', 10);
-INSERT INTO sistemaescolar.materia values (5, 'Biologia', 10);
-INSERT INTO sistemaescolar.materia values (6, 'Geografia', 10);
