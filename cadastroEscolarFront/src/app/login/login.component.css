@@ -1,3 +1,23 @@
+
+.container img {
+    width: 40%;
+    height: auto;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    margin: 0 auto;
+}
+
+.container2 {
+    width: 40%;
+    height: auto;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    margin: 0 auto;
+    color: white;
+}
+
 .divForm{
     background-image: url(../../assets/images/fundo.jpg);
     width: 100%;
