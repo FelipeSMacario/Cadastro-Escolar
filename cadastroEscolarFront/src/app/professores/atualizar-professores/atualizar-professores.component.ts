@@ -129,4 +129,5 @@ export class AtualizarProfessoresComponent  implements OnInit{
      return this.pessoaLogada.cargo === "Professor" ? true : false;
     }
 
+
 }

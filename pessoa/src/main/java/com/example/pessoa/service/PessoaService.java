@@ -17,6 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +42,7 @@ public class PessoaService {
         List<Pessoa> pessoaList = new ArrayList<>();
         try {
             pessoaList = pessoaRepository.findByCargoAndStatus(cargo, "Ativo");
-        }catch (Exception e){
+        } catch (Exception e) {
             return ResponseEntity.ok().body(DefaultResponse.builder()
                     .success(false)
                     .status(HttpStatus.NOT_FOUND)
@@ -95,10 +96,10 @@ public class PessoaService {
         rabbitmqService.enviaMensagem(Fila.CADASTRO.toString(), sendGridDTO);
 
         return ResponseEntity.ok().body(DefaultResponse.builder()
-                        .success(true)
-                        .status(HttpStatus.CREATED)
-                        .messagem(cargo + " cadastrado com sucesso!")
-                        .data(pessoa1)
+                .success(true)
+                .status(HttpStatus.CREATED)
+                .messagem(cargo + " cadastrado com sucesso!")
+                .data(pessoa1)
                 .build());
     }
 
@@ -110,6 +111,7 @@ public class PessoaService {
                 .nome(entradaDTO.getNome())
                 .sobreNome(entradaDTO.getSobreNome())
                 .email(entradaDTO.getEmail())
+                .ano(entradaDTO.getAno())
                 .dataNascimento(entradaDTO.getDataNascimento())
                 .dataCadastro(pessoa.getDataCadastro())
                 .status(entradaDTO.getStatus())
@@ -126,7 +128,7 @@ public class PessoaService {
     public ResponseEntity<DefaultResponse> buscarPorNome(String nome, String cargo) {
         List<Pessoa> pessoaList = pessoaRepository.findByNomeAndCargoAndStatus(nome, cargo, "Ativo");
 
-        if(pessoaList.isEmpty()){
+        if (pessoaList.isEmpty()) {
             return ResponseEntity.ok().body(DefaultResponse.builder()
                     .success(false)
                     .status(HttpStatus.NOT_FOUND)
