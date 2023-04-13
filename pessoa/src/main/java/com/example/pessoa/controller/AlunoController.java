@@ -5,16 +5,18 @@ import com.example.pessoa.enums.Cargo;
 import com.example.pessoa.model.Pessoa;
 import com.example.pessoa.response.DefaultResponse;
 import com.example.pessoa.service.PessoaService;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping(value = "alunos")
 public class AlunoController {
     @Autowired
     PessoaService alunoService;
+
     @GetMapping(value = "/listar")
     public ResponseEntity<DefaultResponse> listarAlunos(){
         return alunoService.listar(Cargo.Aluno.toString());
