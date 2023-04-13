@@ -10,7 +10,7 @@ import { DefaultResponse } from '../models/Response/defaultResponse';
 })
 export class TurmaAlunoService {
 
-  private urlTurmaALuno = "http://localhost:8081/turmaAlunos/";
+  private urlTurmaALuno = "http://localhost:8080/api-turma-client/turmaAlunos/";
 
   constructor(private httpClient : HttpClient) { }
 
