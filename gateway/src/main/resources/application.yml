@@ -5,13 +5,21 @@ spring:
       gateway:
         routes:
           - id: aluno
-            uri: lb://aluno
+            uri: lb://api-pessoa
             predicates:
               - Path=/aluno/**
           - id: professor
-            uri: lb://professor
+            uri: lb://api-pessoa
             predicates:
               - Path=/professor/**
+          - id: login
+            uri: lb://api-pessoa
+            predicates:
+              - Path=/loginr/**
+          - id: auth
+            uri: lb://auth
+            predicates:
+             - Path=/auth/**
 
 server:
   port: 8080
@@ -28,9 +36,9 @@ server:
         path: /auth/**
         sensitive-headers: Cookie,Set-Cookie
         service-id: auth
-      usuario:
-        path: /usuario/**
-        service-id: usuario
+      api-pessoa:
+        path: /login/**
+        service-id: api-pessoa
 
 eureka:
   client:
