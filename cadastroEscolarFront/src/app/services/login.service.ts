@@ -70,7 +70,7 @@ export class LoginService {
             localStorage.setItem("pessoa", JSON.stringify(this.pessoa))
             localStorage.setItem("mostrarMenu", JSON.stringify(true))
             this.router.navigate(['/']).then(() => window.location.reload())
-        },error : err => console.log("errou " + err)
+        },error : err => console.log( err)
         })
     }
   
