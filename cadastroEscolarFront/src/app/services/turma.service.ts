@@ -10,7 +10,7 @@ export class TurmaService {
 
   constructor(private httpClient : HttpClient) { }
 
-  private url = "http://localhost:8081/turma/";
+  private url = "http://localhost:8080/api-turma-client/turma/";
   
 
   findAll() : Observable<DefaultResponse>{

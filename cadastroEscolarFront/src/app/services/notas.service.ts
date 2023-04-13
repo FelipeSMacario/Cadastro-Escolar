@@ -12,7 +12,7 @@ export class NotasService {
 
   constructor(private httpClient : HttpClient) { }
 
-  private url = "http://localhost:8081/notas/";
+  private url = "http://localhost:8080/api-aulas/notas/";
 
   salvarNotas(nota : NotasDTO) : Observable<DefaultResponse>{
     return this.httpClient.post<DefaultResponse>(this.url + "cadastrar", nota);
