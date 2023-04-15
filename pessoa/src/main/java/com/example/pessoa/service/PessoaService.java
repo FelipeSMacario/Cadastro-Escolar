@@ -11,13 +11,15 @@ import com.example.pessoa.model.Role;
 import com.example.pessoa.repository.LoginRepository;
 import com.example.pessoa.repository.PessoaRepository;
 import com.example.pessoa.response.DefaultResponse;
-import com.example.pessoa.response.ResponseFiltroPessoaNome;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,10 +40,14 @@ public class PessoaService {
     @Autowired
     RabbitmqService rabbitmqService;
 
-    public ResponseEntity<DefaultResponse> listar(String cargo) {
-        List<Pessoa> pessoaList = new ArrayList<>();
+    public ResponseEntity<DefaultResponse> listar(String cargo,  Pageable pageable) {
         try {
-            pessoaList = pessoaRepository.findByCargoAndStatus(cargo, "Ativo");
+            Page<Pessoa>  pessoaList = pessoaRepository.findByCargoAndStatus(cargo, "Ativo", pageable);
+            return ResponseEntity.ok().body(DefaultResponse.builder()
+                    .success(true)
+                    .status(HttpStatus.OK)
+                    .data((Serializable) pessoaList)
+                    .build());
         } catch (Exception e) {
             return ResponseEntity.ok().body(DefaultResponse.builder()
                     .success(false)
@@ -50,11 +56,7 @@ public class PessoaService {
                     .build());
         }
 
-        return ResponseEntity.ok().body(DefaultResponse.builder()
-                .success(true)
-                .status(HttpStatus.OK)
-                .data(new ResponseFiltroPessoaNome(pessoaList))
-                .build());
+
     }
 
     public ResponseEntity<DefaultResponse> buscar(Long matricula, String cargo) {
@@ -125,8 +127,8 @@ public class PessoaService {
                 .build());
     }
 
-    public ResponseEntity<DefaultResponse> buscarPorNome(String nome, String cargo) {
-        List<Pessoa> pessoaList = pessoaRepository.findByNomeAndCargoAndStatus(nome, cargo, "Ativo");
+    public ResponseEntity<DefaultResponse> buscarPorNome(String nome, String cargo, Pageable pageable) {
+        Page<Pessoa> pessoaList = pessoaRepository.findByNomeAndCargoAndStatus(nome, cargo, "Ativo", pageable);
 
         if (pessoaList.isEmpty()) {
             return ResponseEntity.ok().body(DefaultResponse.builder()
@@ -139,7 +141,7 @@ public class PessoaService {
         return ResponseEntity.ok().body(DefaultResponse.builder()
                 .success(true)
                 .status(HttpStatus.OK)
-                .data(new ResponseFiltroPessoaNome(pessoaList))
+                .data((Serializable) pessoaList)
                 .build());
     }
 

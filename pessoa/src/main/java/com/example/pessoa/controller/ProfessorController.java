@@ -6,6 +6,8 @@ import com.example.pessoa.model.Pessoa;
 import com.example.pessoa.response.DefaultResponse;
 import com.example.pessoa.service.PessoaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,8 +20,8 @@ public class ProfessorController {
     PessoaService professorService;
 
     @GetMapping(value = "/listar")
-    public ResponseEntity<DefaultResponse> listarProfessores() {
-        return professorService.listar(Cargo.Professor.toString());
+    public ResponseEntity<DefaultResponse> listarProfessores(@PageableDefault(size = 5, page = 0, sort = "matricula") Pageable pageable) {
+        return professorService.listar(Cargo.Professor.toString(), pageable);
     }
 
     @GetMapping(value = "/buscar/{matricula}")
@@ -28,8 +30,8 @@ public class ProfessorController {
     }
 
     @GetMapping(value = "/buscar/porNome/{nome}")
-    public ResponseEntity<DefaultResponse> buscarAlunoPorNome(@PathVariable String nome) {
-        return professorService.buscarPorNome(nome, Cargo.Professor.toString());
+    public ResponseEntity<DefaultResponse> buscarAlunoPorNome(@PathVariable String nome, @PageableDefault(size = 5, page = 0, sort = "matricula") Pageable pageable) {
+        return professorService.buscarPorNome(nome, Cargo.Professor.toString(), pageable);
     }
 
     @PostMapping(value = "/cadastrar")

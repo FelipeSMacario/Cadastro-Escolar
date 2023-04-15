@@ -6,6 +6,8 @@ import com.example.pessoa.model.Pessoa;
 import com.example.pessoa.response.DefaultResponse;
 import com.example.pessoa.service.PessoaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,8 +20,8 @@ public class AlunoController {
     PessoaService alunoService;
 
     @GetMapping(value = "/listar")
-    public ResponseEntity<DefaultResponse> listarAlunos(){
-        return alunoService.listar(Cargo.Aluno.toString());
+    public ResponseEntity<DefaultResponse> listarAlunos(@PageableDefault(size = 5, page = 0, sort = "matricula") Pageable pageable){
+        return alunoService.listar(Cargo.Aluno.toString(), pageable);
     }
 
     @GetMapping(value = "/buscar/{matricula}")
@@ -27,8 +29,8 @@ public class AlunoController {
         return alunoService.buscar(matricula, Cargo.Aluno.toString());
     }
     @GetMapping(value = "/buscar/porNome/{nome}")
-    public  ResponseEntity<DefaultResponse> buscarAlunoNome(@PathVariable String nome) {
-        return alunoService.buscarPorNome(nome, Cargo.Aluno.toString());
+    public  ResponseEntity<DefaultResponse> buscarAlunoNome(@PathVariable String nome, @PageableDefault(size = 5, page = 0, sort = "matricula") Pageable pageable) {
+        return alunoService.buscarPorNome(nome, Cargo.Aluno.toString(), pageable);
     }
 
     @PostMapping(value = "/cadastrar")
