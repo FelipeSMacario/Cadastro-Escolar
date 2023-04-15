@@ -70,7 +70,7 @@ export class AtualizarAlunosComponent implements OnInit{
 
 
   salvarAluno(){
-    this.alunoService.updateAlunos(this.cargo, this.formulario.value).pipe(take(1)).subscribe({
+    this.alunoService.updateAlunos(this.cargo, this.formulario.value).subscribe({
       next : async user => {
         this._snackBar.open("Aluno atualizado com sucesso", "", {duration : 5000});
         await new Promise(f => setTimeout(f, 5000));

@@ -34,24 +34,25 @@ export class CadastroProfessoresComponent  implements OnInit{
 
   formularioVazio(){
     this.formulario = this.fb.group({
-      cpf : [null],
+      cpf : [null, [Validators.required, Validators.minLength(11), Validators.maxLength(11)]],
       dataNascimento : [null, [Validators.required]],
       nome : [null, [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
       sobreNome : [null, [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
-      urlFoto : [null, [Validators.required, Validators.minLength(11), Validators.maxLength(11)]],
+      urlFoto : [null],
       email : [null, [Validators.required, Validators.email, Validators.maxLength(100)]],
       ano : [0]
     })
   }
 
   salvarAluno(){
-    this.alunoService.salvarAluno(this.cargo, this.formulario.value).pipe(take(1)).subscribe({
-      next : user => {
+    this.alunoService.salvarAluno(this.cargo, this.formulario.value).subscribe({
+      next : async user => {
         this.resposta = user;
 
         if(this.resposta.success){
           this._snackBar.open("Professor cadastrado com sucesso", "", {duration : 5000});
-          this.formularioVazio();
+          await new Promise(f => setTimeout(f, 3000));
+          window.location.reload()
         }else{
           this._snackBar.open(this.resposta.messagem, "", {duration : 5000})
         }
@@ -78,6 +79,7 @@ export class CadastroProfessoresComponent  implements OnInit{
     };
     return reader.result;
   }
+
 
 
 }

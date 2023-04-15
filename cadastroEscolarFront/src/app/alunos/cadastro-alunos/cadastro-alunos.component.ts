@@ -46,12 +46,14 @@ export class CadastroAlunosComponent implements OnInit{
   }
   salvarAluno(){
     this.alunoService.salvarAluno(this.cargo, this.formulario.value).pipe(take(1)).subscribe({
-      next : user => {
+      next : async user => {
         this.resposta = user;
 
         if(this.resposta.success){
           this._snackBar.open("Aluno cadastrado com sucesso", "", {duration : 5000});
-          this.formularioVazio();
+          await new Promise(f => setTimeout(f, 3000));
+          window.location.reload()
+          
         }else {
           this._snackBar.open(this.resposta.messagem, "", {duration : 5000});
         }
