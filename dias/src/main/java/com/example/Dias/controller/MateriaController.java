@@ -7,6 +7,8 @@ import com.example.Dias.model.Materia;
 import com.example.Dias.model.response.DefaultResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,8 +21,13 @@ public class MateriaController implements MateriaApi {
     MateriaService materiaService;
 
     @GetMapping(value = "/listar")
-    public ResponseEntity<DefaultResponse> listarMaterias() {
-        return materiaService.listarMaterias();
+    public ResponseEntity<DefaultResponse> listarMaterias(@PageableDefault(size = 5, page = 0, sort = "nome") Pageable pageable) {
+        return materiaService.listarMaterias(pageable);
+    }
+
+    @GetMapping(value = "/listarSemPaginacao")
+    public ResponseEntity<DefaultResponse> listarMateriasSemPaginacao() {
+        return materiaService.listarMateriasSemPaginacao();
     }
 
     @PostMapping(value = "/cadastrar")

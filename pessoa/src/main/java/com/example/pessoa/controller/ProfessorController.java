@@ -24,6 +24,11 @@ public class ProfessorController {
         return professorService.listar(Cargo.Professor.toString(), pageable);
     }
 
+    @GetMapping(value = "/listarSemPaginacao")
+    public ResponseEntity<DefaultResponse> listarSemPaginacao(){
+        return professorService.listarSemPaginacao(Cargo.Professor.toString());
+    }
+
     @GetMapping(value = "/buscar/{matricula}")
     public ResponseEntity<DefaultResponse> buscarProfessor(@PathVariable Long matricula) {
         return professorService.buscar(matricula, Cargo.Professor.toString());
@@ -40,7 +45,7 @@ public class ProfessorController {
     }
 
     @PutMapping(value = "/atualizar")
-    public ResponseEntity<DefaultResponse> atualizarProfessor(@RequestBody EntradaDTO entradaDTO) {
+    public ResponseEntity<DefaultResponse> atualizarProfessor(@RequestBody @Valid EntradaDTO entradaDTO) {
         return professorService.atualizar(entradaDTO, Cargo.Professor.toString());
     }
 }

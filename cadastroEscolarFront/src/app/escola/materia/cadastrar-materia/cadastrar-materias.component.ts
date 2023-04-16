@@ -38,13 +38,12 @@ export class CadastrarMateriasComponent implements OnInit{
   ){}
 
   listarProfessores(){
-    this.professorService.findAllAlunos(this.cargo).subscribe({
+    this.professorService.findAllAlunosSemPaginacao(this.cargo).subscribe({
       next : pessoa => {
         this.resposta = pessoa;
 
         if(this.resposta.success){
-          this.respostaPessoa = this.resposta.data;
-          this.pessoa = this.respostaPessoa.pessoaList;
+          this.pessoa =  this.resposta.data;
         }else {
           this._snackBar.open(this.resposta.messagem, "", {duration : 3000})
         }        
@@ -64,21 +63,13 @@ export class CadastrarMateriasComponent implements OnInit{
 
   cadastrar(){
     this.materiaService.cadastrarMateria(this.defineMateria()).subscribe({
-      next : quad => {
+      next : async quad => {
         this.resposta = quad;
-          this._snackBar.open(this.resposta.messagem, "", {duration : 3000})
+          this._snackBar.open(this.resposta.messagem, "", {duration : 3000});
+          await new Promise(f => setTimeout(f, 3000));
+          window.location.reload()
       }
     })
   }
 
-  onSubmit(){
-    this.submitted = true;
-    if(this.formulario.invalid){
-      alert("O nome deve ser preenchido!");
-      return
-    } else {
-      this.cadastrar();
-    }
-    alert("Cadastro realizado com sucesso!");
-  }
 }

@@ -18,6 +18,7 @@ import com.example.Turma.repository.PessoaRepository;
 import com.example.Turma.repository.TurmaAlunoRepository;
 import com.example.Turma.service.enums.Cargo;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -90,7 +91,7 @@ public class TurmaAlunoService {
                 .success(true)
                 .messagem("Cadastro realizado com sucesso!")
                 .status(HttpStatus.OK)
-                .data(new TurmaAlunoResponse(turmaAluno))
+                .data((Serializable) turmaAluno)
                 .build());
     }
 
@@ -188,7 +189,7 @@ public class TurmaAlunoService {
         turmaAlunoRepository.atualizaAlunoTurma(entradaTurmaAlunoDTO.getId(), entradaTurmaAlunoDTO.getTurma().getId());
         return ResponseEntity.ok().body(DefaultResponse.builder()
                 .success(true)
-                .messagem("Atuali zação realizada com sucesso!")
+                .messagem("Atualização realizada com sucesso!")
                 .status(HttpStatus.OK)
                 .build());
     }

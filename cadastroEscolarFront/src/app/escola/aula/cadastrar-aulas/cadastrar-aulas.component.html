@@ -1,4 +1,5 @@
 <div class="container divForm">
+  <app-button-back></app-button-back>
   <div class="formulario">
     <div class="titulo">
       <h1>Cadastro de aulas</h1>
@@ -39,6 +40,31 @@
         </div>
 
         <div class="col">
+          <label class="label labelNome">Turma</label>
+          <select
+            class="form-select"
+            aria-label="Default select example"
+            formControlName="turma"
+            (change)="
+              atualizar(this.formulario.value.dia, this.formulario.value.turma)
+            "
+          >
+            <option value="null" selected disabled>Selecione uma turma</option>
+            <option *ngFor="let tur of turma" [ngValue]="tur.id">
+              {{ tur.numero }}
+            </option>
+          </select>
+          <ng-container *ngIf="formulario.controls.turma.touched">
+            <span *ngIf="formulario.controls.turma.errors?.required">
+              <div class="alert alert-danger" role="alert">
+                O campo turma é um campo obrigatório!
+              </div>
+            </span>
+          </ng-container>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
           <label class="label labelNome">Hora</label>
           <select
             class="form-select"
@@ -64,31 +90,7 @@
             </span>
           </ng-container>
         </div>
-      </div>
-      <div class="row">
-        <div class="col">
-          <label class="label labelNome">Turma</label>
-          <select
-            class="form-select"
-            aria-label="Default select example"
-            formControlName="turma"
-            (change)="
-              atualizar(this.formulario.value.dia, this.formulario.value.turma)
-            "
-          >
-            <option value="null" selected disabled>Selecione uma turma</option>
-            <option *ngFor="let tur of turma" [ngValue]="tur.id">
-              {{ tur.numero }}
-            </option>
-          </select>
-          <ng-container *ngIf="formulario.controls.turma.touched">
-            <span *ngIf="formulario.controls.turma.errors?.required">
-              <div class="alert alert-danger" role="alert">
-                O campo turma é um campo obrigatório!
-              </div>
-            </span>
-          </ng-container>
-        </div>
+
         <div class="col">
           <label class="label labelNome">Matéria</label>
           <select

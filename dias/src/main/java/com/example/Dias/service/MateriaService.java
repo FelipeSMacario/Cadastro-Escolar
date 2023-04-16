@@ -7,10 +7,12 @@ import com.example.Dias.model.response.DefaultResponse;
 import com.example.Dias.model.response.ResponseMaterias;
 import com.example.Dias.repository.MateriaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,31 +24,19 @@ public class MateriaService {
     @Autowired
     ValidacoesService validacoesService;
 
-    public ResponseEntity<DefaultResponse> listarMaterias() {
-        List<Materia> materias = new ArrayList<>();
-        try {
-            materias = materiaRepository.findAll();
-        }catch (Exception e){
-            return ResponseEntity.ok().body(DefaultResponse.builder()
-                    .success(false)
-                    .status(HttpStatus.NOT_FOUND)
-                    .messagem("Erro ao buscar as matérias")
-                    .build());
-        }
+    public ResponseEntity<DefaultResponse> listarMaterias(Pageable pageable) {
         return ResponseEntity.ok().body(DefaultResponse.builder()
                 .success(true)
                 .status(HttpStatus.OK)
-                .data(new ResponseMaterias(materias))
+                .data((Serializable) materiaRepository.findAll(pageable))
                 .build());
     }
 
     public ResponseEntity<DefaultResponse> buscarMateriaPorNome(String nome) {
-        Materia materia = validacoesService.buscaMateriaPorNome(nome);
-
         return ResponseEntity.ok().body(DefaultResponse.builder()
                 .success(true)
                 .status(HttpStatus.OK)
-                .data(materia)
+                .data(validacoesService.buscaMateriaPorNome(nome))
                 .build());
 
     }
@@ -92,4 +82,12 @@ public class MateriaService {
                 .build());
     }
 
+    public ResponseEntity<DefaultResponse> listarMateriasSemPaginacao() {
+        List<Materia> materias = materiaRepository.findAll();
+        return ResponseEntity.ok().body(DefaultResponse.builder()
+                .success(true)
+                .status(HttpStatus.OK)
+                .data((Serializable) materias)
+                .build());
+    }
 }

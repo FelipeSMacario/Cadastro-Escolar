@@ -37,6 +37,10 @@ public class ValidacoesService {
     @Autowired
     private TurmaAlunoRepository turmaAlunoRepository;
 
+    Pessoa buscaPessoaSemStatus(Long matricula, String cargo){
+        return pessoaRepository.findByMatriculaAndCargo(matricula, cargo).orElseThrow(() -> new UserNotFoundException(matricula));
+    }
+
     Pessoa buscaPessoa(Long matricula, String cargo){
         return pessoaRepository.findByMatriculaAndCargoAndStatus(matricula, cargo, "Ativo").orElseThrow(() -> new UserNotFoundException(matricula));
     }
@@ -81,9 +85,10 @@ public class ValidacoesService {
         List<Pessoa> pessoas = new ArrayList<>();
 
         matricula.forEach(valor -> {
-            Pessoa pessoa = buscaPessoa(valor, Cargo.Aluno.toString());
-
-            pessoas.add(pessoa);
+            Pessoa pessoa = buscaPessoaSemStatus(valor, Cargo.Aluno.toString());
+            if (pessoa.getStatus().equals("Ativo")) {
+                pessoas.add(pessoa);
+            }
         });
 
 

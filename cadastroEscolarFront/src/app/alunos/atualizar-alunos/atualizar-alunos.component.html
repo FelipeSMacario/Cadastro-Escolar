@@ -1,4 +1,6 @@
 <div class="container divForm">
+<app-button-back class="btn"></app-button-back>
+
     <div class="formulario">
       <div class="titulo">
         <h1>{{titulo}}</h1>
@@ -146,9 +148,9 @@
                 </span>
               </ng-container>
             </div>
-            <div class="col">
-                <label class="label labelNome">Status</label>
-                <select class="form-select"  aria-label="Default select example" [disabled]="isReadOnly()" formControlName = "status">
+            <div class="col" >
+                <label class="label labelNome" *ngIf="!isReadOnly()">Status</label>
+                <select class="form-select"  aria-label="Default select example" formControlName = "status" *ngIf="!isReadOnly()">
                   <option value="Ativo">Ativo</option>
                   <option value="Inativo">Inativo</option>
                 </select>
@@ -170,4 +172,5 @@
       </form>
     </div>
   </div>
+
   

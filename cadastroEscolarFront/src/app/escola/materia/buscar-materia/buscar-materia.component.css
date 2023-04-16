@@ -36,3 +36,13 @@
 .imagemTd{
     height: 10px;
 }
+.itemBotao{
+    background-color: #27376a;
+    color: white;
+}
+
+.itemBotao:hover{
+    background-color: white;
+    color: #27376a;
+    border: 1px solid #27376a;
+}

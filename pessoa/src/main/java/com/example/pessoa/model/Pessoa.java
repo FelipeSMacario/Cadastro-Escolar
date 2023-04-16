@@ -8,7 +8,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.br.CPF;
-
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.io.Serializable;
@@ -29,7 +28,7 @@ public class Pessoa implements Serializable {
     @NotNull
     @NotEmpty
     @NotBlank
-    @CPF
+    @CPF(message = "CPF invalído")
     @Length(min = 11, max = 11)
     @Column(name = "cpf", nullable = false)
     @ApiModelProperty(value = "CPF da pessoa", example = "15152736900", required = true, position = 1)

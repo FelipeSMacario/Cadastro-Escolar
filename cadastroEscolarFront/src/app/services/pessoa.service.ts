@@ -30,11 +30,13 @@ export class PessoaService {
   }
 
   updateAlunos(cargo : string, pessoa : Pessoa) : Observable<DefaultResponse> {
-    console.log(pessoa)
     return this.httpClient.put<DefaultResponse>(this.url + cargo +  "/atualizar", pessoa);
   }
   
   findUsuarioByMatricula(matricula : number) : Observable<Pessoa>{
     return this.httpClient.get<Pessoa>(`${this.url}login/buscar/${matricula}`);
+  }
+  findAllAlunosSemPaginacao(cargo : string) : Observable<DefaultResponse> {
+    return this.httpClient.get<DefaultResponse>(this.url + cargo + "/listarSemPaginacao");
   }
 }

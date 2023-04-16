@@ -3,7 +3,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SafeResourceUrl, DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
-import { take } from 'rxjs';
 import { Pessoa } from 'src/app/models/pessoa';
 import { DefaultResponse } from 'src/app/models/Response/defaultResponse';
 import { PessoaService } from 'src/app/services/pessoa.service';
@@ -72,11 +71,17 @@ export class AtualizarAlunosComponent implements OnInit{
   salvarAluno(){
     this.alunoService.updateAlunos(this.cargo, this.formulario.value).subscribe({
       next : async user => {
-        this._snackBar.open("Aluno atualizado com sucesso", "", {duration : 5000});
-        await new Promise(f => setTimeout(f, 5000));
-        this.router.navigate(['alunos/buscar'])
-      },
-      error : err => this._snackBar.open(err, "", {duration : 5000})
+        this.resposta = user;
+
+        if(this.resposta.success){
+          this._snackBar.open("Aluno atualizado com sucesso", "", {duration : 5000});
+          await new Promise(f => setTimeout(f, 5000));
+          this.router.navigate(['alunos/buscar'])
+        }else {
+          this._snackBar.open(this.resposta.messagem, "", {duration : 5000})
+        }
+
+      }
     })
   }
 
@@ -130,6 +135,8 @@ export class AtualizarAlunosComponent implements OnInit{
     });
     this.urlFoto = pessoa.urlFoto;
   }
+
+
 
 
 }

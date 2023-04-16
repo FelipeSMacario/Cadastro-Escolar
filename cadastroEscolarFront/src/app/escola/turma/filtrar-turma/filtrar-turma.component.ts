@@ -110,11 +110,6 @@ export class FiltrarTurmaComponent  implements OnInit{
       }) 
     }   
 
-    if (this.formulario.controls["valor"].value == 4) {
-      this.turmaAluno = this.removeTodos();
-      this.listarTodos();
-    }   
-
   }
 
   removeTodos() : AlunoTurmaDTO[]{

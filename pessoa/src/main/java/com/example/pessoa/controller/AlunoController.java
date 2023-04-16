@@ -39,7 +39,7 @@ public class AlunoController {
     }
 
     @PutMapping(value = "/atualizar")
-    public  ResponseEntity<DefaultResponse> atualizarAluno(@RequestBody EntradaDTO entradaDTO) {
+    public  ResponseEntity<DefaultResponse> atualizarAluno(@RequestBody @Valid EntradaDTO entradaDTO) {
         return alunoService.atualizar(entradaDTO, Cargo.Aluno.toString());
     }
 }

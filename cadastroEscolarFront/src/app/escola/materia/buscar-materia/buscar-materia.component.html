@@ -1,40 +1,94 @@
 <div class="container divContainer">
-    <form class="row g-3 formulario" [formGroup]="formulario">
-      <div class="col-auto">
-        <input
-          type="text"
-          class="form-control"
-          id="inputPassword2"
-          placeholder="filtro"
-          formControlName = "filtro"
+  <app-button-back></app-button-back>
+  <form class="row g-3 formulario" [formGroup]="formulario">
+    <div class="col-auto">
+      <input
+        type="text"
+        class="form-control"
+        id="inputPassword2"
+        placeholder="filtro"
+        formControlName="filtro"
+      />
+    </div>
+    <div class="col-auto">
+      <select
+        class="form-select"
+        aria-label="Default select example"
+        formControlName="valor"
+        (change)="mudanca()"
+      >
+        <option value="0" selected disabled>Pelo que deseja filtrar</option>
+        <option value="1">Nome</option>
+        <option value="2">Todas</option>
+      </select>
+    </div>
+    <div class="col-auto">
+      <button
+        class="btn button"
+        type="button"
+        (click)="buscar()"
+        [disabled]="!formulario.valid"
+      >
+        Buscar
+      </button>
+    </div>
+  </form>
+
+  <table class="table tabela flex" *ngIf="materias">
+    <tr>
+      <th>Id</th>
+      <th>Nome</th>
+      <th>Gerenciamento</th>
+    </tr>
+    <tr *ngFor="let materia of materias">
+      <td>{{ materia.id }}</td>
+      <td>{{ materia.nome }}</td>
+      <td>
+        <img
+          src="../../../assets/images/editar.jpg"
+          height="40"
+          width="40"
+          class="btn"
+          (click)="editarMateria(materia.nome)"
         />
-      </div>
-      <div class="col-auto">
-        <select class="form-select" aria-label="Default select example" formControlName = "valor">
-          <option value="0" selected disabled>Pelo que deseja filtrar</option>
-          <option value="1">Nome</option>
-          <option value="2">Todas</option>
-        </select>
-      </div>
-      <div class="col-auto">
-          <button class="btn button" type="button" (click)="buscar()" [disabled]="!formulario.valid">Buscar</button>
-        </div>
-    </form>
-  
-    <table class="table tabela flex" *ngIf="materias">
-      <tr>
-          <th>Id</th>
-          <th>Nome</th>
-          <th>Gerenciamento</th>
-      </tr>
-      <tr *ngFor="let materia of materias">
-          <td>{{materia.id}}</td>
-          <td>{{materia.nome}}</td>
-          <td>
-            <img src="../../../assets/images/editar.jpg" height="40" width="40" class="btn" (click)="editarMateria(materia.nome)">
-            <img src="../../../assets/images/delete.png" height="40" width="40" class="btn" (click)="modalDeletar(materia.id)">
-          </td>
-      </tr>
-    </table>
+        <img
+          src="../../../assets/images/delete.png"
+          height="40"
+          width="40"
+          class="btn"
+          (click)="modalDeletar(materia.id)"
+        />
+      </td>
+    </tr>
+  </table>
+
+  <div *ngIf="pagina && pagina.totalPages > 1">
+    <nav aria-label="Page navigation example">
+      <ul class="pagination justify-content-center">
+        <button
+          class="page-link itemBotao"
+          (click)="anterior()"
+          *ngIf="!pagina.first"
+        >
+          Anterior
+        </button>
+
+        <li class="page-item">
+          <a class="page-link itemBotao" (click)="definePagina(1)">1</a>
+        </li>
+        <li class="page-item">
+          <a class="page-link itemBotao" (click)="definePagina(2)">2</a>
+        </li>
+       
+
+        <button
+          class="page-link itemBotao"
+          (click)="proximo()"
+          *ngIf="!pagina.last"
+        >
+          Próximo
+        </button>
+      </ul>
+    </nav>
   </div>
-  
+</div>

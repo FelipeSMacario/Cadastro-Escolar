@@ -16,12 +16,12 @@ export class QuadroHorariosService {
 
   private url = "http://localhost:8080/api-aulas/quadroHorario/";
 
-  findByMatricula(matricula : number) : Observable<DefaultResponse>{
-    return this.httpClient.get<DefaultResponse>(this.url + "buscar/HorarioPorMatricula/" + matricula);
+  findByMatricula(matricula : number, pagina? : number) : Observable<DefaultResponse>{
+    return this.httpClient.get<DefaultResponse>(this.url + "buscar/HorarioPorMatricula/" + matricula + "?page=" + pagina);
   }
 
-  findByTurma(idTurma : number) : Observable<DefaultResponse>{
-    return this.httpClient.get<DefaultResponse>(this.url + "buscar/horariosPorTurma/" + idTurma);
+  findByTurma(idTurma : number, pagina? : number) : Observable<DefaultResponse>{
+    return this.httpClient.get<DefaultResponse>(this.url + "buscar/horariosPorTurma/" + idTurma + "?page=" + pagina);
   }
 
   findHorasLivres(diaId : number, salaId : number) : Observable<DefaultResponse>{

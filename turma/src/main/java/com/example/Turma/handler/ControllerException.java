@@ -1,8 +1,7 @@
-package com.example.Dias.exceptionHandler;
+package com.example.Turma.handler;
 
-import com.example.Dias.exception.MateriaNotFoundException;
-import com.example.Dias.exception.UserNotFoundException;
-import com.example.Dias.model.response.DefaultResponse;
+import com.example.Turma.exception.UserNotFoundException;
+import com.example.Turma.model.response.DefaultResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -11,14 +10,11 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import javax.naming.AuthenticationException;
 import java.time.LocalDate;
 import java.util.List;
 
 @RestControllerAdvice
 public class ControllerException {
-
-
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(Exception.class)
@@ -54,29 +50,6 @@ public class ControllerException {
                 .messagem(exception.getMessage())
                 .build());
     }
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    @ExceptionHandler(MateriaNotFoundException.class)
-    public ResponseEntity<DefaultResponse> handleMateriaNotFound(MateriaNotFoundException exception){
-        return ResponseEntity.ok().body(DefaultResponse.builder()
-                .success(false)
-                .timestamp(LocalDate.now())
-                .status(HttpStatus.NOT_FOUND)
-                .messagem(exception.getMessage())
-                .build());
-    }
-
-    @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    @ExceptionHandler(AuthenticationException.class)
-    public  ResponseEntity<DefaultResponse> handleErrorLogin(){
-        return ResponseEntity.ok().body(DefaultResponse.builder()
-                .success(false)
-                .timestamp(LocalDate.now())
-                .status(HttpStatus.UNAUTHORIZED)
-                .messagem("Usuário ou senha invalído")
-                .build());
-    }
-
-
 
 
 }

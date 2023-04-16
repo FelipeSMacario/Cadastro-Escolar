@@ -9,6 +9,8 @@ import java.util.Optional;
 
 @Repository
 public interface PessoaRepository extends JpaRepository<Pessoa, String> {
+
+    Optional<Pessoa> findByMatriculaAndCargo(Long matricula,String cargo);
     Optional<Pessoa> findByMatriculaAndCargoAndStatus(Long matricula,String cargo, String status);
 
     List<Pessoa> findByNomeAndCargoAndStatus(String nome,String cargo, String status);

@@ -71,9 +71,7 @@ export class BuscarProfessoresComponent implements OnInit {
         }) 
       }
   
-      if (this.formulario.controls["valor"].value == 3) {
-        console.log(this.formulario.value.filtro)
-        
+      if (this.formulario.controls["valor"].value == 3) {        
          this.listarTodos();
       }          
     }

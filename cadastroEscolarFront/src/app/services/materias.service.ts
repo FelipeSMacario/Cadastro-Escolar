@@ -15,8 +15,8 @@ export class MateriasService {
 
   private url = "http://localhost:8080/api-dias/materias";
 
-  listarMateria() : Observable<DefaultResponse>{
-    return this.httpClient.get<DefaultResponse>(this.url + "/listar");
+  listarMateria(pagina? : number) : Observable<DefaultResponse>{
+    return this.httpClient.get<DefaultResponse>(this.url + "/listar" + "?page=" + pagina);
   }
 
   cadastrarMateria(materia : Materia) : Observable<DefaultResponse>{
@@ -33,5 +33,9 @@ export class MateriasService {
 
   deletarMateria(id : number) : Observable<DefaultResponse> {
     return this.httpClient.delete<DefaultResponse>(this.url + "/deletar/" + id);
+  }
+
+  listarMateriaSemPaginacao() : Observable<DefaultResponse>{
+    return this.httpClient.get<DefaultResponse>(this.url + "/listarSemPaginacao");
   }
 }

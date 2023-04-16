@@ -41,22 +41,12 @@ public class PessoaService {
     RabbitmqService rabbitmqService;
 
     public ResponseEntity<DefaultResponse> listar(String cargo,  Pageable pageable) {
-        try {
             Page<Pessoa>  pessoaList = pessoaRepository.findByCargoAndStatus(cargo, "Ativo", pageable);
             return ResponseEntity.ok().body(DefaultResponse.builder()
                     .success(true)
                     .status(HttpStatus.OK)
                     .data((Serializable) pessoaList)
                     .build());
-        } catch (Exception e) {
-            return ResponseEntity.ok().body(DefaultResponse.builder()
-                    .success(false)
-                    .status(HttpStatus.NOT_FOUND)
-                    .messagem(e.getMessage())
-                    .build());
-        }
-
-
     }
 
     public ResponseEntity<DefaultResponse> buscar(Long matricula, String cargo) {
@@ -68,45 +58,60 @@ public class PessoaService {
     }
 
     public ResponseEntity<DefaultResponse> cadastrar(Pessoa pessoa, String cargo) {
-        Pessoa pessoa1 = Pessoa.builder()
-                .cpf(pessoa.getCpf())
-                .nome(pessoa.getNome())
-                .sobreNome(pessoa.getSobreNome())
-                .email(pessoa.getEmail())
-                .dataNascimento(pessoa.getDataNascimento())
-                .urlFoto(pessoa.getUrlFoto())
-                .dataCadastro(LocalDate.now())
-                .cargo(cargo)
-                .ano(pessoa.getAno())
-                .status("Ativo").build();
-        pessoaRepository.save(pessoa1);
+        this.validaPessoa(pessoa);
+            Pessoa pessoa1 = Pessoa.builder()
+                    .cpf(pessoa.getCpf())
+                    .nome(pessoa.getNome())
+                    .sobreNome(pessoa.getSobreNome())
+                    .email(pessoa.getEmail())
+                    .dataNascimento(pessoa.getDataNascimento())
+                    .urlFoto(pessoa.getUrlFoto())
+                    .dataCadastro(LocalDate.now())
+                    .cargo(cargo)
+                    .ano(pessoa.getAno())
+                    .status("Ativo").build();
+            pessoaRepository.save(pessoa1);
 
+            this.cadastrarLogin(pessoa1);
+            this.disparaEmail(pessoa1);
+
+
+            return ResponseEntity.ok().body(DefaultResponse.builder()
+                    .success(true)
+                    .status(HttpStatus.CREATED)
+                    .messagem(cargo + " cadastrado com sucesso!")
+                    .data(pessoa1)
+                    .build());
+
+    }
+
+    private void validaPessoa(Pessoa pessoa) {
+        validacoesService.buscaPessoaCpf(pessoa.getCpf());
+        validacoesService.buscaEmail(pessoa.getEmail());
+    }
+
+    public void cadastrarLogin(Pessoa pessoa){
         List<Role> roles = new ArrayList<>();
 
-        Role role = pessoa1.getCargo().equals("Professor") ? new Role(2L, RoleName.ROLE_PROFESSOR) : new Role(3L, RoleName.ROLE_ALUNO);
+        Role role = pessoa.getCargo().equals("Professor") ? new Role(2L, RoleName.ROLE_PROFESSOR) : new Role(3L, RoleName.ROLE_ALUNO);
         roles.add(role);
 
         Login login = Login.builder()
-                .usuario(pessoa1.getEmail())
-                .senha(encoder.encode(pessoa1.getCpf()))
-                .pessoa(pessoa1)
+                .usuario(pessoa.getEmail())
+                .senha(encoder.encode(pessoa.getCpf()))
+                .pessoa(pessoa)
                 .roles(roles)
                 .build();
         loginRepository.save(login);
+    }
 
-        SendGridDTO sendGridDTO = new SendGridDTO(pessoa1.getEmail(), pessoa1.getNome(), pessoa1.getCpf());
-        rabbitmqService.enviaMensagem(Fila.CADASTRO.toString(), sendGridDTO);
-
-        return ResponseEntity.ok().body(DefaultResponse.builder()
-                .success(true)
-                .status(HttpStatus.CREATED)
-                .messagem(cargo + " cadastrado com sucesso!")
-                .data(pessoa1)
-                .build());
+    public void disparaEmail(Pessoa pessoa){
+        rabbitmqService.enviaMensagem(Fila.CADASTRO.toString(), new SendGridDTO(pessoa.getEmail(), pessoa.getNome(), pessoa.getCpf()));
     }
 
     public ResponseEntity<DefaultResponse> atualizar(EntradaDTO entradaDTO, String cargo) {
         Pessoa pessoa = validacoesService.buscaPessoa(entradaDTO.getMatricula(), cargo);
+        validacoesService.validaAtualizacaoPessoa(pessoa);
         Pessoa pessoaAtualizada = pessoaRepository.save(Pessoa.builder()
                 .matricula(entradaDTO.getMatricula())
                 .cpf(entradaDTO.getCpf())
@@ -148,5 +153,13 @@ public class PessoaService {
 
     public Pessoa buscaPessoaSemFiltro(Long matricula) {
         return validacoesService.buscaPessoaSemCargo(matricula);
+    }
+
+    public ResponseEntity<DefaultResponse> listarSemPaginacao(String cargo) {
+        return ResponseEntity.ok().body(DefaultResponse.builder()
+                .success(true)
+                .status(HttpStatus.OK)
+                .data((Serializable) pessoaRepository.findByCargoAndStatus(cargo, "Ativo"))
+                .build());
     }
 }

@@ -56,8 +56,7 @@ export class BuscarNotasComponent implements OnInit{
       next : tur => {
         this.resposta = tur;
         if(this.resposta.success){
-          this.respostaTurma = this.resposta.data;
-          this.turmas = this.respostaTurma.turmaList;
+          this.turmas = this.resposta.data;
         }else {
           this._snackBar.open(this.resposta.messagem, "", {duration : 3000})
         }
@@ -66,12 +65,11 @@ export class BuscarNotasComponent implements OnInit{
   }
 
   listarMateria(){
-    this.materiaService.listarMateria().subscribe({
+    this.materiaService.listarMateriaSemPaginacao().subscribe({
       next : mat => {
         this.resposta = mat;
         if(this.resposta.success){
-          this.respostaMateria = this.resposta.data;
-          this.materias = this.respostaMateria.materias
+          this.materias = this.resposta.data;
         }else {
           this._snackBar.open(this.resposta.messagem, "", {duration : 3000})
         }

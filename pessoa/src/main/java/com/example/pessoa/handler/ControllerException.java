@@ -1,5 +1,6 @@
 package com.example.pessoa.handler;
 
+import com.example.pessoa.exceptions.FieldDuplicateException;
 import com.example.pessoa.exceptions.UserNotFoundException;
 import com.example.pessoa.response.DefaultResponse;
 import org.springframework.http.HttpStatus;
@@ -9,12 +10,34 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-
 import java.time.LocalDate;
 import java.util.List;
 
 @RestControllerAdvice
 public class ControllerException {
+
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<DefaultResponse> handleGeneric(Exception exception){
+        return ResponseEntity.ok().body(DefaultResponse.builder()
+                .success(false)
+                .timestamp(LocalDate.now())
+                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .messagem("Erro ao processar a requisição, entre em contato com o administrador")
+                .build());
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(FieldDuplicateException.class)
+    public ResponseEntity<DefaultResponse> handleSql(FieldDuplicateException exception){
+        return ResponseEntity.ok().body(DefaultResponse.builder()
+                .success(false)
+                .timestamp(LocalDate.now())
+                .status(HttpStatus.BAD_REQUEST)
+                .messagem(exception.getMessage())
+                .build());
+    }
+
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)

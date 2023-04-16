@@ -12,9 +12,12 @@ import com.example.aulas.response.ResponseHoras;
 import com.example.aulas.response.ResponseMaterias;
 import com.example.aulas.response.ResponseQuadroHorario;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -52,9 +55,9 @@ public class AulaService {
         List<QuadroHorario> quadroHorarios = quadroHorarioRepository.findByDiaIdAndTurmaId(dia, turma);
         List<Horas> horas = horaRepository.findAll();
 
-        quadroHorarios.forEach(quad -> {
-            horas.stream().filter(h -> h.getId().equals(quad.getHoras().getId())).findFirst().ifPresent(horas::remove);
-        });
+        quadroHorarios.forEach(quad ->
+            horas.stream().filter(h -> h.getId().equals(quad.getHoras().getId())).findFirst().ifPresent(horas::remove)
+        );
 
         return ResponseEntity.ok().body(DefaultResponse.builder()
                 .success(true)
@@ -107,8 +110,8 @@ public class AulaService {
                 .build());
     }
 
-    public ResponseEntity<DefaultResponse> buscarHorarioPorTurma(Long turma) {
-        List<QuadroHorario> quadroHorarios = quadroHorarioRepository.findByTurmaId(turma);
+    public ResponseEntity<DefaultResponse> buscarHorarioPorTurma(Long turma, Pageable pageable) {
+       var quadroHorarios = quadroHorarioRepository.findByTurmaNumero(turma, pageable);
         if (quadroHorarios.isEmpty()){
             return ResponseEntity.ok().body(DefaultResponse.builder()
                     .success(false)
@@ -120,22 +123,31 @@ public class AulaService {
         return ResponseEntity.ok().body(DefaultResponse.builder()
                 .success(true)
                 .status(HttpStatus.OK)
-                .data(new ResponseQuadroHorario(quadroHorarios))
+                .data((Serializable) quadroHorarios)
                 .build());
     }
 
-    public ResponseEntity<DefaultResponse> buscarHorarioPorMatricula(Long matricula) {
+    public ResponseEntity<DefaultResponse> buscarHorarioPorMatricula(Long matricula, Pageable pageable) {
 
         Pessoa aluno = validacoesService.buscaPessoa(matricula, Cargo.Aluno.toString());
         Long idTurma = validacoesService.buscaTurmaPorMatricula(aluno.getMatricula());
         Turma turma = validacoesService.buscaTurma(idTurma);
 
-        List<QuadroHorario> quadroHorarios = quadroHorarioRepository.findByTurmaId(turma.getId());
+        var quadroHorarios = quadroHorarioRepository.findByTurmaId(turma.getId(), pageable);
+
+        if (quadroHorarios.isEmpty()){
+            return ResponseEntity.ok().body(DefaultResponse.builder()
+                    .success(false)
+                    .messagem("Nenhuma aula identificada com essa matricula")
+                    .status(HttpStatus.NOT_FOUND)
+                    .timestamp(LocalDate.now())
+                    .build());
+        }
 
         return ResponseEntity.ok().body(DefaultResponse.builder()
                 .success(true)
                 .status(HttpStatus.OK)
-                .data(new ResponseQuadroHorario(quadroHorarios))
+                .data((Serializable) quadroHorarios )
                 .build());
     }
 

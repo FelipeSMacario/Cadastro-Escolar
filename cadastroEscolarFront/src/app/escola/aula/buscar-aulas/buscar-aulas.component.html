@@ -1,51 +1,92 @@
 <div class="container divContainer">
-    <form class="row g-3 formulario"[formGroup]="formulario" >
-      <div class="col-auto">
-        <input
-          type="text"
-          class="form-control"
-          id="inputPassword2"
-          placeholder="filtro"
-          formControlName = "filtro"
-        />
-      </div>
-      <div class="col-auto">
-        <select class="form-select" aria-label="Default select example" formControlName = "valor">
-          <option value="0" selected disabled>Pelo que deseja filtrar</option>
-          <option value="1">Matricula</option>
-          <option value="2">Turma</option>
-        </select>
-      </div>
-      <div class="col-auto">
-          <button class="btn button" type="button" (click)="filtrar()" [disabled]="!formulario.valid">Buscar</button>
-        </div>
-    </form>
-  
-    <table class="table table-striped tabela flex" *ngIf="quadroHorario">
-      <thead>
-        <tr>
-          <th scope="col">Turma</th>
-          <th scope="col">Materia</th>
-          <th scope="col">Professor</th>
-          <th scope="col">Hora</th>
-          <th scope="col">Dia da semana</th>
-          <th scope="col">Sala</th>
-          <th>Gerenciamento</th>
-        </tr>
-      </thead>
-      <tbody >
-        <tr *ngFor="let quadro of quadroHorario">
-          <td>{{quadro.turma.numero}}</td>
-          <td>{{quadro.materia.nome}}</td>
-          <td>{{quadro.materia.professor.nome}}</td>
-          <td>{{quadro.horas.hora}}</td>
-          <td>{{quadro.dia.nome}}</td>
-          <td>{{quadro.turma.sala.numero}}</td>
-          <td>
-            <img src="../../../assets/images/editar.jpg" height="40" width="40" class="btn" (click)="editaAula(quadro.id)">
-          </td>
-        </tr>
-      </tbody>
-    </table>
+  <app-button-back></app-button-back>
+  <form class="row g-3 formulario" [formGroup]="formulario">
+    <div class="col-auto">
+      <input
+        type="text"
+        class="form-control"
+        id="inputPassword2"
+        placeholder="filtro"
+        formControlName="filtro"
+      />
+    </div>
+    <div class="col-auto">
+      <select
+        class="form-select"
+        aria-label="Default select example"
+        formControlName="valor"
+      >
+        <option value="0" selected disabled>Pelo que deseja filtrar</option>
+        <option value="1">Matricula</option>
+        <option value="2">Turma</option>
+      </select>
+    </div>
+    <div class="col-auto">
+      <button
+        class="btn button"
+        type="button"
+        (click)="filtrar()"
+        [disabled]="!formulario.valid"
+      >
+        Buscar
+      </button>
+    </div>
+  </form>
+
+  <table class="table table-striped tabela flex" *ngIf="quadroHorario">
+    <thead>
+      <tr>
+        <th scope="col">Turma</th>
+        <th scope="col">Materia</th>
+        <th scope="col">Professor</th>
+        <th scope="col">Hora</th>
+        <th scope="col">Dia da semana</th>
+        <th scope="col">Sala</th>
+        <th>Gerenciamento</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let quadro of quadroHorario">
+        <td>{{ quadro.turma.numero }}</td>
+        <td>{{ quadro.materia.nome }}</td>
+        <td>{{ quadro.materia.professor.nome }}</td>
+        <td>{{ quadro.horas.hora }}</td>
+        <td>{{ quadro.dia.nome }}</td>
+        <td>{{ quadro.turma.sala.numero }}</td>
+        <td>
+          <img
+            src="../../../assets/images/editar.jpg"
+            height="40"
+            width="40"
+            class="btn"
+            (click)="editaAula(quadro.id)"
+          />
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div *ngIf="pagina && pagina.totalPages > 1">
+    <nav aria-label="Page navigation example">
+      <ul class="pagination justify-content-center">
+        <button
+          class="page-link itemBotao"
+          (click)="anterior()"
+          *ngIf="!pagina.first"
+        >
+          Anterior
+        </button>
+
+        <li class="page-item" *ngFor="let i of itens">
+          <a class="page-link itemBotao" (click)="definePagina(i)">{{ i }}</a>
+        </li>
+        <button
+          class="page-link itemBotao"
+          (click)="proximo()"
+          *ngIf="!pagina.last"
+        >
+          Próximo
+        </button>
+      </ul>
+    </nav>
   </div>
-  
+</div>

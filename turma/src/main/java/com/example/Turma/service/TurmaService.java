@@ -11,6 +11,7 @@ import com.example.Turma.model.response.DefaultResponse;
 import com.example.Turma.model.response.ResponseFiltroTurma;
 import com.example.Turma.repository.TurmaRepository;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,21 +25,9 @@ public class TurmaService {
     ValidacoesService validacoesService;
 
     public ResponseEntity<DefaultResponse> listarTurmas() {
-        List<Turma> turmas = new ArrayList<>();
-
-        try {
-            turmas = turmaRepository.findAll();
-        }catch (Exception e){
-            return ResponseEntity.ok().body(DefaultResponse.builder()
-                    .success(false)
-                    .messagem(e.getMessage())
-                    .status(HttpStatus.NOT_FOUND)
-                    .build());
-        }
-
         return ResponseEntity.ok().body(DefaultResponse.builder()
                 .success(true)
-                .data(new ResponseFiltroTurma(turmas))
+                .data((Serializable) turmaRepository.findAll())
                 .status(HttpStatus.OK)
                 .build());
     }

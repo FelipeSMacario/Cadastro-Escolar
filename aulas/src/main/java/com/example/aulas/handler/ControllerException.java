@@ -19,6 +19,17 @@ import java.util.List;
 @RestControllerAdvice
 public class ControllerException {
 
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<DefaultResponse> handleGeneric(Exception exception){
+        return ResponseEntity.ok().body(DefaultResponse.builder()
+                .success(false)
+                .timestamp(LocalDate.now())
+                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .messagem("Erro ao processar a requisição, entre em contato com o administrador")
+                .build());
+    }
+
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<DefaultResponse> handle(MethodArgumentNotValidException exception){

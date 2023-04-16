@@ -6,6 +6,8 @@ import com.example.aulas.response.DefaultResponse;
 import com.example.aulas.service.AulaService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,13 +27,13 @@ public class AulaController {
         return quadroHorarioService.buscarHorasPorDia(dia, turma);
     }
     @GetMapping(value = "buscar/horariosPorTurma/{turma}")
-    public ResponseEntity<DefaultResponse> buscarHorarioPorTurma(@PathVariable Long turma){
-        return quadroHorarioService.buscarHorarioPorTurma(turma);
+    public ResponseEntity<DefaultResponse> buscarHorarioPorTurma(@PathVariable Long turma, @PageableDefault(size = 6, page = 0, sort = {"dia", "horas"}) Pageable pageable){
+        return quadroHorarioService.buscarHorarioPorTurma(turma, pageable);
     }
 
     @GetMapping(value = "buscar/HorarioPorMatricula/{matricula}")
-    public ResponseEntity<DefaultResponse> buscaHoraPorMatricula(@PathVariable Long matricula){
-        return quadroHorarioService.buscarHorarioPorMatricula(matricula);
+    public ResponseEntity<DefaultResponse> buscaHoraPorMatricula(@PathVariable Long matricula, @PageableDefault(size = 6, page = 0, sort = {"dia", "horas"}) Pageable pageable){
+        return quadroHorarioService.buscarHorarioPorMatricula(matricula, pageable);
     }
 
     @GetMapping(value = "busca/HorarioPorId/{id}")

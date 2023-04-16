@@ -65,12 +65,11 @@ export class CadastrarNotasComponent implements OnInit{
   }
 
   listarMaterias(){
-    this.materiaService.listarMateria().subscribe({
+    this.materiaService.listarMateriaSemPaginacao().subscribe({
       next : mat => {
         this.resposta = mat;
         if(this.resposta.success){
-          this.respostaMateria = this.resposta.data;
-          this.materias = this.respostaMateria.materias;
+          this.materias = this.resposta.data;
           this.filtrarMateriasProfessor();
         }else {
           this._snackBar.open(this.resposta.messagem, "", {duration : 3000})

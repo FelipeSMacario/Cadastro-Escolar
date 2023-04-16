@@ -1,4 +1,5 @@
 <div class="container divContainer">
+  <app-button-back></app-button-back>
   <div class="row row-cols-1 row-cols-md-3 g-4 divCards">
     <div class="col btn colHover" [routerLink]="['buscar']" *ngIf="pessoa.cargo === 'Admin'">
       <div class="card h-100">
@@ -20,7 +21,7 @@
         </div>
       </div>
     </div>
-    <div class="col btn colHover" [routerLink]="['minhasAulas']" >
+    <div class="col btn colHover" [routerLink]="['minhasAulas']" *ngIf="pessoa.cargo != 'Admin'">
       <div class="card h-100">
         <img src="../../../../assets/images/aula-icon-minhas.jpg" class="card-img-top imagem">
         <div class="card-body">

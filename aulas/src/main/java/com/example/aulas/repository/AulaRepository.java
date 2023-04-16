@@ -1,6 +1,8 @@
 package com.example.aulas.repository;
 
 import com.example.aulas.model.QuadroHorario;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -12,6 +14,8 @@ public interface AulaRepository extends JpaRepository<QuadroHorario, Long> {
 
     List<QuadroHorario> findByDiaIdAndHorasId(Long dia, Long hora);
 
-    List<QuadroHorario> findByTurmaId(Long turma);
+    Page<QuadroHorario> findByTurmaNumero(Long turma, Pageable pageable);
+
+    Page<QuadroHorario> findByTurmaId(Long turma, Pageable pageable);
 }
 

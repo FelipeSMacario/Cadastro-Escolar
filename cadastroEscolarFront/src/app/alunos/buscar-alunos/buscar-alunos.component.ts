@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { Page } from 'src/app/models/page';
 import { Pessoa } from 'src/app/models/pessoa';
 import { DefaultResponse } from 'src/app/models/Response/defaultResponse';
 import { ResponseFiltroPessoaNome } from 'src/app/models/Response/responseFiltroPessoaNome';
@@ -18,6 +19,7 @@ export class BuscarAlunosComponent implements OnInit{
   resposta : DefaultResponse;
   formulario : FormGroup;
   pessoaResposta : ResponseFiltroPessoaNome
+  pagina : Page;
 
   private readonly cargo : string = "alunos";
 
@@ -43,8 +45,8 @@ export class BuscarAlunosComponent implements OnInit{
 
           if(this.resposta.success){
             this.pessoas = this.removeTodos();
-            this.pessoaResposta = this.resposta.data;
-            this.pessoas = this.pessoaResposta.pessoaList;
+            this.pagina = this.resposta.data;
+            this.pessoas = this.pagina.content;
           } else {
             this._snackBar.open(this.resposta.messagem, "", {duration : 5000});
           }
@@ -69,22 +71,10 @@ export class BuscarAlunosComponent implements OnInit{
     }
 
     if (this.formulario.controls["valor"].value == 3) {
-      this.alunoService.findAllAlunos(this.cargo).subscribe({
-        next: pessoa => {
-          this.resposta = pessoa;
-
-          if(this.resposta.success){
-            this.pessoas = this.removeTodos();
-            this.pessoaResposta = this.resposta.data;
-           this.pessoas = this.pessoaResposta.pessoaList;
-          }else {
-            this._snackBar.open(this.resposta.messagem, "", {duration : 5000});
-          }
-        }
-      }) 
-    }    
+      this.listarTodos();
     
   }
+}
 
   removeTodos() : Pessoa[]{
     this.pessoas = [];
@@ -93,6 +83,44 @@ export class BuscarAlunosComponent implements OnInit{
 
   atualizar(matricula : number){
     this.router.navigate(['alunos/atualizar', matricula])
+  }
+
+  listarTodos( pagina? : number){
+    this.alunoService.findAllAlunos(this.cargo, pagina).subscribe({
+      next: pessoa => {
+        this.resposta = pessoa;
+      
+
+        if(this.resposta.success){
+          this.pessoas = this.removeTodos();
+          this.pagina = this.resposta.data;           
+          this.pessoas = this.pagina.content;
+        } else {
+          this._snackBar.open(this.resposta.messagem, "", {duration : 5000});
+        }
+      }
+    })
+  }
+
+  mudanca(){
+    if(this.formulario.value.valor == 3){
+      this.formulario.controls['filtro'].setValue("Filtro");
+    } else {
+      this.formulario.controls['filtro'].setValue(null);
+    }
+}
+
+  proximo(){
+    this.listarTodos(this.pagina.number + 1);
+  }
+
+  anterior(){
+    this.listarTodos(this.pagina.number - 1);
+  }
+
+  definePagina(pagina : number){
+    this.listarTodos(pagina - 1);
+
   }
 
 }

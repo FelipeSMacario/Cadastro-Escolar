@@ -48,6 +48,7 @@ import { FiltrarTurmaComponent } from './escola/turma/filtrar-turma/filtrar-turm
 import { CadastrarTurmaComponent } from './escola/turma/cadastrar-turma/cadastrar-turma.component';
 import { AtualizarTurmaComponent } from './escola/turma/atualizar-turma/atualizar-turma.component';
 import { JwtHelperService, JwtModule } from '@auth0/angular-jwt';
+import { ButtonBackComponent } from './shared/button-back/button-back.component';
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -91,6 +92,7 @@ export function tokenGetter() {
     FiltrarTurmaComponent,
     CadastrarTurmaComponent,
     AtualizarTurmaComponent,
+    ButtonBackComponent,
     
   ],
   imports: [

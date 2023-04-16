@@ -96,19 +96,21 @@ export class AtualizarAulasComponent  implements OnInit{
         if(this.resposta.success){          
         this.turma = this.resposta.data;
         }
-      }, error : err => console.log(err)
+      }, 
+      error : err => console.log(err)
     });
   }
 
 
   listarMaterias(){
-    this.materiaService.listarMateria().subscribe({
+    this.materiaService.listarMateriaSemPaginacao().subscribe({
       next : mat => {
          this.resposta = mat;
         if(this.resposta.success){          
         this.materias = this.resposta.data;
         }
-      }, error : err => console.log(err)
+      }, 
+      error : err => console.log(err)
     });
   }
   listarDias(){
@@ -118,7 +120,8 @@ export class AtualizarAulasComponent  implements OnInit{
         if(this.resposta.success){          
         this.dias = this.resposta.data;
         }
-      }, error : err => console.log(err)
+      }, 
+      error : err => console.log(err)
     });
   }
 
@@ -130,7 +133,7 @@ export class AtualizarAulasComponent  implements OnInit{
         this.horas = this.resposta.data;
         }
       },
-      error : err => console.log(err)
+     // error : err => console.log(err)
     })
   }
 
@@ -145,7 +148,8 @@ export class AtualizarAulasComponent  implements OnInit{
         if(this.resposta.success){          
         this.horas = this.resposta.data;
         }
-      }, error : err => console.log(err)
+      }, 
+      //error : err => console.log(err)
     });
   }
   defineFormQuadro() : QuadroDTO{
