@@ -22,8 +22,8 @@ export class TurmaAlunoService {
     return this.httpClient.post<DefaultResponse>(this.urlTurmaALuno + "cadastrar", entrada);
   }
 
-  findAlunsByNumero(numero : number) : Observable<DefaultResponse>{
-    return this.httpClient.get<DefaultResponse>(this.urlTurmaALuno + "buscarTurma/porNumero/" + numero);
+  findAlunsByNumero(numero : number, pagina? : number) : Observable<DefaultResponse>{
+    return this.httpClient.get<DefaultResponse>(this.urlTurmaALuno + "buscarTurma/porNumero/" + numero + "?page=" + pagina);
   }
 
   findTurmaAlunoByNome(nome : string): Observable<DefaultResponse>{

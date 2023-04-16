@@ -2,6 +2,8 @@ package com.example.Turma.controller.api;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,7 +19,7 @@ public interface TurmaAlunos {
     public ResponseEntity listarAlunosTurma();
 
     @ApiOperation("buscar por número da turma")
-    public ResponseEntity listarAlunosPorNumero(@PathVariable int numero);
+    public ResponseEntity listarAlunosPorNumero(@PathVariable int numero, @PageableDefault(size = 2) Pageable pageable);
 
     @ApiOperation("listar por nome do aluno")
     public ResponseEntity listarturmaAlunoPorNome(@PathVariable String nome);

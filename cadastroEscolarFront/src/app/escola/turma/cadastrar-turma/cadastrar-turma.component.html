@@ -14,7 +14,7 @@
           formControlName="turma"
           (change)="atualizaAlunos(this.formulario.value.turma)"
         >
-          <option value="null" selected disabled>Selecione uma matéria</option>
+          <option value="null" selected disabled>Selecione uma turma</option>
           <option *ngFor="let turma of turmas" [ngValue]="turma.id">
             {{ turma.numero }}
           </option>

@@ -7,12 +7,14 @@ import com.example.Turma.model.response.DefaultResponse;
 import com.example.Turma.service.TurmaAlunoService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = "turmaAlunos")
-public class TurmaAlunoController implements TurmaAlunos {
+public class TurmaAlunoController {
 
     @Autowired
     TurmaAlunoService turmaAlunoService;
@@ -28,8 +30,8 @@ public class TurmaAlunoController implements TurmaAlunos {
     }
 
     @GetMapping(value = "buscarTurma/porNumero/{numero}")
-    public ResponseEntity listarAlunosPorNumero(@PathVariable int numero) {
-        return turmaAlunoService.buscaAlunoPorNumero(numero);
+    public ResponseEntity listarAlunosPorNumero(@PathVariable int numero, @PageableDefault(size = 5) Pageable pageable) {
+        return turmaAlunoService.buscaAlunoPorNumero(numero, pageable);
     }
 
     @GetMapping(value = "buscarTurma/porNome/{nome}")

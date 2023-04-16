@@ -142,8 +142,7 @@ export class CadastrarNotasComponent implements OnInit{
         this.resposta = tur;
 
         if (this.resposta.success){
-          this.respostaTurma = this.resposta.data;
-          this.turmas = this.respostaTurma.turmaList
+          this.turmas = this.resposta.data;
         }else {
           this._snackBar.open(this.resposta.messagem, "", {duration : 3000})
         }

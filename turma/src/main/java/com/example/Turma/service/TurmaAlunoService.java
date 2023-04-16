@@ -2,6 +2,11 @@ package com.example.Turma.service;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.support.PagedListHolder;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -77,7 +82,7 @@ public class TurmaAlunoService {
                 .build());
     }
 
-    public ResponseEntity<DefaultResponse> buscaAlunoPorNumero(int numero) {
+    public ResponseEntity<DefaultResponse> buscaAlunoPorNumero(int numero, Pageable pageable) {
         Turma turma = validacoesService.buscaTurmaPorNumero(numero);
         List<Long> matriculas = turmaAlunoRepository.buscaAlunosPorTurma(turma.getId());
 
@@ -87,14 +92,24 @@ public class TurmaAlunoService {
 
         alunos.forEach(v -> turmaAluno.add(new AlunoTurmaDTO(null, v, turma)));
 
+        PagedListHolder page = new PagedListHolder(turmaAluno);
+        page.setPage(pageable.getPageNumber());
+        page.setPageSize(pageable.getPageSize());
+
+        List<AlunoTurmaDTO> listSlice = page.getPageList();
+
+        Page<AlunoTurmaDTO> pagina = new PageImpl<>(listSlice,pageable, turmaAluno.size());
+
+
+
         return ResponseEntity.ok().body(DefaultResponse.builder()
                 .success(true)
                 .messagem("Cadastro realizado com sucesso!")
                 .status(HttpStatus.OK)
-                .data((Serializable) turmaAluno)
+                .data((Serializable) pagina)
                 .build());
     }
-
+    
     public ResponseEntity<DefaultResponse> listarturmaAlunoPorNome(String nome) {
         List<Pessoa> alunos = pessoaRepository.findByNomeAndCargoAndStatus(nome, Cargo.Aluno.toString(), "Ativo");
 
@@ -119,6 +134,32 @@ public class TurmaAlunoService {
                 .status(HttpStatus.OK)
                 .data(new TurmaAlunoResponse(turmaAluno))
                 .build());
+
+    }
+
+    public void teste(List<AlunoTurmaDTO> turmaAluno){
+        // Page size
+        int pageSize = 5;
+
+        // Calculate number of pages
+        int totalPages = (int) Math.ceil((double) turmaAluno.size() / pageSize);
+
+        // Create page request
+        PageRequest pageRequest = PageRequest.of(0, pageSize);
+
+        // Create page
+        Page<AlunoTurmaDTO> page = new PageImpl<>(turmaAluno.subList(0, pageSize), pageRequest, turmaAluno.size());
+
+        // Print first page
+        System.out.println("Page 1 of " + totalPages);
+
+
+        // Change page request to get second page
+        pageRequest = pageRequest.next();
+
+        // Create second page
+        page = new PageImpl<>(turmaAluno.subList(pageSize, pageSize * 2), pageRequest, turmaAluno.size());
+
 
     }
 

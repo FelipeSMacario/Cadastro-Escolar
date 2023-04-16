@@ -54,7 +54,6 @@ export class BuscarAulasComponent implements OnInit{
           this.quadroHorario = this.quadroVazio();
           this.pagina = this.resposta.data;
           this.quadroHorario = this.pagina.content;
-          this.defineItens();
         }else {
           this._snackBar.open(this.resposta.messagem, "", {duration : 3000})
         }
@@ -72,7 +71,6 @@ export class BuscarAulasComponent implements OnInit{
           this.quadroHorario = this.quadroVazio();
           this.pagina = this.resposta.data;
           this.quadroHorario = this.pagina.content;
-          this.defineItens();
         }else {
           this._snackBar.open(this.resposta.messagem, "", {duration : 3000})
         }
@@ -114,27 +112,7 @@ export class BuscarAulasComponent implements OnInit{
     }
   }
 
-  defineItens(){
-    this.itens = [];
-    if(this.pagina.totalPages == 2){      
-      this.itens.push(1);
-      this.itens.push(2);
-    }
-    if(this.pagina.totalPages == 3){
-      this.itens.push(1);
-      this.itens.push(2);
-      this.itens.push(3);
-    }
-    if(this.pagina.totalPages >= 3){
-      if(this.pagina.number <= 1){
-        this.itens.push(1);
-        this.itens.push(2);
-        this.itens.push(3);
-      } else {
-        this.itens.push(this.pagina.number - 1);
-        this.itens.push(this.pagina.number);
-        this.itens.push(this.pagina.number + 1);
-      }
-    }
-  }
+ 
+
+
 }

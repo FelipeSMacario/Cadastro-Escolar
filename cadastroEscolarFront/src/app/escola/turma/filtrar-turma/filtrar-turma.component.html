@@ -55,6 +55,29 @@
         </tr>
       </table>
 
+      <div *ngIf="pagina && pagina.totalPages > 1">
+        <nav aria-label="Page navigation example">
+          <ul class="pagination justify-content-center">
+            <button
+              class="page-link itemBotao"
+              (click)="anterior()"
+              *ngIf="!pagina.first"
+            >
+              Anterior
+            </button>
+   
+            <button
+              class="page-link itemBotao"
+              (click)="proximo()"
+              *ngIf="!pagina.last"
+            >
+              Próximo
+            </button>
+          </ul>
+        </nav>
+      </div>
+
   
   </div>
+
   

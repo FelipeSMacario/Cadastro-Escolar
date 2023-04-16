@@ -5,6 +5,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { ModalConfirmacaoComponent } from 'src/app/modal/modal-confirmacao/modal-confirmacao.component';
 import { AlunoTurmaDTO } from 'src/app/models/DTO/alunoTurmaDTO';
+import { Page } from 'src/app/models/page';
 import { Pessoa } from 'src/app/models/pessoa';
 import { DefaultResponse } from 'src/app/models/Response/defaultResponse';
 import { ResponseTurmaAluno } from 'src/app/models/Response/responseTurmaAluno';
@@ -23,6 +24,7 @@ export class FiltrarTurmaComponent  implements OnInit{
   turmaAluno : AlunoTurmaDTO[];
   objetoTurmaAluno : AlunoTurmaDTO;
   respostaTurmaALuno : ResponseTurmaAluno;
+  pagina : Page;
 
   constructor(
     private fb : FormBuilder,
@@ -84,6 +86,7 @@ export class FiltrarTurmaComponent  implements OnInit{
           this.resposta = pessoa;
 
           if(this.resposta.success){
+            
             this.turmaAluno = this.removeTodos();
             this.turmaAluno.push(this.resposta.data);
           }else {
@@ -96,24 +99,30 @@ export class FiltrarTurmaComponent  implements OnInit{
     }
 
     if (this.formulario.controls["valor"].value == 3) {
-      this.turmaAluno = this.removeTodos();
-      this.turmaService.findAlunsByNumero(this.formulario.controls["filtro"].value).subscribe({
-        next: pessoa => {
-          this.resposta = pessoa;
-
-          if(this.resposta.success){
-            this.turmaAluno = this.resposta.data;
-          } else {
-            this._snackBar.open(this.resposta.messagem, "", {duration : 3000})
-          }
-        }
-      }) 
+      this.filtrarPorturma();
     }   
 
   }
 
+  filtrarPorturma(pagina? : number){
+    this.turmaAluno = this.removeTodos();
+    this.turmaService.findAlunsByNumero(this.formulario.controls["filtro"].value, pagina).subscribe({
+      next: pessoa => {
+        this.resposta = pessoa;
+
+        if(this.resposta.success){
+          this.pagina = this.resposta.data;
+          this.turmaAluno = this.pagina.content;
+        } else {
+          this._snackBar.open(this.resposta.messagem, "", {duration : 3000})
+        }
+      }
+    }) 
+  }
+
   removeTodos() : AlunoTurmaDTO[]{
     this.turmaAluno = [];
+    this.pagina = new Page();
       return this.turmaAluno;
   }
 
@@ -159,6 +168,20 @@ export class FiltrarTurmaComponent  implements OnInit{
       error : err => console.log("Error", err)
     }) 
   }
+
+  proximo(){
+    this.filtrarPorturma(this.pagina.number + 1);
+  }
+
+  anterior(){
+    this.filtrarPorturma(this.pagina.number - 1);
+  }
+
+  definePagina(pagina : number){
+    this.filtrarPorturma(pagina - 1);
+  }
+
+
 
 
 }

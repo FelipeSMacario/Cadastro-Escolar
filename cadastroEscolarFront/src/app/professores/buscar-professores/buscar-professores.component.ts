@@ -118,9 +118,5 @@ export class BuscarProfessoresComponent implements OnInit {
       this.listarTodos(this.pagina.number - 1);
     }
 
-    definePagina(pagina : number){
-      this.listarTodos(pagina - 1);
-
-    }
 
 }
