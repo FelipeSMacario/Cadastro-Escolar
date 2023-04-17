@@ -1,6 +1,10 @@
+.button-back {
+    margin-top: 39px;
+  }
 .divForm{
-    padding-top: 7%;
+    margin-bottom: 20px;
     height: 70vh;
+    display: table;
 }
 .formulario{
     background-color: #27376a;

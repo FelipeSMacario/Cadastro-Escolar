@@ -1,25 +1,29 @@
-<div class="container divContainer">
+<div class="button">
   <app-button-back></app-button-back>
-    <div class="row row-cols-1 row-cols-md-3 g-4 divCards">
-      <div class="col btn colHover" [routerLink]="['buscar']" >
-        <div class="card h-100">
-          <img src="../../../assets/images/turma-buscar.png" class="card-img-top imagem">
-          <div class="card-body">
-            <div class="card-body cards">
-              <h5 class="card-title texto">Buscar turmas</h5>
-            </div>
-          </div>
-        </div>
+</div>
+<div class="container-home">
+  <div
+    class="card"
+    [routerLink]="['buscar']"
+  >
+    <div>
+      <img class="img-menu" src="../../../assets/images/turma-buscar.png" alt="..." />
+      <div class="title-card">
+        <h5>Buscar turmas</h5>
       </div>
-      <div class="col btn colHover" [routerLink]="['cadastrar']">
-        <div class="card h-100">
-          <img src="../../../assets/images/turma-save.png" class="card-img-top imagem">
-          <div class="card-body">
-            <div class="card-body cards">
-              <h5 class="card-title texto">Cadastro de turmas</h5>
-            </div>
-          </div>
-        </div>
-      </div>
+    </div>
   </div>
-  
+
+  <div
+    class="card"
+    [routerLink]="['cadastrar']"
+  >
+    <div >
+      <img class="img-menu" src="../../../assets/images/turma-save.png" alt="..." />
+      <div class="title-card">
+        <h5>Cadastro de turmas</h5>
+      </div>
+    </div>
+  </div>
+
+</div>

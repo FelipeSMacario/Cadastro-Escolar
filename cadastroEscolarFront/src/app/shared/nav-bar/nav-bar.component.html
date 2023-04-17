@@ -7,22 +7,22 @@
       <li>Escola Java</li>
       <li>
         <button class="botao" mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu"  *ngIf="isTherePhoto; else loading">
-          <img [src]="fotoUrl" alt="" class="imagemBtn">
-         </button>
-         <ng-template #loading let-user>
-          <button class="botao" mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu"  *ngIf="fotoUrl; else loading">
-            <img src="../../../assets/images/sem foto.png" alt="">
-           </button>
-        </ng-template>  
-         <mat-menu #menu="matMenu">
-          <button mat-menu-item>
-            <mat-icon>not_interested</mat-icon>
-            <span (click)="logout()">Logout</span>
-          </button>
-        </mat-menu>
-        <div class="divLabel">
-        <label class="label">{{pessoa.nome}} {{pessoa.sobreNome}}</label>
-        </div>
+              <img [src]="fotoUrl" alt="" class="imagemBtn">
+             </button>
+             <ng-template #loading let-user>
+              <button class="botao" mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu"  *ngIf="fotoUrl; else loading">
+                <img src="../../../assets/images/sem foto.png" alt=""  class="imagemBtn">
+               </button>
+            </ng-template>  
+             <mat-menu #menu="matMenu">
+              <button mat-menu-item >
+                <mat-icon>not_interested</mat-icon>
+                <span (click)="logout()">Logout</span>
+              </button>
+            </mat-menu>
+            <div class="divLabel">
+            <label class="label">{{pessoa.nome}} {{pessoa.sobreNome}}</label>
+            </div>
       </li>
     </ul>
   </nav>

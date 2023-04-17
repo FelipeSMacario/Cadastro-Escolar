@@ -16,9 +16,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -158,4 +160,23 @@ public class AulaService {
                 .data(validacoesService.buscaQuadroHorario(idHorario))
                 .build());
     }
+
+    public ResponseEntity<DefaultResponse> buscarHorarioPorMatriculaSemPaginacao(Long matricula, String cargo) {
+        Pessoa pessoa = validacoesService.buscaPessoa(matricula, cargo);
+        List<QuadroHorario> quadroHorarios = new ArrayList<>();
+
+        if (pessoa.getCargo().equals(Cargo.Aluno.toString())){
+            Long idTurma = validacoesService.buscaTurmaPorMatricula(pessoa.getMatricula());
+            Turma turma = validacoesService.buscaTurma(idTurma);
+            quadroHorarios = quadroHorarioRepository.findByTurmaId(turma.getId());
+        } else {
+        quadroHorarios = quadroHorarioRepository.findByMateriaProfessorMatricula(pessoa.getMatricula());
+        }
+        return ResponseEntity.ok().body(DefaultResponse.builder()
+                .success(true)
+                .status(HttpStatus.OK)
+                .data((Serializable) quadroHorarios )
+                .build());
+    }
+
 }

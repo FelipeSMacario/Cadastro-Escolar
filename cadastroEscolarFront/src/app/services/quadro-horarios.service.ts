@@ -2,9 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { QuadroDTO } from '../models/DTO/quadroDTO';
-import { Horas } from '../models/horas';
-import { Materia } from '../models/materia';
-import { QuadroHorario } from '../models/quadroHorario';
 import { DefaultResponse } from '../models/Response/defaultResponse';
 
 @Injectable({
@@ -40,6 +37,11 @@ export class QuadroHorariosService {
   }
   filtrarMaterias(dia: number, hora : number) : Observable<DefaultResponse>{
     return this.httpClient.get<DefaultResponse>(this.url + "busca/MateriaUsada/" + dia + "/" + hora);
+  }
+  
+
+  findByMatriculaSemPaginacao(matricula : number, cargo : string) : Observable<DefaultResponse>{
+    return this.httpClient.get<DefaultResponse>(this.url + "buscar/HorarioPorMatriculaSemPaginacao/" + matricula + "/" + cargo);
   }
 }
 

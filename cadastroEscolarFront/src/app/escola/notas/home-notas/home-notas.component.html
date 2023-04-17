@@ -1,33 +1,39 @@
-<div class="container divContainer">
+<div class="button">
   <app-button-back></app-button-back>
-  <div class="row row-cols-1 row-cols-md-3 g-4 divCards">
-    <div class="col btn colHover" [routerLink]="['buscar']"  *ngIf="pessoa.cargo === 'Professor' || pessoa.cargo === 'Admin'">
-      <div class="card h-100">
-        <img src="../../../../assets/images/nota-buscar.png" class="card-img-top imagem">
-        <div class="card-body">
-          <div class="card-body cards">
-            <h5 class="card-title texto">Buscar notas</h5>
-          </div>
-        </div>
+</div>
+<div class="container-home">
+  <div
+    class="card"
+    [routerLink]="['buscar']"  *ngIf="pessoa.cargo === 'Professor' || pessoa.cargo === 'Admin'"
+  >
+    <div>
+      <img class="img-menu" src="../../../../assets/images/nota-buscar.png" alt="..." />
+      <div class="title-card">
+        <h5>Buscar notas</h5>
       </div>
     </div>
-    <div class="col btn colHover" [routerLink]="['cadastrar']" *ngIf="pessoa.cargo === 'Professor' || pessoa.cargo === 'Admin'">
-      <div class="card h-100">
-        <img src="../../../../assets/images/nota-save.png" class="card-img-top imagem">
-        <div class="card-body">
-          <div class="card-body cards">
-            <h5 class="card-title texto">Cadastro de notas</h5>
-          </div>
-        </div>
+  </div>
+
+  <div
+    class="card"
+    [routerLink]="['cadastrar']" *ngIf="pessoa.cargo === 'Professor' || pessoa.cargo === 'Admin'"
+  >
+    <div >
+      <img class="img-menu" src="../../../../assets/images/nota-save.png" alt="..." />
+      <div class="title-card">
+        <h5>Cadastro de notas</h5>
       </div>
     </div>
-    <div class="col btn colHover" [routerLink]="['minhasNotas']" *ngIf="pessoa.cargo === 'Aluno'">
-      <div class="card h-100">
-        <img src="../../../../assets/images/notas minhas.png" class="card-img-top imagem">
-        <div class="card-body">
-          <div class="card-body cards">
-            <h5 class="card-title texto">Minhas notas</h5>
-          </div>
+  </div>
+
+  <div
+    class="card"
+    [routerLink]="['minhasNotas']" *ngIf="pessoa.cargo === 'Aluno'"
+  >
+    <div>
+      <img class="img-menu" src="../../../../assets/images/notas minhas.png" alt="..." />
+      <div class="title-card">
+        <h5>Minhas notas</h5>
       </div>
     </div>
   </div>

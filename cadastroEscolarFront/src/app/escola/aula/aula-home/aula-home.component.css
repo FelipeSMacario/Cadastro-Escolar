@@ -1,43 +1,6 @@
-/* .divContainer{
-    height: 100vh;
-    padding: 2%; 
-    width: 100%;
-    max-width: 2500px;
-    
-}
-.divCards{
-    height: auto;
-    color: black;
-    display: flex;
-    justify-content: center;
-
-}
-.colHover{
-    padding: 1%;
-    min-height: 30%;
-    width: 30%;
-}
-.imagem{
-    height:80%;
-}
-.divBtn{
-    height: 100%;
-}
-.cards{
-    background-color: #27376a;
-    color: white;
-}
-.colHover:hover{    
-    background-color: #ADD8E6;
-    transition: 1s;
-}
-.texto{
-    text-align: center;
-    font-size: 17px;
-} */
-
 .img-menu {
     width: 250px;
+    height: 250px;
   }
   
   .button {
@@ -47,25 +10,21 @@
   .container-home {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-evenly;
+    justify-content: center;
+    gap: 25px;
     align-items: center;
     padding: 0 92px 152px 92px;
   }
-  /* .content-home {
-    display: flex;
-    gap: 25px;
-    justify-content: center;
-    flex-wrap: wrap;
-  } */
+
   .card {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     justify-content: center;
-    text-align: center;
-    background-color: #27376a;
-    /* border: 1px solid rgb(82, 77, 77); */
+    justify-content: center;
+    background-color: white;
     box-shadow: 1px 1px 1px #27376a;
+    color: white;
     height: 400px;
     width: 400px;
     cursor: pointer;
@@ -77,8 +36,18 @@
     border: 5px solid white;
   }
   
-  .title-card > h5 {
+  .title-card {
+    display: flex;
+    background-color: #27376a;
+    justify-content: center;
+    text-align: center;
+    height: 100px;
+    flex-direction: column;
+    padding: 5px;
+  
+  }
+  
+  .title-card > h5 { 
     font-size: 1.3rem;
-    color: white;
   }
   

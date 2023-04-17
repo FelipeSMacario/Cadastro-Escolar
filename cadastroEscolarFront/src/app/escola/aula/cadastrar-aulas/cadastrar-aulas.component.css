@@ -3,7 +3,7 @@
     padding: 20px;
 }
 .divForm{
-    padding-top: 8%;
+    margin-bottom: 60px;
     height: 75vh;
 }
 .row{
@@ -32,3 +32,6 @@
     text-align: center;
     color: white;
 }
+.button {
+    margin-top: 39px;
+  }

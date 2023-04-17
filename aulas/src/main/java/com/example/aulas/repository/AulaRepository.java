@@ -17,5 +17,9 @@ public interface AulaRepository extends JpaRepository<QuadroHorario, Long> {
     Page<QuadroHorario> findByTurmaNumero(Long turma, Pageable pageable);
 
     Page<QuadroHorario> findByTurmaId(Long turma, Pageable pageable);
+
+    List<QuadroHorario> findByTurmaId(Long turma);
+
+    List<QuadroHorario> findByMateriaProfessorMatricula(Long matricula);
 }
 

@@ -1,6 +1,8 @@
 .divForm{
+    margin-bottom:auto;
     padding: 2%;
     height: 75vh;
+    display: table;
 }
 .formulario{
     background-color: #27376a;
@@ -58,3 +60,6 @@
     background-color: #27376a;
     color: white;
 }
+.button {
+    margin-top: 39px;
+  }

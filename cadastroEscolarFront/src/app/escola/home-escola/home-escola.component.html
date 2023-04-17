@@ -1,37 +1,53 @@
-<div class="container divContainer">
+<div class="button">
   <app-button-back></app-button-back>
-  <div class="row row-cols-1 row-cols-md-2 g-4 divCards">
-    <div class="col colHover" [routerLink]="['aulas']" >
-      <div class="card btn divCard"  >
-        <img src="../../../assets/images/aula-icon-home.jpg" class="card-img-top imagem" alt="...">
-        <div class="card-body cards">
-          <h5 class="card-title texto">Gerenciamento de aulas</h5>
-        </div>
-      </div>
-    </div>
-    <div class="col colHover" [routerLink]="['notas']" >
-      <div class="card btn divCard">
-        <img src="../../../assets/images/nota.png" class="card-img-top imagem" alt="..." [routerLink]="['notas']">
-        <div class="card-body cards">
-          <h5 class="card-title texto">Gerenciamento de notas</h5>
-        </div>
-      </div>
-    </div>
-    <div class="col colHover" [routerLink]="['materia']" *ngIf="pessoa.cargo === 'Admin'">
-      <div class="card btn divCard">
-        <img src="../../../assets/images/materia-home.png" class="card-img-top imagem" alt="...">
-        <div class="card-body cards">
-          <h5 class="card-title texto">Gerenciamento de matérias</h5>
-        </div>
-      </div>
-    </div>
-    <div class="col colHover" [routerLink]="['turmas']" *ngIf="pessoa.cargo === 'Admin'">
-      <div class="card btn divCard">
-        <img src="../../../assets/images/turma.png" class="card-img-top imagem" alt="...">
-        <div class="card-body cards">
-          <h5 class="card-title texto">Gerenciamento de turmas</h5>
-        </div>
+</div>
+
+<div class="container-home">
+  <div
+    class="card"
+    [routerLink]="['aulas']" 
+  >
+    <div>
+      <img class="img-menu" src="../../../assets/images/aula-icon-home.jpg" alt="..." />
+      <div class="title-card">
+        <h5>Gerenciamento de aulas</h5>
       </div>
     </div>
   </div>
+
+  <div
+    class="card"
+    [routerLink]="['notas']" 
+  >
+    <div >
+      <img class="img-menu" src="../../../assets/images/nota.png" alt="..." />
+      <div class="title-card">
+        <h5>Gerenciamento de notas</h5>
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="card"
+    [routerLink]="['materia']" *ngIf="pessoa.cargo === 'Admin'"
+  >
+    <div>
+      <img class="img-menu" src="../../../assets/images/materia-home.png" alt="..." />
+      <div class="title-card">
+        <h5>Gerenciamento de matérias</h5>
+      </div>
+    </div>
+  </div>
+
+  <div
+  class="card"
+  [routerLink]="['turmas']" *ngIf="pessoa.cargo === 'Admin'"
+>
+  <div>
+    <img class="img-menu" src="../../../assets/images/turma.png" alt="..." />
+    <div class="title-card">
+      <h5>Gerenciamento de turmas</h5>
+    </div>
+  </div>
+</div>
 </div>

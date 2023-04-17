@@ -28,7 +28,7 @@
 
   <div
     class="card"
-    [routerLink]="['meusDados']" *ngIf="pessoa.cargo === '!Admin'"
+    [routerLink]="['minhasAulas']" *ngIf="pessoa.cargo !== 'Admin'"
   >
     <div>
       <img class="img-menu" src="../../../../assets/images/aula-icon-minhas.jpg" alt="..." />

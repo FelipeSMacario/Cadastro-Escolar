@@ -36,6 +36,12 @@ public class AulaController {
         return quadroHorarioService.buscarHorarioPorMatricula(matricula, pageable);
     }
 
+    @GetMapping(value = "buscar/HorarioPorMatriculaSemPaginacao/{matricula}/{cargo}")
+    public ResponseEntity<DefaultResponse> buscaHoraPorMatriculaSemPaginacao(@PathVariable Long matricula, @PathVariable String cargo){
+        return quadroHorarioService.buscarHorarioPorMatriculaSemPaginacao(matricula, cargo);
+    }
+
+
     @GetMapping(value = "busca/HorarioPorId/{id}")
     public ResponseEntity<DefaultResponse> buscaHorarioPorId(@PathVariable Long id){
         return quadroHorarioService.buscaHorarioPorId(id);

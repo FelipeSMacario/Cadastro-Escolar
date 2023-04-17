@@ -1,6 +1,7 @@
 .divForm{
     padding: 7%;
     height: 75vh;
+    display: table;
 }
 .formulario{
     background-color: #27376a;
@@ -61,3 +62,6 @@
 .alunos{
     background-color: red;
 }
+.button {
+    margin-top: 39px;
+  }

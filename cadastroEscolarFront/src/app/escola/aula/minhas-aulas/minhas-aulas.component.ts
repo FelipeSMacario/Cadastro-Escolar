@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Page } from 'src/app/models/page';
 import { Pessoa } from 'src/app/models/pessoa';
 import { QuadroHorario } from 'src/app/models/quadroHorario';
 import { DefaultResponse } from 'src/app/models/Response/defaultResponse';
@@ -21,17 +22,18 @@ export class MinhasAulasComponent implements OnInit{
   resposta : DefaultResponse;
   respostaQuadroHorario : ResponseQuadroHorario;
 
+
   ngOnInit(): void {
     this.pessoa = JSON.parse(localStorage.getItem("pessoa")!);
     this.formulario = this.fb.group({
       filtro : [0]
     });
-    this.quadroHorarioService.findByMatricula(this.pessoa.matricula).subscribe({
+    this.quadroHorarioService.findByMatriculaSemPaginacao(this.pessoa.matricula, this.pessoa.cargo).subscribe({
     next : quad => {
       this.resposta = quad;
+      
       if(this.resposta.success){
-        this.respostaQuadroHorario = this.resposta.data;
-        this.quadroHorario = this.respostaQuadroHorario.quadroHorarios;
+        this.quadroHorario = this.resposta.data;
       }else {
         this._snackBar.open(this.resposta.messagem, "", {duration : 3000})
       }
