@@ -109,7 +109,7 @@ public class TurmaAlunoService {
                 .data((Serializable) pagina)
                 .build());
     }
-    
+
     public ResponseEntity<DefaultResponse> listarturmaAlunoPorNome(String nome) {
         List<Pessoa> alunos = pessoaRepository.findByNomeAndCargoAndStatus(nome, Cargo.Aluno.toString(), "Ativo");
 
@@ -137,31 +137,6 @@ public class TurmaAlunoService {
 
     }
 
-    public void teste(List<AlunoTurmaDTO> turmaAluno){
-        // Page size
-        int pageSize = 5;
-
-        // Calculate number of pages
-        int totalPages = (int) Math.ceil((double) turmaAluno.size() / pageSize);
-
-        // Create page request
-        PageRequest pageRequest = PageRequest.of(0, pageSize);
-
-        // Create page
-        Page<AlunoTurmaDTO> page = new PageImpl<>(turmaAluno.subList(0, pageSize), pageRequest, turmaAluno.size());
-
-        // Print first page
-        System.out.println("Page 1 of " + totalPages);
-
-
-        // Change page request to get second page
-        pageRequest = pageRequest.next();
-
-        // Create second page
-        page = new PageImpl<>(turmaAluno.subList(pageSize, pageSize * 2), pageRequest, turmaAluno.size());
-
-
-    }
 
     public ResponseEntity<DefaultResponse> listarTurmaPorMatricula(Long matricula) {
         Pessoa pessoa = validacoesService.buscaPessoa(matricula, Cargo.Aluno.toString());

@@ -1,40 +1,75 @@
-<div class="container divForm">
+<div class="button">
   <app-button-back></app-button-back>
+</div>
+<div class="container divForm">
   <div class="formulario">
     <div class="titulo">
       <h1>Cadastro de alunos</h1>
     </div>
-    <form [formGroup]="formulario" class="form form-group" (ngSubmit)="salvarAluno()">
-
+    <form
+      [formGroup]="formulario"
+      class="form form-group"
+      (ngSubmit)="salvarAluno()"
+    >
       <div class="row">
         <div *ngIf="urlFoto; else loading">
-          <img [src]="urlFoto" class="rounded mx-auto d-block divImagem" alt="...">
+          <img
+            [src]="urlFoto"
+            class="rounded mx-auto d-block divImagem"
+            alt="..."
+          />
           <div class="btn botaoFoto mx-auto d-block">
-            <label class="form-label m-1" for="customFile1">Selecione uma foto</label>
-            <input type="file" class="form-control d-none" id="customFile1" (change)="carregaImagem($event)" />
+            <label class="form-label m-1" for="customFile1"
+              >Selecione uma foto</label
+            >
+            <input
+              type="file"
+              class="form-control d-none"
+              id="customFile1"
+              (change)="carregaImagem($event)"
+            />
+          </div>
         </div>
-        </div>
-        
+
         <ng-template #loading let-user>
           <div class="">
-            <img src="../../../assets/images/sem foto.png" class="rounded mx-auto d-block divImagem" alt="...">
+            <img
+              src="../../../assets/images/sem foto.png"
+              class="rounded mx-auto d-block divImagem"
+              alt="..."
+            />
           </div>
           <div class="btn botaoFoto mx-auto d-block">
-            <label class="form-label m-1" for="customFile1">Selecione uma foto</label>
-            <input type="file" class="form-control d-none" id="customFile1" (change)="carregaImagem($event)" />
-        </div>
-          
-        </ng-template>  
-
-
+            <label class="form-label m-1" for="customFile1"
+              >Selecione uma foto</label
+            >
+            <input
+              type="file"
+              class="form-control d-none"
+              id="customFile1"
+              (change)="carregaImagem($event)"
+            />
+          </div>
+        </ng-template>
       </div>
 
       <div class="row">
         <div class="col">
           <label class="label labelNome">CPF</label>
-          <input type="text"  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" class="form-control" placeholder="CPF" formControlName = "cpf" />
+          <input
+            type="text"
+            oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+            class="form-control"
+            placeholder="CPF"
+            formControlName="cpf"
+          />
           <ng-container *ngIf="formulario.controls.cpf.touched">
-            <span *ngIf="formulario.controls.cpf.errors?.required || formulario.controls.cpf.errors?.minlength">
+            <span
+              *ngIf="
+                formulario.controls.cpf.errors?.required ||
+                formulario.controls.cpf.errors?.minlength
+              "
+            >
               <div class="alert alert-danger" role="alert">
                 Por Favor preencha um CPF válido!
               </div>
@@ -43,20 +78,30 @@
         </div>
         <div class="col">
           <label class="label labelNome">Data Nascimento</label>
-            <input type="date" class="form-control" placeholder="Data Nascimento" formControlName = "dataNascimento"/>
-            <ng-container *ngIf="formulario.controls.dataNascimento.touched">
-              <span *ngIf="formulario.controls.dataNascimento.errors?.required">
-                <div class="alert alert-danger" role="alert">
-                  Data de nascimento é um campo obrigatório!
-                </div>
-              </span>
-            </ng-container>
-          </div>
+          <input
+            type="date"
+            class="form-control"
+            placeholder="Data Nascimento"
+            formControlName="dataNascimento"
+          />
+          <ng-container *ngIf="formulario.controls.dataNascimento.touched">
+            <span *ngIf="formulario.controls.dataNascimento.errors?.required">
+              <div class="alert alert-danger" role="alert">
+                Data de nascimento é um campo obrigatório!
+              </div>
+            </span>
+          </ng-container>
+        </div>
       </div>
       <div class="row">
         <div class="col">
           <label class="label labelNome">Nome</label>
-          <input type="text" class="form-control" placeholder="Nome" formControlName = "nome" />
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Nome"
+            formControlName="nome"
+          />
           <ng-container *ngIf="formulario.controls.nome.touched">
             <span *ngIf="formulario.controls.nome.errors?.required">
               <div class="alert alert-danger" role="alert">
@@ -78,7 +123,12 @@
 
         <div class="col">
           <label class="label labelNome">Sobrenome</label>
-          <input type="text" class="form-control" placeholder="Sobrenome" formControlName = "sobreNome" />
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Sobrenome"
+            formControlName="sobreNome"
+          />
           <ng-container *ngIf="formulario.controls.sobreNome.touched">
             <span *ngIf="formulario.controls.sobreNome.errors?.required">
               <div class="alert alert-danger" role="alert">
@@ -102,7 +152,12 @@
       <div class="row">
         <div class="col">
           <label class="label labelNome">Email</label>
-          <input type="email" class="form-control" placeholder="Email" formControlName = "email" />
+          <input
+            type="email"
+            class="form-control"
+            placeholder="Email"
+            formControlName="email"
+          />
           <ng-container *ngIf="formulario.controls.email.touched">
             <span *ngIf="formulario.controls.email.errors?.required">
               <div class="alert alert-danger" role="alert">
@@ -123,7 +178,14 @@
         </div>
         <div class="col">
           <label class="label labelNome">Ano</label>
-          <input type="number" class="form-control" placeholder="Ano"  formControlName = "ano" min="1" max="3"/>
+          <input
+            type="number"
+            class="form-control"
+            placeholder="Ano"
+            formControlName="ano"
+            min="1"
+            max="3"
+          />
           <ng-container *ngIf="formulario.controls.ano.touched">
             <span *ngIf="formulario.controls.ano.errors?.required">
               <div class="alert alert-danger" role="alert">
@@ -142,14 +204,13 @@
             </span>
           </ng-container>
         </div>
-
       </div>
-
 
       <div class="divBotao">
-        <button class="btn botao" [disabled]="!formulario.valid">Cadastrar</button>
+        <button class="btn botao" [disabled]="!formulario.valid">
+          Cadastrar
+        </button>
       </div>
-      
     </form>
   </div>
 </div>

@@ -1,22 +1,39 @@
-<div class="container margin">
+<div class="button">
   <app-button-back></app-button-back>
-  <div class="row row-cols-1 row-cols-md-3 g-4 divRow">
-    <div class="card altura btn colHover" [routerLink]="['buscar']"  *ngIf="pessoa.cargo === 'Admin'">
-      <img src="../../../assets/images/professor buscar.jpg">
-      <div class="card-body cards">
-        <h5 class="card-title texto">Buscar professor</h5>
+</div>
+<div class="container-home">
+  <div
+    class="card"
+    [routerLink]="['buscar']"  *ngIf="pessoa.cargo === 'Admin'"
+  >
+    <div>
+      <img class="img-menu" src="../../../assets/images/professor buscar.jpg" alt="..." />
+      <div class="title-card">
+        <h5>Buscar aulas</h5>
       </div>
     </div>
-    <div class="card altura btn colHover" [routerLink]="['cadastrar']"  *ngIf="pessoa.cargo === 'Admin'">
-      <img src="../../../assets/images/professor cadastrar.jpg" class="card-img-top">
-      <div class="card-body cards">
-        <h5 class="card-title texto">Cadastrar professor</h5>
+  </div>
+
+  <div
+    class="card"
+    [routerLink]="['cadastrar']"  *ngIf="pessoa.cargo === 'Admin'"
+  >
+    <div >
+      <img class="img-menu" src="../../../assets/images/professor cadastrar.jpg" alt="..." />
+      <div class="title-card">
+        <h5>Cadastrar professor</h5>
       </div>
     </div>
-    <div class="card altura btn colHover" [routerLink]="['meusDados']" *ngIf="pessoa.cargo === 'Professor'">
-      <img src="../../../assets/images/professor cadastrar.jpg" class="card-img-top">
-      <div class="card-body cards">
-        <h5 class="card-title texto">Meus Dados</h5>
+  </div>
+
+  <div
+    class="card"
+    [routerLink]="['meusDados']" *ngIf="pessoa.cargo === 'Professor'"
+  >
+    <div>
+      <img class="img-menu" src="../../../assets/images/professor cadastrar.jpg" alt="..." />
+      <div class="title-card">
+        <h5>Meus Dados</h5>
       </div>
     </div>
   </div>

@@ -1,33 +1,39 @@
-<div class="container divContainer">
+<div class="button">
   <app-button-back></app-button-back>
-  <div class="row row-cols-1 row-cols-md-3 g-4 divCards">
-    <div class="col btn colHover" [routerLink]="['buscar']" *ngIf="pessoa.cargo === 'Admin'">
-      <div class="card h-100">
-        <img src="../../../../assets/images/aula-icon-buscar.jpg" class="card-img-top imagem">
-        <div class="card-body">
-          <div class="card-body cards">
-            <h5 class="card-title texto">Buscar aulas</h5>
-          </div>
-        </div>
+</div>
+<div class="container-home">
+  <div
+    class="card"
+    [routerLink]="['buscar']"  *ngIf="pessoa.cargo === 'Admin'"
+  >
+    <div>
+      <img class="img-menu" src="../../../../assets/images/aula-icon-buscar.jpg" alt="..." />
+      <div class="title-card">
+        <h5>Buscar aulas</h5>
       </div>
     </div>
-    <div class="col btn colHover" [routerLink]="['cadastrar']" *ngIf="pessoa.cargo === 'Admin'">
-      <div class="card h-100">
-        <img src="../../../../assets/images/aula-icon-save.jpg" class="card-img-top imagem">
-        <div class="card-body">
-          <div class="card-body cards">
-            <h5 class="card-title texto">Cadastrar aulas</h5>
-          </div>
-        </div>
+  </div>
+
+  <div
+    class="card"
+    [routerLink]="['cadastrar']"  *ngIf="pessoa.cargo === 'Admin'"
+  >
+    <div >
+      <img class="img-menu" src="../../../../assets/images/aula-icon-save.jpg" alt="..." />
+      <div class="title-card">
+        <h5>Cadastrar aulas</h5>
       </div>
     </div>
-    <div class="col btn colHover" [routerLink]="['minhasAulas']" *ngIf="pessoa.cargo != 'Admin'">
-      <div class="card h-100">
-        <img src="../../../../assets/images/aula-icon-minhas.jpg" class="card-img-top imagem">
-        <div class="card-body">
-          <div class="card-body cards">
-            <h5 class="card-title texto">Minhas aulas</h5>
-          </div>
+  </div>
+
+  <div
+    class="card"
+    [routerLink]="['meusDados']" *ngIf="pessoa.cargo === '!Admin'"
+  >
+    <div>
+      <img class="img-menu" src="../../../../assets/images/aula-icon-minhas.jpg" alt="..." />
+      <div class="title-card">
+        <h5>Minhas aulas</h5>
       </div>
     </div>
   </div>

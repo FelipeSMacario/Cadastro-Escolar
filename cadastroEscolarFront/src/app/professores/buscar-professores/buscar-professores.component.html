@@ -1,5 +1,7 @@
-<div class="container divContainer">
+<div class="button-back">
   <app-button-back></app-button-back>
+</div>
+<div class="container divContainer">
   <form class="row g-3 formulario" [formGroup]="formulario">
     <div class="col-auto">
       <input
@@ -64,10 +66,18 @@
   <div *ngIf="pagina && pagina.totalPages > 1">
     <nav aria-label="Page navigation example">
       <ul class="pagination justify-content-center">
-        <button class="page-link itemBotao" (click)="anterior()" *ngIf="!pagina.first">
+        <button
+          class="page-link itemBotao"
+          (click)="anterior()"
+          *ngIf="!pagina.first"
+        >
           Anterior
         </button>
-        <button class="page-link itemBotao" (click)="proximo()" *ngIf="!pagina.last">
+        <button
+          class="page-link itemBotao"
+          (click)="proximo()"
+          *ngIf="!pagina.last"
+        >
           Próximo
         </button>
       </ul>

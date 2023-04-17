@@ -1,56 +1,100 @@
-.nav{
-    background-color: #27376a;
-    color: white;
+.contaier-header {
+  background-color: #27376a;
 }
 
-img{
-    height:100%;
-    width: 100%;    
+.nav-bar {
+  width: 100%;
 }
-.imagem{
-    height:18%;
-    width: 18%;    
+
+ul {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  color: white;
+  font-size: 1.7rem;
+  margin: 0;
 }
-.imagemBtn{
-    height:100%;
-    width: 100%;    
-    border-radius: 50%;
+
+li {
+  list-style: none;
 }
-.imagemBtn:hover{
-    border: solid #ADD8E6 3px;
+
+.img-header {
+  height: 100px;
+  width: 140px;
+  padding: 10px;
+  cursor: pointer;
 }
-.padrao{
-    margin-left: 30px;
-    text-align: center;
-    padding-top: 40px;
+
+.botao {
+  height: 70px;
+  width: 70px;
+  /* padding: 10px; */
+  border:none;
+  background-color: #27376a;
 }
-.login{
-    background-color: white;
-    color: #27376a;
+
+.imagemBtn {
+    height: 100%;
+    width: 100%;
+    border-radius: 100%;
+  /* border-radius: 50%; */
 }
-.login:hover{    
-    border: 1px solid white;
-    background-color: #27376a;
-    color: white;
+.imagemBtn:hover {
+  border: solid #add8e6 3px;
 }
-.img{
-    padding: 0;
-    height: 10%;    
-    border: 0;
-    display: grid;
+.divLabel {
+  width: 80px;
+  display: flex;
+    justify-content: center;
 }
-.botao{
-    height: 70px;
-    width: 70px;
-    padding: 0;
-    border: 0;
-    background-color: #27376a;
+.label {
+  font-size: 12px;
+  color: white;
+  margin-left: -10px;
 }
-.divLabel{
-    width: 80px;
+/* 
+
+.nav {
+  background-color: #27376a;
+  color: white;
 }
-.label{
-    font-size: 12px;
-    color: white;
-    margin-left: -10px;
+
+.nav-item {
+  display: flex;
+  align-items: center;
 }
+.imagem {
+  height: 18%;
+  width: 18%;
+}
+
+.padrao {
+  margin-left: 30px;
+  text-align: center;
+  padding-top: 40px;
+}
+.login {
+  background-color: white;
+  color: #27376a;
+}
+.login:hover {
+  border: 1px solid white;
+  background-color: #27376a;
+  color: white;
+}
+.img {
+  padding: 0;
+  height: 10%;
+  border: 0;
+  display: grid;
+}
+
+.divLabel {
+  width: 80px;
+}
+.label {
+  font-size: 12px;
+  color: white;
+  margin-left: -10px;
+} */

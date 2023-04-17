@@ -1,44 +1,40 @@
-<div class="container divContainer">
-  <div class="row row-cols-1 row-cols-md-3 g-4 divCards">
-    
-    <div class="col colHover" *ngIf="pessoa.cargo === 'Professor' || pessoa.cargo === 'Admin'" >
-      <div class="card h-100 btn divBtn" [routerLink]="['/professores']">
+<div class="container-home">
+  <div class="content-home">
+    <div
+      class="card"
+      *ngIf="pessoa.cargo === 'Professor' || pessoa.cargo === 'Admin'"
+    >
+      <div  [routerLink]="['/professores']">
         <img
+          class="img-menu"
           src="../../assets/images/professor.jpg"
-          class="card-img-top imagem"
           alt="..."
         />
-        <div class="card-body cards">
-          <h5 class="card-title texto">Gerenciamento de professores</h5>
+        <div class="title-card">
+          <h5>Gerenciamento de professores</h5>
         </div>
       </div>
     </div>
 
-    <div class="col colHover" *ngIf="pessoa.cargo === 'Aluno' || pessoa.cargo === 'Admin'">
-      <div class="card h-100 btn divBtn"  [routerLink]="['/alunos']" >
-        <img
-          src="../../assets/images/alunos.jpg"
-          class="card-img-top imagem"
-          alt="..."
-        />
-        <div class="card-body cards">
-          <h5 class="card-title texto"> Gerenciamento de alunos</h5>
+    <div
+      class="card"
+      *ngIf="pessoa.cargo === 'Aluno' || pessoa.cargo === 'Admin'"
+    >
+      <div [routerLink]="['/alunos']">
+        <img class="img-menu" src="../../assets/images/alunos.jpg" alt="..." />
+        <div class="title-card">
+          <h5>Gerenciamento de alunos</h5>
         </div>
       </div>
     </div>
 
-    <div class="col colHover">
-      <div class="card h-100 btn divBtn"  [routerLink]="['/escola']">
-        <img
-          src="../../assets/images/escola.jpg"
-          class="card-img-top imagem"
-          alt="..."
-        />
-        <div class="card-body cards">
-          <h5 class="card-title texto">Gerenciamento das aulas</h5>
+    <div class="card">
+      <div [routerLink]="['/escola']">
+        <img class="img-menu" src="../../assets/images/escola.jpg" alt="..." />
+        <div class="title-card">
+          <h5>Gerenciamento das aulas</h5>
         </div>
       </div>
     </div>
-
   </div>
 </div>

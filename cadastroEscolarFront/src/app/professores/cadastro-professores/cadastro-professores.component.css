@@ -1,48 +1,50 @@
-.divForm{
-    margin-bottom: 1%;
-    margin-top: 1%;
+.divForm {
+  margin-bottom: 60px;
+  margin-top: 1%;
 }
-.formulario{
-    background-color: #27376a;
-    padding: 20px;
+.formulario {
+  background-color: #27376a;
+  padding: 20px;
 }
-.row{
-    margin-top: 20px;
+.row {
+  margin-top: 20px;
 }
-.divBotao{
-    margin-top: 20px;
-    text-align: center;
+.divBotao {
+  margin-top: 20px;
+  text-align: center;
 }
-.botao{
-    background-color: #27376a;
-    color: white;
-    border: 1px solid white;
-}
-
-.botao:hover{
-    background-color: white;
-    color: #27376a;
-}
-.labelNome{
-    color: white;
-    font-size: 19px;
-    margin-bottom: 5px;
-}
-.titulo{
-    text-align: center;
-    color: white;
-}
-.divImagem{
-    height: 200px;
-    width:  200px;
+.botao {
+  background-color: #27376a;
+  color: white;
+  border: 1px solid white;
 }
 
-.botaoFoto{
-    background-color: #27376a;
-    color: white;
-    border: 1px solid white;
-    border-radius: 10px;
-    width: 20%;
-    margin-top: 10px;
+.botao:hover {
+  background-color: white;
+  color: #27376a;
+}
+.labelNome {
+  color: white;
+  font-size: 19px;
+  margin-bottom: 5px;
+}
+.titulo {
+  text-align: center;
+  color: white;
+}
+.divImagem {
+  height: 200px;
+  width: 200px;
+}
 
+.botaoFoto {
+  background-color: #27376a;
+  color: white;
+  border: 1px solid white;
+  border-radius: 10px;
+  width: 20%;
+  margin-top: 10px;
+}
+.button {
+  margin-top: 39px;
 }
