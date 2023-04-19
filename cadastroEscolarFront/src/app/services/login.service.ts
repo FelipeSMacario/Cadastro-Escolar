@@ -1,5 +1,5 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 import { LoginDTO } from '../models/DTO/loginDTO';
 
 import { Auth } from '../models/auth';
@@ -29,10 +29,12 @@ export class LoginService {
     
   }
 
+  mostrarMenuEmitter = new EventEmitter<boolean>();
+
     login(login : LoginDTO) {
 
       const headers = new HttpHeaders()
-        .append('Authorization', 'Basic YW5ndWxhcjoxMjM0NTY=') //TODO mudar para variavel de ambiente
+        .append('Authorization', 'Basic YW5ndWxhcjoxMjM0NTY=')
         .append('Content-Type', 'application/x-www-form-urlencoded');
   
       const body = new HttpParams()
@@ -45,8 +47,12 @@ export class LoginService {
           let jwt = response.access_token;
           localStorage.setItem('token', jwt);
           this.addJwtPayload(jwt);
+          
         },
-        error: (err) => console.log('Error', err)
+        error: (err) => {
+          console.log('Error', err);
+          this.mostrarMenuEmitter.emit(false);
+        }
       });
     }
   
@@ -69,7 +75,8 @@ export class LoginService {
             this.pessoa = people;
             localStorage.setItem("pessoa", JSON.stringify(this.pessoa))
             localStorage.setItem("mostrarMenu", JSON.stringify(true))
-            this.router.navigate(['/']).then(() => window.location.reload())
+            this.router.navigate(['/'])
+
         },error : err => console.log( err)
         })
     }
@@ -79,6 +86,8 @@ export class LoginService {
     addJwtPayload(jwt: string) {
       this.jwtPayload = this.jwtConvert.decodeToken(jwt);
       this.setaPessoa(this.jwtPayload.user_name);
+      
+
     }
   
     recuperarjwtPayload(){

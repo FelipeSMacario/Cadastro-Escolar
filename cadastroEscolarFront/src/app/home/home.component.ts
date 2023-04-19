@@ -9,8 +9,11 @@ import { Pessoa } from '../models/pessoa';
 export class HomeComponent implements OnInit{
   pessoa : Pessoa;
 
+  mostrarMenu : boolean = false;
+
   ngOnInit(): void {
     this.pessoa = JSON.parse(localStorage.getItem("pessoa")!);
+
   }
 
 }

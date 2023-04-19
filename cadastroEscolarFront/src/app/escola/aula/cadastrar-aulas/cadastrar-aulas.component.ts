@@ -68,8 +68,7 @@ export class CadastrarAulasComponent implements OnInit{
       next : tur => {
         this.resposta = tur;
         if(this.resposta.success){
-          this.respostaTurma = this.resposta.data;
-          this.turma = this.respostaTurma.turmaList;
+          this.turma = this.resposta.data;
         }else {
           this._snackBar.open(this.resposta.messagem, "", {duration : 3000})
         }
@@ -80,12 +79,11 @@ export class CadastrarAulasComponent implements OnInit{
 
 
   listarMaterias(){
-    this.materiaService.listarMateria().subscribe({
+    this.materiaService.listarMateriaSemPaginacao().subscribe({
       next : mat => {
         this.resposta = mat;
         if(this.resposta.success){
-          this.respostaMateria = this.resposta.data;
-          this.materias = this.respostaMateria.materias;
+          this.materias = this.resposta.data;
         }else {
           this._snackBar.open(this.resposta.messagem, "", {duration : 3000})
         }
@@ -97,8 +95,7 @@ export class CadastrarAulasComponent implements OnInit{
       next : dia => {
         this.resposta = dia;
         if(this.resposta.success){
-          this.respostaDias = this.resposta.data;
-          this.dias = this.respostaDias.dias;
+          this.dias = this.resposta.data;
         }else {
           this._snackBar.open(this.resposta.messagem, "", {duration : 3000})
         }

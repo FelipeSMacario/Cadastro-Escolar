@@ -25,9 +25,8 @@ export class NavBarComponent implements OnInit{
   ngOnInit(): void {
     this.pessoa = JSON.parse(localStorage.getItem("pessoa")!);
     this.mostrarMenu = JSON.parse(localStorage.getItem("mostrarMenu")!);
-    if(this.pessoa.urlFoto){
+   
       this.isTherePhoto = true;
-    }
     this.fotoUrl =  this.sanitizer.bypassSecurityTrustResourceUrl(this.pessoa.urlFoto);
   }
 

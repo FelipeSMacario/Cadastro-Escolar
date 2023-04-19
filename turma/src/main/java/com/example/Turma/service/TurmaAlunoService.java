@@ -253,9 +253,9 @@ public class TurmaAlunoService {
         return alunoTurmaDTO;
     }
     private void cadastraAlunos(List<Pessoa> pessoas, Long turmaId) {
-        pessoas.forEach(p -> {
-            turmaAlunoRepository.cadastrarTurmaAluno(turmaAlunoRepository.buscaIdMaximo(), turmaId, p.getMatricula());
-        });
+        pessoas.forEach(p ->
+            turmaAlunoRepository.cadastrarTurmaAluno(turmaAlunoRepository.buscaIdMaximo(), turmaId, p.getMatricula())
+        );
     }
 
 

@@ -34,7 +34,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     public void configure(HttpSecurity http) throws Exception {
 
         http.authorizeRequests()
-                .antMatchers("/auth/**").permitAll()
+                .antMatchers("/auth/**", "/usuario/swagger-ui/**").permitAll()
                // .antMatchers(HttpMethod.POST,"/alunos/**", "/api-dias/**", "api-turma-client").hasAnyRole("ADMIN2")
                 .antMatchers(HttpMethod.GET,"/alunos/**", "/lancamentos/**").hasAnyRole("ADMIN")
                 .antMatchers("/email/**").hasAnyRole("ADMIN")
