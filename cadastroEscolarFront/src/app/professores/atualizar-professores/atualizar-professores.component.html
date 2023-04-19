@@ -48,7 +48,7 @@
         <div class="row">
           <div class="col">
             <label class="label labelNome">Nome</label>
-            <input type="text" class="form-control" [readonly]="isReadOnly()" placeholder="Nome" formControlName = "nome" />
+            <input type="text" class="form-control" [readonly]="" placeholder="Nome" formControlName = "nome" />
             <ng-container *ngIf="formulario.controls.nome.touched">
               <span *ngIf="formulario.controls.nome.errors?.required">
                 <div class="alert alert-danger" role="alert">
@@ -70,7 +70,7 @@
   
           <div class="col">
             <label class="label labelNome">Sobrenome</label>
-            <input type="text" class="form-control" [readonly]="isReadOnly()"  placeholder="Sobrenome" formControlName = "sobreNome" />
+            <input type="text" class="form-control" [readonly]=""  placeholder="Sobrenome" formControlName = "sobreNome" />
             <ng-container *ngIf="formulario.controls.sobreNome.touched">
               <span *ngIf="formulario.controls.sobreNome.errors?.required">
                 <div class="alert alert-danger" role="alert">

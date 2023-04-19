@@ -63,7 +63,12 @@ export class AtualizarProfessoresComponent  implements OnInit{
         next : async user => {
           this._snackBar.open("Professor atualizado com sucesso", "", {duration : 5000});
           await new Promise(f => setTimeout(f, 5000));
-          this.router.navigate(['professores/buscar'])
+          this.professorService.findUsuarioByMatricula(this.formulario.value.matricula).subscribe({
+            next : user => {
+              localStorage.setItem("pessoa", JSON.stringify(user));
+            }
+          })
+          
         },
         error : err => this._snackBar.open(err, "", {duration : 5000})
       })
