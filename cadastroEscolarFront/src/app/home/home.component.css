@@ -4,11 +4,13 @@
 }
 
 .container-home {
-  display: flex;
+  display: table;
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
   padding: 120px;
+  height: 79vh;
+  width: 100vw;
 }
 .content-home {
   display: flex;

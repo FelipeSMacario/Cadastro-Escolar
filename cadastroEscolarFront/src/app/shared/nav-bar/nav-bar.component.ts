@@ -44,7 +44,7 @@ export class NavBarComponent implements OnInit{
     this.condition = false;
     localStorage.clear();
     localStorage.setItem("mostrarMenu", JSON.stringify(false))
-    this.router.navigate(['/login']);
+    this.router.navigate(['/login']).then(() => window.location.reload());
     
   }
 
