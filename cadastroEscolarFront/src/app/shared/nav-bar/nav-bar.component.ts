@@ -12,6 +12,7 @@ export class NavBarComponent implements OnInit{
 
   mostrarMenu : boolean;
   isTherePhoto: boolean = false;
+  condition: boolean = true;
 
   fotoUrl : SafeResourceUrl;
 
@@ -25,16 +26,25 @@ export class NavBarComponent implements OnInit{
   ngOnInit(): void {
     this.pessoa = JSON.parse(localStorage.getItem("pessoa")!);
     this.mostrarMenu = JSON.parse(localStorage.getItem("mostrarMenu")!);
+    if(this.pessoa){
+      this.condition = true;
+    } else {
+      this.condition = false;
+    }
     if(this.pessoa.urlFoto){
       this.isTherePhoto = true;
+
     }
-    this.fotoUrl =  this.sanitizer.bypassSecurityTrustResourceUrl(this.pessoa.urlFoto);
+    this.fotoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.pessoa.urlFoto);
+
   }
 
   logout(){
+    this.condition = false;
     localStorage.clear();
     localStorage.setItem("mostrarMenu", JSON.stringify(false))
-    this.router.navigate(['/login']).then(() => window.location.reload())
+    this.router.navigate(['/login']);
+    
   }
 
 }
