@@ -48,7 +48,7 @@ public class ControllerException {
                 .success(false)
                 .timestamp(LocalDate.now())
                 .status(HttpStatus.BAD_REQUEST)
-                .messagem("Um ou mais campos estão invalidos: " + fieldErrorList.get(0).getField())
+                .messagem("Um ou mais campos estão invalidos: " + fieldErrorList.get(0).getField().toUpperCase())
                 .build());
     }
 

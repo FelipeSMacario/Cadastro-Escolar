@@ -61,6 +61,9 @@ export class AtualizarProfessoresComponent  implements OnInit{
     salvarAluno(){
       this.professorService.updateAlunos(this.cargo, this.formulario.value).pipe(take(1)).subscribe({
         next : async user => {
+          this.resposta = user;
+
+          if(this.resposta.success){
           this._snackBar.open("Professor atualizado com sucesso", "", {duration : 5000});
           await new Promise(f => setTimeout(f, 5000));
           this.professorService.findUsuarioByMatricula(this.formulario.value.matricula).subscribe({
@@ -68,9 +71,10 @@ export class AtualizarProfessoresComponent  implements OnInit{
               localStorage.setItem("pessoa", JSON.stringify(user));
             }
           })
-          
+        } else {
+          this._snackBar.open(this.resposta.messagem, "", {duration : 5000});
+        }
         },
-        error : err => this._snackBar.open(err, "", {duration : 5000})
       })
     }
 
