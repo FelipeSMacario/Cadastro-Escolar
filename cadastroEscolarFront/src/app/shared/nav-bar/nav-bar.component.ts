@@ -28,14 +28,15 @@ export class NavBarComponent implements OnInit{
     this.mostrarMenu = JSON.parse(localStorage.getItem("mostrarMenu")!);
     if(this.pessoa){
       this.condition = true;
+      if(this.pessoa.urlFoto){
+        this.isTherePhoto = true;
+        this.fotoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.pessoa.urlFoto);
+      }
     } else {
       this.condition = false;
     }
-    if(this.pessoa.urlFoto){
-      this.isTherePhoto = true;
 
-    }
-    this.fotoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.pessoa.urlFoto);
+   
 
   }
 

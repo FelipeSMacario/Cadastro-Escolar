@@ -1,39 +1,32 @@
-<div class="divForm">
-  <div class="formulario container">
-    <form class="form " [formGroup]="formulario">
-      <div class="row">
-        <div class="col">
-          <div class="divTitulo">
-            <label class="titulo">LOGIN</label>
-          </div>
+<div class="login-page">
+  <form div class="formulario" [formGroup]="formulario">
+    <div class="cabecalho">
+      <img class="imgLogin" src="../../assets/images/logo.png" />
+      <h1 class="titulo">Escola Java Angular</h1>
+    </div>
 
-          <div class="container">
-           <img  class="imgLogin" src="../../assets/images/logo.png" />
-            <li class="container2">
-              <h1 class="teste">Escola Java Angular</h1>
-            </li>  
-          </div>
+    <div class="formInput">
+      <label class="formTitulo">Usuário</label>
+      <input
+        class="formCampo"
+        type="text"
+        placeholder="Usuário"
+        formControlName="usuario"
+      />
+    </div>
 
-        </div>
-      </div>
-      <div class="row divRow">
-        <div class="col">
-          <label class="label labelNome">Usuário</label>
-          <input type="text" class="form-control" placeholder="Usuário" formControlName = "usuario" />
-        </div>
-      </div>
+    <div class="formInput">
+      <label class="formTitulo">Senha</label>
+      <input
+        class="formCampo"
+        type="password"
+        placeholder="Senha"
+        formControlName="senha"
+      />
+    </div>
 
-      <div class="row divRow">
-        <div class="col">
-          <label class="label labelNome">Senha</label>
-          <input type="password" class="form-control" placeholder="Senha" formControlName = "senha" />
-        </div>
-      </div>
-
-      <div class="row divBotao">
-        <button class="btn botao" (click)="logar()">Logar</button>
-      </div>
-    </form>
-  </div>
-
+    <div class="divBotao">
+      <button class="botao" (click)="logar()">Logar</button>
+    </div>
+  </form>
 </div>
