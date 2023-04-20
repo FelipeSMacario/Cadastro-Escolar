@@ -73,7 +73,7 @@ public class PessoaService {
             pessoaRepository.save(pessoa1);
 
             this.cadastrarLogin(pessoa1);
-            this.disparaEmail(pessoa1);
+//            this.disparaEmail(pessoa1);
 
 
             return ResponseEntity.ok().body(DefaultResponse.builder()

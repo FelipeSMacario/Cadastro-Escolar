@@ -51,8 +51,8 @@ public class NotasService {
                     .trimestre(buscaTrimeste()).build();
             notasRepository.save(notas);
 
-            EmailNotasDTO emailNotasDTO = new EmailNotasDTO(aluno.getEmail(), aluno.getNome(), valor.getNotas(), materia.getNome());
-            rabbitmqService.enviaMensagem(Fila.NOTAS.toString(), emailNotasDTO);
+//            EmailNotasDTO emailNotasDTO = new EmailNotasDTO(aluno.getEmail(), aluno.getNome(), valor.getNotas(), materia.getNome());
+//            rabbitmqService.enviaMensagem(Fila.NOTAS.toString(), emailNotasDTO);
 
         });
 

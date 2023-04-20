@@ -59,18 +59,14 @@ export class AtualizarProfessoresComponent  implements OnInit{
     }
 
     salvarAluno(){
-      this.professorService.updateAlunos(this.cargo, this.formulario.value).pipe(take(1)).subscribe({
+      this.professorService.updateAlunos(this.cargo, this.formulario.value).subscribe({
         next : async user => {
           this.resposta = user;
 
           if(this.resposta.success){
           this._snackBar.open("Professor atualizado com sucesso", "", {duration : 5000});
           await new Promise(f => setTimeout(f, 5000));
-          this.professorService.findUsuarioByMatricula(this.formulario.value.matricula).subscribe({
-            next : user => {
-              localStorage.setItem("pessoa", JSON.stringify(user));
-            }
-          })
+          this.router.navigate(['professores/buscar'])          
         } else {
           this._snackBar.open(this.resposta.messagem, "", {duration : 5000});
         }
@@ -136,6 +132,10 @@ export class AtualizarProfessoresComponent  implements OnInit{
     isReadOnly() : boolean{
       this.pessoaLogada = JSON.parse(localStorage.getItem("pessoa")!);
      return this.pessoaLogada.cargo === "Professor" ? true : false;
+    }
+
+    teste(){
+      this.router.navigate(['professores/buscar'])
     }
 
 
