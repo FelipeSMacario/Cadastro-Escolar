@@ -2,38 +2,43 @@
   <app-button-back></app-button-back>
 </div>
 <div class="container-home">
-  <div
+  <div class="content-home">
+    <div
     class="card"
     [routerLink]="['buscar']"  *ngIf="pessoa.cargo === 'Admin'"
-  >
-    <div>
-      <img class="img-menu" src="../../../assets/images/professor buscar.jpg" alt="..." />
-      <div class="title-card">
-        <h5>Buscar aulas</h5>
+    >
+      <div >
+        <img
+          class="img-menu"
+          src="../../../assets/images/professor buscar.jpg"
+          alt="..."
+        />
+        <div class="title-card">
+          <h5>Buscar professores</h5>
+        </div>
       </div>
     </div>
-  </div>
 
-  <div
+    <div
     class="card"
     [routerLink]="['cadastrar']"  *ngIf="pessoa.cargo === 'Admin'"
-  >
-    <div >
-      <img class="img-menu" src="../../../assets/images/professor cadastrar.jpg" alt="..." />
-      <div class="title-card">
-        <h5>Cadastrar professor</h5>
+    >
+      <div >
+        <img class="img-menu" src="../../../assets/images/professor cadastrar.jpg" alt="..." />
+        <div class="title-card">
+          <h5>Cadastrar professor</h5>
+        </div>
       </div>
     </div>
-  </div>
 
-  <div
+    <div
     class="card"
-    [routerLink]="['meusDados']" *ngIf="pessoa.cargo === 'Professor'"
-  >
-    <div>
-      <img class="img-menu" src="../../../assets/images/professor cadastrar.jpg" alt="..." />
-      <div class="title-card">
-        <h5>Meus Dados</h5>
+    [routerLink]="['meusDados']" *ngIf="pessoa.cargo === 'Professor'">
+      <div [routerLink]="['/escola']">
+        <img class="img-menu" src="../../../assets/images/professor cadastrar.jpg" alt="..." />
+        <div class="title-card">
+          <h5>Meus Dados</h5>
+        </div>
       </div>
     </div>
   </div>

@@ -1,18 +1,35 @@
-<div class="container divContainer">
+<div class="button">
   <app-button-back></app-button-back>
-    <div class="card-group">
-        <div class="card btn" [routerLink]="['buscarMateria']">
-          <img src="../../../../assets/images/busca_materia.png" class="card-img-top imagem" alt="...">
-          <div class="card-body cards">
-            <h5 class="card-title texto">Buscar Materia</h5>
-          </div>
+</div>
+<div class="container-home">
+  <div class="content-home">
+    <div
+    class="card"
+    [routerLink]="['buscarMateria']"
+    >
+      <div >
+        <img
+          class="img-menu"
+          src="../../../../assets/images/busca_materia.png"
+          alt="..."
+        />
+        <div class="title-card">
+          <h5>Buscar Materia</h5>
         </div>
-        <div class="card btn" [routerLink]="['cadastrarMateria']">
-          <img src="../../../../assets/images/save-materia.png" class="card-img-top imagem" alt="...">
-          <div class="card-body cards">
-            <h5 class="card-title texto">Cadastro de Materias</h5>
-          </div>
-        </div>
-
       </div>
+    </div>
+
+    <div
+    class="card"
+    [routerLink]="['cadastrarMateria']"
+    >
+      <div >
+        <img class="img-menu" src="../../../../assets/images/save-materia.png" alt="..." />
+        <div class="title-card">
+          <h5>Cadastro de Materias</h5>
+        </div>
+      </div>
+    </div>
+
+  </div>
 </div>

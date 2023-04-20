@@ -1,20 +1,55 @@
-.divContainer{
-    padding: 3%;
-    height: 72vh;
-    margin-top: -1%;
-    max-width: 45%;
-}
-.texto{
-    text-align: center;
-    font-size: 17px;
-}
-    
-.cards{
-    background-color: #27376a;
+.img-menu {
+    width: 250px;
+    height: 250px;
+  }
+  
+  .container-home {
+    display: table;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    padding: 120px;
+    height: 70vh;
+    width: 100vw;
+  }
+  .content-home {
+    display: flex;
+    gap: 25px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .card {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    box-shadow: 1px 1px 1px #27376a;
     color: white;
-}
-
-.imagem{
-    height: 100%;
-    width: 100%;
-}
+    height: 400px;
+    width: 400px;
+    cursor: pointer;
+    transition: 1.3s;
+  }
+  
+  .card:hover {
+    border: 4px solid #ADD8E6;
+    color: white;
+  }
+  .title-card {
+    display: flex;
+    background-color: #27376a;
+    justify-content: center;
+    text-align: center;
+    height: 100px;
+    flex-direction: column;
+    padding: 5px;
+  
+  }
+  
+  .title-card > h5 { 
+    font-size: 1.3rem;
+  }
+  .button {
+    margin-top: 39px;
+  }

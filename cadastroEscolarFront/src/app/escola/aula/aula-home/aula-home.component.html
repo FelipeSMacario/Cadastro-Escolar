@@ -2,38 +2,44 @@
   <app-button-back></app-button-back>
 </div>
 <div class="container-home">
-  <div
+  <div class="content-home">
+    <div
     class="card"
     [routerLink]="['buscar']"  *ngIf="pessoa.cargo === 'Admin'"
-  >
-    <div>
-      <img class="img-menu" src="../../../../assets/images/aula-icon-buscar.jpg" alt="..." />
-      <div class="title-card">
-        <h5>Buscar aulas</h5>
+    >
+      <div >
+        <img
+          class="img-menu"
+          src="../../../../assets/images/aula-icon-buscar.jpg"
+          alt="..."
+        />
+        <div class="title-card">
+          <h5>Buscar aulas</h5>
+        </div>
       </div>
     </div>
-  </div>
 
-  <div
+    <div
     class="card"
     [routerLink]="['cadastrar']"  *ngIf="pessoa.cargo === 'Admin'"
-  >
-    <div >
-      <img class="img-menu" src="../../../../assets/images/aula-icon-save.jpg" alt="..." />
-      <div class="title-card">
-        <h5>Cadastrar aulas</h5>
+    >
+      <div >
+        <img class="img-menu" src="../../../../assets/images/aula-icon-save.jpg" alt="..." />
+        <div class="title-card">
+          <h5>Cadastrar aulas</h5>
+        </div>
       </div>
     </div>
-  </div>
 
-  <div
+    <div
     class="card"
     [routerLink]="['minhasAulas']" *ngIf="pessoa.cargo !== 'Admin'"
-  >
-    <div>
-      <img class="img-menu" src="../../../../assets/images/aula-icon-minhas.jpg" alt="..." />
-      <div class="title-card">
-        <h5>Minhas aulas</h5>
+    >
+      <div [routerLink]="['/escola']">
+        <img class="img-menu" src="../../../../assets/images/aula-icon-minhas.jpg" alt="..." />
+        <div class="title-card">
+          <h5>Minhas aulas</h5>
+        </div>
       </div>
     </div>
   </div>
