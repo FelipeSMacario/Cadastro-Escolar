@@ -26,7 +26,7 @@ public interface TurmaAlunoRepository extends JpaRepository<TurmaAluno, Long> {
 
     @Transactional
     @Modifying
-    @Query(value = "INSERT INTO sistemaescolar.turma_aluno VALUES (:idTurmaAluno, :idTurma, :alunoId)", nativeQuery = true)
+    @Query(value = "INSERT INTO sistemaescolar.turma_aluno(id, turma_id, aluno_id) VALUES (:idTurmaAluno, :idTurma, :alunoId)", nativeQuery = true)
     void cadastrarTurmaAluno(@Param("idTurmaAluno") Long idTurmaAluno, @Param("idTurma") Long idTurma, @Param("alunoId") Long alunoId);
 
     @Query(value = "SELECT count(aluno_id) FROM sistemaescolar.turma_aluno WHERE aluno_id = :matricula", nativeQuery = true)
