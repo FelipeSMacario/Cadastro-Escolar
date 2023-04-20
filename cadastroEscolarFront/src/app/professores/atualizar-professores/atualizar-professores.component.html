@@ -132,7 +132,7 @@
             </div>
             <div class="col">
                 <label class="label labelNome">Status</label>
-                <select class="form-select" [disabled]="isReadOnly()"  aria-label="Default select example" formControlName = "status">
+                <select class="form-select" [disabled]="isReadOnly()"  aria-label="Default select example" formControlName = "status" *ngIf="!isReadOnly()">
                   <option value="Ativo">Ativo</option>
                   <option value="Inativo">Inativo</option>
                 </select>
@@ -153,6 +153,3 @@
       </form>
     </div>
   </div>
-
-  <button (click)="teste()">teste</button>
-  

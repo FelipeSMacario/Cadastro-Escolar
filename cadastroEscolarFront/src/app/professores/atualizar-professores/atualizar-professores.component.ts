@@ -129,13 +129,10 @@ export class AtualizarProfessoresComponent  implements OnInit{
       this.urlFoto = pessoa.urlFoto;
     }
 
+
     isReadOnly() : boolean{
       this.pessoaLogada = JSON.parse(localStorage.getItem("pessoa")!);
-     return this.pessoaLogada.cargo === "Professor" ? true : false;
-    }
-
-    teste(){
-      this.router.navigate(['professores/buscar'])
+     return this.pessoaLogada.cargo === "Aluno" ? true : false;
     }
 
 
