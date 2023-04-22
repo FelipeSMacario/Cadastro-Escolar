@@ -1,5 +1,5 @@
 .button-back {
-    margin-top: 39px;
+    margin-top: 40px;
   }
 .tabela{
     margin-top: 20px;
@@ -7,8 +7,8 @@
     border: 1px solid #27376a;
 }
 .divContainer{
-    height: 70vh;
-  padding: 1%;
+    height: 69vh;
+    padding: 1%;
 }
 .tabela th{
     background-color: #27376a;

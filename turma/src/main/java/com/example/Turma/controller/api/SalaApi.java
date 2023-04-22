@@ -11,8 +11,8 @@ import io.swagger.annotations.ApiOperation;
 @Api(tags = "Salas")
 public interface SalaApi {
     @ApiOperation("listar salas")
-    public ResponseEntity<DefaultResponse> listarSalas();
+    ResponseEntity<DefaultResponse> listarSalas();
 
     @ApiOperation("Buscar sala por idr")
-    public ResponseEntity<DefaultResponse> buscarSalas(@PathVariable Long id);
+    ResponseEntity<DefaultResponse> buscarSalas(@PathVariable Long id);
 }

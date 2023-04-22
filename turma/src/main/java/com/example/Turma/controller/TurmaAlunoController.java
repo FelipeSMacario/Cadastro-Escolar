@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = "turmaAlunos")
-public class TurmaAlunoController {
+public class TurmaAlunoController implements TurmaAlunos{
 
     @Autowired
     TurmaAlunoService turmaAlunoService;

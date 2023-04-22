@@ -11,22 +11,26 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import springfox.documentation.annotations.ApiIgnore;
 
 
 @Api(tags = "Materias escolares")
 public interface MateriaApi {
     @ApiOperation("Listar matérias")
-    public ResponseEntity<DefaultResponse> listarMaterias(@PageableDefault(size = 5, page = 0, sort = "nome") Pageable pageable);
+    ResponseEntity<DefaultResponse> listarMaterias(@PageableDefault(size = 5, page = 0, sort = "nome") Pageable pageable);
+
+    @ApiIgnore
+    ResponseEntity<DefaultResponse> listarMateriasSemPaginacao();
 
     @ApiOperation("Cadastrar uma nova matéria")
-    public ResponseEntity<DefaultResponse> cadastraMateria(@RequestBody @Valid Materia materia);
+    ResponseEntity<DefaultResponse> cadastraMateria(@RequestBody @Valid Materia materia);
 
     @ApiOperation("Buscar uma matéria por nome")
-    public ResponseEntity<DefaultResponse> buscarMateria(@PathVariable String nome);
+    ResponseEntity<DefaultResponse> buscarMateria(@PathVariable String nome);
 
     @ApiOperation("Atualizado dados da matéria")
-    public ResponseEntity<DefaultResponse> atualizaMateria(@RequestBody Materia materia);
+    ResponseEntity<DefaultResponse> atualizaMateria(@RequestBody @Valid Materia materia);
 
      @ApiOperation("Deletar uma matéria por nome")
-     public ResponseEntity<DefaultResponse> deletarMateria(@PathVariable Long id);
+     ResponseEntity<DefaultResponse> deletarMateria(@PathVariable Long id);
 }

@@ -1,5 +1,6 @@
 package com.example.pessoa.controller;
 
+import com.example.pessoa.controller.api.ProfessorApi;
 import com.example.pessoa.dto.EntradaDTO;
 import com.example.pessoa.enums.Cargo;
 import com.example.pessoa.model.Pessoa;
@@ -15,7 +16,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping(value = "professor")
-public class ProfessorController {
+public class ProfessorController implements ProfessorApi {
     @Autowired
     PessoaService professorService;
 

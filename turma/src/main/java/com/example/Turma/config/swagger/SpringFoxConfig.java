@@ -1,4 +1,4 @@
-package com.example.pessoa.config.swagger;
+package com.example.Turma.config.swagger;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,8 +19,9 @@ public class SpringFoxConfig {
                 .apis(RequestHandlerSelectors.withClassAnnotation(RestController.class))
                 .paths(PathSelectors.any())
                 .build()
-                .tags(  new Tag("Alunos", "Gerenciamento de alunos"),
-                        new Tag("Professor", "Gerenciamento de professores"));
+                .tags(  new Tag("Salas", "Gerenciamento de alunos"),
+                        new Tag("Turma Aluno", "Vinculo entre turma e alunos"),
+                        new Tag("Turma", "Gerenciamento de turmas"));
     }
 
 

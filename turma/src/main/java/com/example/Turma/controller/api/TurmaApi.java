@@ -10,12 +10,12 @@ import com.example.Turma.model.response.DefaultResponse;
 public interface TurmaApi {
 
     @ApiOperation("listar turmas")
-    public ResponseEntity<DefaultResponse> listarTurmas();
+    ResponseEntity<DefaultResponse> listarTurmas();
 
     @ApiOperation("buscar turma por número")
-    public ResponseEntity<DefaultResponse> buscarTurmaPorNumero(@PathVariable int numero);
+    ResponseEntity<DefaultResponse> buscarTurmaPorNumero(@PathVariable int numero);
 
     @ApiOperation("buscar turma por ano")
-    public ResponseEntity<DefaultResponse> buscarTurmaPorAno(@PathVariable int ano);
+    ResponseEntity<DefaultResponse> buscarTurmaPorAno(@PathVariable int ano);
 
 }

@@ -9,7 +9,7 @@
     justify-content: center;
     align-items: center;
     padding: 120px;
-    height: 70vh;
+    height: 69vh;
     width: 100vw;
   }
   .content-home {
@@ -51,5 +51,5 @@
     font-size: 1.3rem;
   }
   .button {
-    margin-top: 39px;
+    margin-top: 40px;
   }

@@ -1,5 +1,6 @@
 .divContainer{
-    height: 71vh;
+    height: 69vh;
+    padding: 1%;
 }
 .formulario{
     padding: 1%;
@@ -47,5 +48,5 @@
     border: 1px solid #27376a;
 }
 .button-back {
-    margin-top: 39px;
+    margin-top: 40px;
   }

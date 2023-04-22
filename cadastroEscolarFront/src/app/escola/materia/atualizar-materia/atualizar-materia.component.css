@@ -1,6 +1,6 @@
 .divContainer{
-    padding-top: 7%;
-    height: 70vh;
+    padding-top: 3%;
+    height: 69vh;
 }
 .formulario{
     background-color: #27376a;
@@ -33,3 +33,7 @@
     text-align: center;
     color: white;
 }
+
+.button-back {
+    margin-top: 40px;
+  }

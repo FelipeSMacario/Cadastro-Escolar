@@ -6,9 +6,12 @@ import com.example.pessoa.model.Pessoa;
 import com.example.pessoa.response.DefaultResponse;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
 
@@ -16,17 +19,21 @@ import javax.validation.Valid;
 @Api(tags = "Professor")
 public interface ProfessorApi {
     @ApiOperation(("Listar professores"))
-    public ResponseEntity<DefaultResponse> listarProfessores();
+    ResponseEntity<DefaultResponse> listarProfessores(@PageableDefault(size = 5, page = 0, sort = "matricula") Pageable pageable);
 
-    @ApiOperation("Buscar um professor")
-    public ResponseEntity<DefaultResponse> buscarProfessor(@PathVariable Long matricula);
+    @ApiIgnore
+    ResponseEntity<DefaultResponse> listarSemPaginacao();
 
-    public ResponseEntity<DefaultResponse> buscarAlunoPorNome(@PathVariable String nome);
+    @ApiOperation("Buscar um professor por matricula")
+    ResponseEntity<DefaultResponse> buscarProfessor(@PathVariable Long matricula);
+
+    @ApiOperation("Buscar um professor por nome")
+    ResponseEntity<DefaultResponse> buscarAlunoPorNome(@PathVariable String nome, @PageableDefault(size = 5, page = 0, sort = "matricula") Pageable pageable);
 
     @ApiOperation("Cadastrar um novo professor")
-    public ResponseEntity<DefaultResponse> cadastrarProfessor(@RequestBody @Valid Pessoa pessoa);
+    ResponseEntity<DefaultResponse> cadastrarProfessor(@RequestBody @Valid Pessoa pessoa);
 
     @ApiOperation("Atualizado dados do professor")
-    public ResponseEntity<DefaultResponse> atualizarProfessor(@RequestBody EntradaDTO entradaDTO);
+    ResponseEntity<DefaultResponse> atualizarProfessor(@RequestBody EntradaDTO entradaDTO);
 
 }

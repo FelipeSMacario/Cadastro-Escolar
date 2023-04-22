@@ -4,12 +4,13 @@
 }
 
 .container-home {
+  margin-top: 3px;
   display: table;
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
   padding: 120px;
-  height: 79vh;
+  height: 78vh;
   width: 100vw;
 }
 .content-home {

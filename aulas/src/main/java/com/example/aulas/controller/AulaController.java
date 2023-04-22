@@ -1,5 +1,6 @@
 package com.example.aulas.controller;
 
+import com.example.aulas.controller.api.QuadroHorarioApi;
 import com.example.aulas.dto.EntradaQuadroAtualizarDTO;
 import com.example.aulas.dto.EntradaQuadroHorarioDTO;
 import com.example.aulas.response.DefaultResponse;
@@ -13,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = "quadroHorario")
-public class AulaController {
+public class AulaController implements QuadroHorarioApi {
     @Autowired
     AulaService quadroHorarioService;
 
