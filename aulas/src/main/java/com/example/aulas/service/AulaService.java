@@ -10,14 +10,11 @@ import com.example.aulas.repository.MateriaRepository;
 import com.example.aulas.response.DefaultResponse;
 import com.example.aulas.response.ResponseHoras;
 import com.example.aulas.response.ResponseMaterias;
-import com.example.aulas.response.ResponseQuadroHorario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;

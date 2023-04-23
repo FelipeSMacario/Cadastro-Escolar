@@ -9,7 +9,8 @@
   justify-content: center;
   align-items: center;
   padding: 120px;
-  height: 69vh;
+  height: 70vh;
+  margin-bottom: 1px;
   width: 100vw;
 }
 .content-home {

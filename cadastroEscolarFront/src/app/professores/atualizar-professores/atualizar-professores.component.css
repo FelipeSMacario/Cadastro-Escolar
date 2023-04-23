@@ -5,6 +5,7 @@
 .formulario{
     background-color: #27376a;
     padding: 20px;
+    margin-bottom: 41px;
 }
 .row{
     margin-top: 20px;
@@ -47,5 +48,5 @@
 
 }
 .button {
-    margin-top: 39px;
+    margin-top: 40px;
   }

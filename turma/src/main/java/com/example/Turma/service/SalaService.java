@@ -10,6 +10,7 @@ import com.example.Turma.model.response.DefaultResponse;
 import com.example.Turma.model.response.ResponseSala;
 import com.example.Turma.repository.SalaRepository;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,23 +20,10 @@ public class SalaService {
     @Autowired
     SalaRepository salaRepository;
     public ResponseEntity<DefaultResponse> listarSalas() {
-
-        List<Sala> salas = new ArrayList<>();
-
-        try {
-            salas = salaRepository.findAll();
-        }catch (Exception e){
-            return ResponseEntity.ok().body(DefaultResponse.builder()
-                    .success(false)
-                    .status(HttpStatus.NOT_FOUND)
-                    .messagem(e.getMessage())
-                    .build());
-        }
-
         return ResponseEntity.ok().body(DefaultResponse.builder()
                 .success(false)
                 .status(HttpStatus.OK)
-                .data(new ResponseSala(salas))
+                .data((Serializable) salaRepository.findAll())
                 .build());
     }
 

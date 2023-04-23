@@ -28,7 +28,6 @@ export class AtualizarAlunosComponent implements OnInit{
     private fb : FormBuilder,
     private alunoService : PessoaService,
     private activatedRoute : ActivatedRoute,
-    private router: Router,
     private sanitizer : DomSanitizer,
     private _snackBar: MatSnackBar
     ){}
@@ -64,7 +63,7 @@ export class AtualizarAlunosComponent implements OnInit{
 
   isReadOnly() : boolean{
     this.pessoaLogada = JSON.parse(localStorage.getItem("pessoa")!);
-   return this.pessoaLogada.cargo === "Aluno" ? true : false;
+   return this.pessoaLogada.cargo === "Admin" ? true : false;
   }
 
 
@@ -76,7 +75,8 @@ export class AtualizarAlunosComponent implements OnInit{
         if(this.resposta.success){
           this._snackBar.open("Aluno atualizado com sucesso", "", {duration : 5000});
           await new Promise(f => setTimeout(f, 5000));
-          this.router.navigate(['alunos/buscar'])
+          localStorage.setItem("pessoa", JSON.stringify(this.resposta.data))
+          window.location.reload()
         }else {
           this._snackBar.open(this.resposta.messagem, "", {duration : 5000})
         }

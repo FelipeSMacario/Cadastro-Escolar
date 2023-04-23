@@ -16,7 +16,8 @@
 }
 .divContainer{
     padding: 40px;
-    height: 75vh;
+    height: 70vh;
+    margin-top: 1px;
     display: table;
    
 }
@@ -27,5 +28,5 @@
 }
 
 .button {
-    margin-top: 39px;
+    margin-top: 40px;
   }

@@ -27,23 +27,23 @@ public class ValidacoesService {
     @Autowired
     private TurmaAlunoRepository turmaAlunoRepository;
 
-    Pessoa buscaPessoaSemStatus(Long matricula, String cargo){
+    public Pessoa buscaPessoaSemStatus(Long matricula, String cargo){
         return pessoaRepository.findByMatriculaAndCargo(matricula, cargo).orElseThrow(() -> new UserNotFoundException(matricula));
     }
 
-    Pessoa buscaPessoa(Long matricula, String cargo){
+    public Pessoa buscaPessoa(Long matricula, String cargo){
         return pessoaRepository.findByMatriculaAndCargoAndStatus(matricula, cargo, "Ativo").orElseThrow(() -> new UserNotFoundException(matricula));
     }
 
-    Turma buscaTurmaPorNumero(int numero){
+    public Turma buscaTurmaPorNumero(int numero){
         return turmaRepository.findByNumero(numero).orElseThrow(() -> new TurmaNotFoundException(numero));
     }
 
-    Turma buscaTurma(Long id){
+    public Turma buscaTurma(Long id){
         return turmaRepository.findById(id).orElseThrow(() -> new TurmaNotFoundException(id));
     }
 
-    Long buscaTurmaPorMatricula(Long matricula){
+    public Long buscaTurmaPorMatricula(Long matricula){
         Long id = turmaAlunoRepository.buscaTurmaPorMatricula(matricula).orElseThrow(() -> new AlunoNoRegisterException(matricula));
         if (id == 0)
             throw new AlunoNoRegisterException(matricula);
@@ -51,7 +51,7 @@ public class ValidacoesService {
     }
 
 
-    List<Pessoa> validaPessoa(List<Long> matricula) {
+    public List<Pessoa> validaPessoa(List<Long> matricula) {
         List<Pessoa> pessoas = new ArrayList<>();
 
         matricula.forEach(valor -> {

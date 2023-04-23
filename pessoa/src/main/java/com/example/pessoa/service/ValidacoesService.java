@@ -6,9 +6,7 @@ import com.example.pessoa.model.Pessoa;
 import com.example.pessoa.repository.PessoaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ValidacoesService {
@@ -17,15 +15,15 @@ public class ValidacoesService {
     private PessoaRepository pessoaRepository;
 
 
-    Pessoa buscaPessoa(Long matricula, String cargo){
+    public Pessoa buscaPessoa(Long matricula, String cargo){
         return pessoaRepository.findByMatriculaAndCargoAndStatus(matricula, cargo, "Ativo").orElseThrow(() -> new UserNotFoundException(matricula));
     }
 
-    Pessoa buscaPessoaSemCargo(Long matricula){
+    public Pessoa buscaPessoaSemCargo(Long matricula){
         return pessoaRepository.findById(matricula).orElseThrow(() -> new UserNotFoundException(matricula));
     }
 
-    void buscaPessoaCpf(String cpf){
+    public void buscaPessoaCpf(String cpf){
         List<Pessoa> pessoa = pessoaRepository.findByCpf(cpf);
         if (!pessoa.isEmpty())
             throw  new FieldDuplicateException("O campo CPF já está vinculado a outro usuário");

@@ -7,7 +7,8 @@
     border: 1px solid #27376a;
 }
 .divContainer{
-    height: 69vh;
+    height: 70vh;
+    margin-bottom: 1px;
     padding: 1%;
 }
 .tabela th{

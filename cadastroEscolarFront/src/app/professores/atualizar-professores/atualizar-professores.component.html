@@ -48,7 +48,7 @@
         <div class="row">
           <div class="col">
             <label class="label labelNome">Nome:</label>
-            <input type="text" class="form-control" [readonly]="" placeholder="Nome" formControlName = "nome" />
+            <input type="text" class="form-control"  placeholder="Nome" formControlName = "nome" />
             <ng-container *ngIf="formulario.controls.nome.touched">
               <span *ngIf="formulario.controls.nome.errors?.required">
                 <div class="alert alert-danger" role="alert">
@@ -70,7 +70,7 @@
   
           <div class="col">
             <label class="label labelNome">Sobrenome:</label>
-            <input type="text" class="form-control" [readonly]=""  placeholder="Sobrenome" formControlName = "sobreNome" />
+            <input type="text" class="form-control"  placeholder="Sobrenome" formControlName = "sobreNome" />
             <ng-container *ngIf="formulario.controls.sobreNome.touched">
               <span *ngIf="formulario.controls.sobreNome.errors?.required">
                 <div class="alert alert-danger" role="alert">
@@ -93,7 +93,7 @@
         <div class="row">
             <div class="col">
                 <label class="label labelNome">Data de Nascimento:</label>
-              <input type="date"  class="form-control" [readonly]=""  placeholder="Data Nascimento" formControlName = "dataNascimento" />
+              <input type="date"  class="form-control"   placeholder="Data Nascimento" formControlName = "dataNascimento" />
               <ng-container *ngIf="formulario.controls.dataNascimento.touched">
                 <span *ngIf="formulario.controls.dataNascimento.errors?.required">
                   <div class="alert alert-danger" role="alert">
@@ -104,7 +104,7 @@
             </div>
             <div class="col">
                 <label class="label labelNome">E-mail:</label>
-                <input type="email" class="form-control" [readonly]="isReadOnly()" placeholder="Email" formControlName = "email"/>
+                <input type="email" class="form-control" placeholder="Email" formControlName = "email"/>
                 <ng-container *ngIf="formulario.controls.email.touched">
                   <span *ngIf="formulario.controls.email.errors?.required">
                     <div class="alert alert-danger" role="alert">
@@ -125,14 +125,14 @@
               </div>
           </div>
 
-          <div class="row">
+          <div class="row" *ngIf="isReadOnly()">
             <div class="col">
-                <label class="label labelNome">Cargo:</label>
-              <input type="text"  readonly class="form-control" [readonly]="isReadOnly()" placeholder="Cargo" formControlName = "cargo" />
+                <label class="label labelNome" >Cargo:</label>
+              <input type="text"  class="form-control"  placeholder="Cargo" formControlName = "cargo" />
             </div>
             <div class="col">
                 <label class="label labelNome">Status</label>
-                <select class="form-select" [disabled]="isReadOnly()"  aria-label="Default select example" formControlName = "status" *ngIf="!isReadOnly()">
+                <select class="form-select"   aria-label="Default select example" formControlName = "status" >
                   <option value="Ativo">Ativo</option>
                   <option value="Inativo">Inativo</option>
                 </select>

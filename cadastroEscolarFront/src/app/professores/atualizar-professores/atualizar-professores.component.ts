@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { ActivatedRoute, Router } from '@angular/router';
-import { take } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
 import { Pessoa } from 'src/app/models/pessoa';
 import { DefaultResponse } from 'src/app/models/Response/defaultResponse';
 import { PessoaService } from 'src/app/services/pessoa.service';
@@ -29,7 +28,6 @@ export class AtualizarProfessoresComponent  implements OnInit{
     private fb : FormBuilder,
     private professorService : PessoaService,
     private activatedRoute : ActivatedRoute,
-    private router: Router,
     private sanitizer : DomSanitizer,
     private _snackBar: MatSnackBar
     ){}
@@ -44,7 +42,7 @@ export class AtualizarProfessoresComponent  implements OnInit{
         this.professorService.findAlunosByMatricula(this.cargo, this.matricula).subscribe({
           next : alu => {
             this.resposta = alu;
-            if(this.resposta.success){              
+            if(this.resposta.success){     
               this.formularioPreenchido(this.resposta.data );
             } else {
               console.log(this.resposta.messagem);
@@ -65,8 +63,10 @@ export class AtualizarProfessoresComponent  implements OnInit{
 
           if(this.resposta.success){
           this._snackBar.open("Professor atualizado com sucesso", "", {duration : 5000});
+
           await new Promise(f => setTimeout(f, 5000));
-          this.router.navigate(['professores/buscar'])          
+          localStorage.setItem("pessoa", JSON.stringify(this.resposta.data))
+          window.location.reload()         
         } else {
           this._snackBar.open(this.resposta.messagem, "", {duration : 5000});
         }
@@ -132,7 +132,7 @@ export class AtualizarProfessoresComponent  implements OnInit{
 
     isReadOnly() : boolean{
       this.pessoaLogada = JSON.parse(localStorage.getItem("pessoa")!);
-     return this.pessoaLogada.cargo === "Aluno" ? true : false;
+     return this.pessoaLogada.cargo === "Admin" ? true : false;
     }
 
 

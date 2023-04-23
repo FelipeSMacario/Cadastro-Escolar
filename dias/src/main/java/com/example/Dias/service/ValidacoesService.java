@@ -25,16 +25,18 @@ public class ValidacoesService {
     private MateriaRepository materiaRepository;
 
 
-    Pessoa buscaPessoa(Long matricula, String cargo){
+    public Pessoa buscaPessoa(Long matricula, String cargo){
         return pessoaRepository.findByMatriculaAndCargoAndStatus(matricula, cargo, "Ativo").orElseThrow(() -> new UserNotFoundException(matricula));
     }
 
-    Materia buscaMateriaPorId(Long id) {
+    public Materia buscaMateriaPorId(Long id) {
         return materiaRepository.findById(id).orElseThrow(() -> new MateriaNotFoundException("", id));
     }
 
-    Materia buscaMateriaPorNome(String nome) {
+    public Materia buscaMateriaPorNome(String nome) {
         return materiaRepository.findByNome(nome).orElseThrow(() -> new MateriaNotFoundException(nome));
     }
+
+
 
 }

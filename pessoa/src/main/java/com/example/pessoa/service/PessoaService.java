@@ -41,11 +41,10 @@ public class PessoaService {
     RabbitmqService rabbitmqService;
 
     public ResponseEntity<DefaultResponse> listar(String cargo,  Pageable pageable) {
-            Page<Pessoa>  pessoaList = pessoaRepository.findByCargoAndStatus(cargo, "Ativo", pageable);
             return ResponseEntity.ok().body(DefaultResponse.builder()
                     .success(true)
                     .status(HttpStatus.OK)
-                    .data((Serializable) pessoaList)
+                    .data((Serializable) pessoaRepository.findByCargoAndStatus(cargo, "Ativo", pageable))
                     .build());
     }
 

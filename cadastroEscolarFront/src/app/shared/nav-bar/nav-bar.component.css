@@ -29,7 +29,6 @@ li {
 .botao {
   height: 70px;
   width: 70px;
-  /* padding: 10px; */
   border:none;
   background-color: #27376a;
 }
@@ -38,7 +37,6 @@ li {
     height: 80%;
     width: 100%;
     border-radius: 100%;
-  /* border-radius: 50%; */
 }
 .imagemBtn:hover {
   border: solid #add8e6 3px;

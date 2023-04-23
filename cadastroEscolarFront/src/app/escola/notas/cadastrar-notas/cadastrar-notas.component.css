@@ -1,7 +1,8 @@
 .divForm{
     margin-bottom:auto;
     padding: 2%;
-    height: 69vh;
+    height: 70vh;
+    margin-bottom: 1px;
     display: table;
 }
 .formulario{

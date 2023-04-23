@@ -1,5 +1,6 @@
 .divContainer{
-    height: 75vh;
+    height: 71vh;
+    margin-top: 7px;
 }
 .tabela{
     margin-top: 20px;
@@ -25,5 +26,5 @@
     -webkit-appearance: button;
 }
 .button {
-    margin-top: 39px;
+    margin-top: 40px;
   }
