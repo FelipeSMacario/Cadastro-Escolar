@@ -65,7 +65,12 @@ export class AtualizarProfessoresComponent  implements OnInit{
           this._snackBar.open("Professor atualizado com sucesso", "", {duration : 5000});
 
           await new Promise(f => setTimeout(f, 5000));
-          localStorage.setItem("pessoa", JSON.stringify(this.resposta.data))
+          if(this.matricula){
+            
+          } else {
+            localStorage.setItem("pessoa", JSON.stringify(this.resposta.data))
+          }
+          
           window.location.reload()         
         } else {
           this._snackBar.open(this.resposta.messagem, "", {duration : 5000});
