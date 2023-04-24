@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { Materia } from 'src/app/models/materia';
 import { DefaultResponse } from 'src/app/models/Response/defaultResponse';
@@ -20,7 +21,8 @@ export class AtualizarMateriaComponent implements OnInit{
   constructor(
     private fb : FormBuilder,
     private materiaService : MateriasService,
-    private activatedRoute : ActivatedRoute
+    private activatedRoute : ActivatedRoute,
+    private _snackBar: MatSnackBar
     ){}
 
     ngOnInit(): void {   
@@ -31,6 +33,7 @@ export class AtualizarMateriaComponent implements OnInit{
         next: mat => {
           this.resposta = mat;
           if(this.resposta.success){
+           
             this.materia = this.resposta.data;
           }else {
             console.log("Error", this.resposta.messagem);
@@ -49,9 +52,12 @@ export class AtualizarMateriaComponent implements OnInit{
         this.materiaService.atualizarMateria(this.materia).subscribe({
           next : mat => {
             this.resposta = mat;
-
-            console.log(this.resposta.messagem)},
-          error : err => console.log(err)
-        })
-    }
+            if(this.resposta.success){  
+            this._snackBar.open("Matéria atualizada com sucesso", "", {duration : 5000});
+            } else   {
+              this._snackBar.open(this.resposta.messagem, "", {duration : 5000});
+            }
+        }
+    })
+  }
 }
